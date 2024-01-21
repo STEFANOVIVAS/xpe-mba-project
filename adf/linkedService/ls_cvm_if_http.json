@@ -1,0 +1,12 @@
+{
+	"name": "ls_cvm_if_http",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://dados.cvm.gov.br/dados/FI/DOC/INF_DIARIO/DADOS/HIST/",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
