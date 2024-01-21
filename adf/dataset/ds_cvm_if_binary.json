@@ -1,0 +1,29 @@
+{
+	"name": "ds_cvm_if_binary",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_cvm_if_http",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"year": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": {
+					"value": "@concat('inf_diario_fi_',dataset().year,'.zip' )",
+					"type": "Expression"
+				}
+			},
+			"compression": {
+				"type": "ZipDeflate",
+				"level": "Optimal"
+			}
+		}
+	}
+}
