@@ -1,0 +1,9 @@
+{
+	"name": "adf-investment-funds",
+	"location": "brazilsouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e43627df-4c92-4fb8-a504-7c202dcd6914",
+		"tenantId": "4415efc0-fc02-4494-a228-5f6d13544717"
+	}
+}
