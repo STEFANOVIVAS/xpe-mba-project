@@ -15,7 +15,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Copy from http to adls",
+							"name": "Copy from http binary",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -28,42 +28,29 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "DelimitedTextSource",
+									"type": "BinarySource",
 									"storeSettings": {
 										"type": "HttpReadSettings",
 										"requestMethod": "GET"
 									},
 									"formatSettings": {
-										"type": "DelimitedTextReadSettings",
+										"type": "BinaryReadSettings",
 										"compressionProperties": {
 											"type": "ZipDeflateReadSettings"
 										}
 									}
 								},
 								"sink": {
-									"type": "DelimitedTextSink",
+									"type": "BinarySink",
 									"storeSettings": {
 										"type": "AzureBlobFSWriteSettings"
-									},
-									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"quoteAllText": true,
-										"fileExtension": ".txt"
 									}
 								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
+								"enableStaging": false
 							},
 							"inputs": [
 								{
-									"referenceName": "ds_cvm_if_http",
+									"referenceName": "ds_cvm_if_binary_http",
 									"type": "DatasetReference",
 									"parameters": {
 										"year": {
@@ -75,7 +62,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "ds_cvm_if_adls",
+									"referenceName": "ds_cvm_if_binary_adls",
 									"type": "DatasetReference",
 									"parameters": {
 										"year": {

@@ -1,8 +1,8 @@
 {
-	"name": "ds_cvm_if_binary_http",
+	"name": "ds_cvm_if_binary_adls",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "ls_cvm_if_http",
+			"referenceName": "ls_cvm_if_adls",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
@@ -14,11 +14,13 @@
 		"type": "Binary",
 		"typeProperties": {
 			"location": {
-				"type": "HttpServerLocation",
-				"relativeUrl": {
-					"value": "@concat('inf_diario_fi_',dataset().year,'.zip' )",
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat('inf_diario_fi_',dataset().year,'.zip')",
 					"type": "Expression"
-				}
+				},
+				"folderPath": "staging",
+				"fileSystem": "binary"
 			},
 			"compression": {
 				"type": "ZipDeflate",
