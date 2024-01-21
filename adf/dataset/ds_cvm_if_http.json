@@ -1,8 +1,8 @@
 {
-	"name": "ds_cvm_if_adls",
+	"name": "ds_cvm_if_http",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "ls_cvm_if_adls",
+			"referenceName": "ls_cvm_if_http",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
@@ -14,15 +14,15 @@
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobFSLocation",
-				"fileName": {
-					"value": "@concat('inf_diario_fi_',dataset().year)",
+				"type": "HttpServerLocation",
+				"relativeUrl": {
+					"value": "@concat('inf_diario_fi_',dataset().year,'.zip')",
 					"type": "Expression"
-				},
-				"folderPath": "investment-funds-quotes",
-				"fileSystem": "raw"
+				}
 			},
 			"columnDelimiter": ",",
+			"compressionCodec": "ZipDeflate",
+			"compressionLevel": "Optimal",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
