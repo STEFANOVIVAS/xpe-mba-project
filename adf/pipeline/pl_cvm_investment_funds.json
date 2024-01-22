@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@range(2004,2020)",
+						"value": "@range(2004,17)",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -43,8 +43,7 @@
 								"sink": {
 									"type": "BinarySink",
 									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings",
-										"copyBehavior": "PreserveHierarchy"
+										"type": "AzureBlobFSWriteSettings"
 									}
 								},
 								"enableStaging": false
