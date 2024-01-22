@@ -16,13 +16,13 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@concat('inf_diario_fi_',dataset().year)",
+					"value": "@concat('inf_diario_fi_',dataset().year,'.csv')",
 					"type": "Expression"
 				},
 				"folderPath": "investment-funds-quotes",
 				"fileSystem": "raw"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": ";",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
