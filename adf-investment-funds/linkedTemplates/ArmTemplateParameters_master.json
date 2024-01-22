@@ -12,7 +12,7 @@
 			"value": "https://investimentfundsadls.dfs.core.windows.net/"
 		},
 		"ls_cvm_if_http_properties_typeProperties_url": {
-			"value": "https://dados.cvm.gov.br/dados/FI/DOC/INF_DIARIO/DADOS/HIST/"
+			"value": "https://dados.cvm.gov.br/dados/FI/DOC/INF_DIARIO/DADOS/"
 		},
 		"containerUri": {
 			"value": ""
