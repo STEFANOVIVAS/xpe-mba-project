@@ -1,5 +1,5 @@
 {
-	"name": "ds_cvm_if_csv_adls",
+	"name": "ds_cvm_if_zip_adls",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_cvm_if_adls",
@@ -16,15 +16,13 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@concat('inf_diario_fi_,dataset().year')",
+					"value": "@concat('inf_diario_fi_',dataset().year,'.zip')",
 					"type": "Expression"
 				},
-				"folderPath": "investment-funds-quotes",
-				"fileSystem": "raw"
+				"folderPath": "staging",
+				"fileSystem": "binary"
 			},
 			"columnDelimiter": ",",
-			"compressionCodec": "ZipDeflate",
-			"compressionLevel": "Optimal",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
