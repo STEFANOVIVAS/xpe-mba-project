@@ -16,7 +16,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@concat('inf_diario_fi_',dataset().year,'.zip')",
+					"value": "@concat('inf_diario_fi_',dataset().year)",
 					"type": "Expression"
 				},
 				"folderPath": "investment-funds-quotes",
