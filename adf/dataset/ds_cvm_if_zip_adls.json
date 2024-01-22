@@ -22,7 +22,7 @@
 				"folderPath": "staging",
 				"fileSystem": "binary"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": ";",
 			"compressionCodec": "ZipDeflate",
 			"compressionLevel": "Optimal",
 			"escapeChar": "\\",
