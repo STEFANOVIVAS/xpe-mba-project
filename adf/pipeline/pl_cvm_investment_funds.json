@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "For each year in historic quotes",
+				"name": "Copy investment funds historic quotes for every year",
 				"type": "ForEach",
 				"dependsOn": [],
 				"userProperties": [],
