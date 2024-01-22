@@ -74,7 +74,7 @@
 							]
 						},
 						{
-							"name": "Copy from binary to csv",
+							"name": "Copy data from zipped binary to csv",
 							"type": "Copy",
 							"dependsOn": [
 								{
@@ -101,7 +101,10 @@
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
+										"type": "DelimitedTextReadSettings",
+										"compressionProperties": {
+											"type": "ZipDeflateReadSettings"
+										}
 									}
 								},
 								"sink": {
