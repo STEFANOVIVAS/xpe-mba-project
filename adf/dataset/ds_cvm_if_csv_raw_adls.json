@@ -1,0 +1,31 @@
+{
+	"name": "ds_cvm_if_csv_raw_adls",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_cvm_if_adls",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"year": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat('inf_diario_fi_',dataset().year,'.zip')",
+					"type": "Expression"
+				},
+				"folderPath": "raw",
+				"fileSystem": "binary"
+			},
+			"compression": {
+				"type": "ZipDeflate",
+				"level": "Optimal"
+			}
+		}
+	}
+}
