@@ -40,28 +40,11 @@
 							"fileExtension": ".txt"
 						}
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
+					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "ds_cvm_if_zip_adls",
-						"type": "DatasetReference",
-						"parameters": {
-							"year": "2004"
-						}
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "ds_cvm_if_csv_adls",
 						"type": "DatasetReference",
 						"parameters": {
 							"year": "2004"
