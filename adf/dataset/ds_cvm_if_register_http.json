@@ -1,0 +1,22 @@
+{
+	"name": "ds_cvm_if_register_http",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_cvm_if_register_http",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "dados/FI/CAD/DADOS/cad_fi.csv"
+			},
+			"columnDelimiter": ";",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
