@@ -1,0 +1,12 @@
+{
+	"name": "ls_cvm_if_register_http",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://dados.cvm.gov.br/",
+			"enableServerCertificateValidation": false,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
