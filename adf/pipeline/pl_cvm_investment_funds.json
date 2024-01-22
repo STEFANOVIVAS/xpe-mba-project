@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "For each year",
+				"name": "For each year in historic quotes",
 				"type": "ForEach",
 				"dependsOn": [],
 				"userProperties": [],
@@ -50,7 +50,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "ds_cvm_if_binary_http",
+									"referenceName": "ds_cvm_if_binary_historic_http",
 									"type": "DatasetReference",
 									"parameters": {
 										"year": {
