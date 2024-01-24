@@ -1,12 +1,12 @@
 {
-	"name": "ds_cvm_if_binary_historic_http",
+	"name": "ds_cvm_if_binary_http",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_cvm_if_http",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"year": {
+			"relativeURL": {
 				"type": "string"
 			}
 		},
@@ -16,7 +16,7 @@
 			"location": {
 				"type": "HttpServerLocation",
 				"relativeUrl": {
-					"value": "@concat('HIST/inf_diario_fi_',dataset().year,'.zip' )",
+					"value": "@concat('HIST/',dataset().relativeURL)",
 					"type": "Expression"
 				}
 			},
