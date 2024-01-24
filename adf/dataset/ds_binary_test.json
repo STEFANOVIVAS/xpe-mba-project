@@ -16,7 +16,7 @@
 			"location": {
 				"type": "HttpServerLocation",
 				"relativeUrl": {
-					"value": "@dataset().relativeURL",
+					"value": "@concat('HIST/',dataset().relativeURL)",
 					"type": "Expression"
 				}
 			},
