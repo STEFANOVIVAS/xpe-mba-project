@@ -312,7 +312,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@item().url",
+											"value": "@item().DENOM_SOCIAL",
 											"type": "Expression"
 										}
 									}
