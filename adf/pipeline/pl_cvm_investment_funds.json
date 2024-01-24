@@ -15,7 +15,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Copy from http binary",
+							"name": "Copy from http binary historic quotes",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -50,10 +50,10 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "ds_cvm_if_binary_historic_http",
+									"referenceName": "ds_cvm_if_links_binary_http",
 									"type": "DatasetReference",
 									"parameters": {
-										"year": {
+										"relativeURL": {
 											"value": "@item()",
 											"type": "Expression"
 										}
@@ -78,7 +78,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Copy from http binary",
+									"activity": "Copy from http binary historic quotes",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -214,34 +214,8 @@
 				]
 			},
 			{
-				"name": "Notebook1",
-				"type": "DatabricksNotebook",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": []
-			},
-			{
-				"name": "Notebook2",
-				"type": "DatabricksNotebook",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": []
-			},
-			{
-				"name": "Take file list from HTTP server",
-				"type": "DatabricksNotebook",
+				"name": "Lookup for CVM file links",
+				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -251,9 +225,97 @@
 					"secureInput": false
 				},
 				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "ls_azure_databricks_actual_quotes_http",
-					"type": "LinkedServiceReference"
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": false,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "ds_cvm_actual_quotes_links",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "For Each link from CVM API",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup for CVM file links",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup for CVM file links').output",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy from http binary actual quotes",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 1,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "BinarySource",
+									"storeSettings": {
+										"type": "HttpReadSettings",
+										"requestMethod": "GET"
+									},
+									"formatSettings": {
+										"type": "BinaryReadSettings",
+										"compressionProperties": {
+											"type": "ZipDeflateReadSettings"
+										}
+									}
+								},
+								"sink": {
+									"type": "BinarySink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_cvm_if_links_binary_http",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_cvm_if_binary_adls",
+									"type": "DatasetReference",
+									"parameters": {
+										"year": {
+											"value": "@item()",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
 				}
 			}
 		],
