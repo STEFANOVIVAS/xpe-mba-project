@@ -221,7 +221,7 @@
 				]
 			},
 			{
-				"name": "Lookup for CVM file links",
+				"name": "Lookup for actual CVM file links",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -256,7 +256,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup for CVM file links",
+						"activity": "Lookup for actual CVM file links",
 						"dependencyConditions": [
 							"Succeeded"
 						]
