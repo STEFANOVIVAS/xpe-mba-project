@@ -1,12 +1,12 @@
 {
-	"name": "ds_cvm_if_binary_adls",
+	"name": "ds_cvm_if_links_binary_adls",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_cvm_if_adls",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"year": {
+			"relativeURL": {
 				"type": "string"
 			}
 		},
@@ -16,7 +16,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@concat('inf_diario_fi_',dataset().year,'.zip')",
+					"value": "@dataset().relativeURL",
 					"type": "Expression"
 				},
 				"folderPath": "staging",
