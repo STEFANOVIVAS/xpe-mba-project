@@ -139,7 +139,13 @@
 							"inputs": [
 								{
 									"referenceName": "ds_cvm_if_zip_adls",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"fileName": {
+											"value": "@item().Prop_0",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
@@ -147,8 +153,8 @@
 									"referenceName": "ds_cvm_if_csv_adls",
 									"type": "DatasetReference",
 									"parameters": {
-										"year": {
-											"value": "@item()",
+										"fileName": {
+											"value": "@item().Prop_0",
 											"type": "Expression"
 										}
 									}
