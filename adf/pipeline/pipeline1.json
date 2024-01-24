@@ -80,7 +80,7 @@
 						}
 					},
 					"dataset": {
-						"referenceName": "ds_cvm_if_json_http",
+						"referenceName": "ds_cvm_if_json_adls",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false

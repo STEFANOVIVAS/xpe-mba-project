@@ -1,0 +1,19 @@
+{
+	"name": "ds_cvm_if_json_adls",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_cvm_if_adls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "links.json",
+				"fileSystem": "raw"
+			}
+		},
+		"schema": {}
+	}
+}
