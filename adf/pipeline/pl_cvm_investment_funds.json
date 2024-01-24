@@ -7,7 +7,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup for CVM historic file links",
+						"activity": "Lookup for historic CVM file links",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -329,12 +329,92 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "Copy data from zipped binary to csv_copy1",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Copy from http binary actual quotes",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings",
+										"compressionProperties": {
+											"type": "ZipDeflateReadSettings"
+										}
+									}
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_cvm_if_zip_adls",
+									"type": "DatasetReference",
+									"parameters": {
+										"fileName": {
+											"value": "@item().url",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_cvm_if_csv_adls",
+									"type": "DatasetReference",
+									"parameters": {
+										"fileName": {
+											"value": "@item().url",
+											"type": "Expression"
+										}
+									}
+								}
+							]
 						}
 					]
 				}
 			},
 			{
-				"name": "Lookup for CVM historic file links",
+				"name": "Lookup for historic CVM file links",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
