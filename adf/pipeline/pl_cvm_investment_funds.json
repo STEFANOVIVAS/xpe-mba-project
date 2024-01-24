@@ -61,7 +61,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@item()",
+											"value": "@item().Prop_0",
 											"type": "Expression"
 										}
 									}
@@ -310,7 +310,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "activity('Lookup for actual CVM file links').output.pipelineReturnValue",
+											"value": "@item().Prop_0",
 											"type": "Expression"
 										}
 									}
