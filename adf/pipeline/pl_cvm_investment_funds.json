@@ -154,7 +154,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": {
-											"value": "@item().Prop_0",
+											"value": "@split(item().Prop_0,'.')[0]",
 											"type": "Expression"
 										}
 									}
@@ -403,7 +403,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": {
-											"value": "@item().url",
+											"value": "@split(item().url,'.')[0]",
 											"type": "Expression"
 										}
 									}
