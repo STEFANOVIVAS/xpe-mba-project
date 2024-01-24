@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "links.json",
+				"fileName": "cvm_quotes_links.csv",
 				"fileSystem": "raw"
 			},
 			"columnDelimiter": ",",
