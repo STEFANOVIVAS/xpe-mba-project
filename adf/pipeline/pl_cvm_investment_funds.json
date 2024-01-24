@@ -293,8 +293,7 @@
 									"formatSettings": {
 										"type": "BinaryReadSettings",
 										"compressionProperties": {
-											"type": "ZipDeflateReadSettings",
-											"preserveZipFileNameAsFolder": false
+											"type": "ZipDeflateReadSettings"
 										}
 									}
 								},
@@ -308,7 +307,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "ds_cvm_if_links_binary_http",
+									"referenceName": "ds_binary_test",
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
