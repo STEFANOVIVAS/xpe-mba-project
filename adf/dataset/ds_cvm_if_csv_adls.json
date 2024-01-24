@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"year": {
+			"fileName": {
 				"type": "string"
 			}
 		},
@@ -16,7 +16,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@concat('inf_diario_fi_',dataset().year,'.csv')",
+					"value": "@dataset().fileName",
 					"type": "Expression"
 				},
 				"folderPath": "investment-funds-quotes",
