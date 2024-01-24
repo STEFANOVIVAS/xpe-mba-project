@@ -58,11 +58,11 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "ds_cvm_if_links_binary_http",
+									"referenceName": "ds_binary_test",
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@item().url",
+											"value": "@item()",
 											"type": "Expression"
 										}
 									}
@@ -347,18 +347,18 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "JsonSource",
+						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
-							"recursive": false,
+							"recursive": true,
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
-							"type": "JsonReadSettings"
+							"type": "DelimitedTextReadSettings"
 						}
 					},
 					"dataset": {
-						"referenceName": "ds_cvm_if_json_http",
+						"referenceName": "ds_cvm_if_historic_quotes_links",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
