@@ -62,7 +62,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@item().Prop_0",
+											"value": "@item().url",
 											"type": "Expression"
 										}
 									}
@@ -348,18 +348,18 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
+						"type": "JsonSource",
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
 							"recursive": false,
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
+							"type": "JsonReadSettings"
 						}
 					},
 					"dataset": {
-						"referenceName": "ds_cvm_if_historic_quotes_links",
+						"referenceName": "ds_cvm_if_json_http",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
