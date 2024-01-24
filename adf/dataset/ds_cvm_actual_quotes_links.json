@@ -13,7 +13,7 @@
 				"fileName": "cvm_quotes_links.csv",
 				"fileSystem": "raw"
 			},
-			"columnDelimiter": "",
+			"columnDelimiter": ",",
 			"escapeChar": "\\",
 			"firstRowAsHeader": false,
 			"quoteChar": "\""
