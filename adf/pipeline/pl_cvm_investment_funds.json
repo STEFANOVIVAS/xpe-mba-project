@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup for CVM historic file links').output",
+						"value": "@activity('Lookup for CVM historic file links').output.value",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -252,7 +252,7 @@
 				}
 			},
 			{
-				"name": "For Each link from CVM API",
+				"name": "Copy investment funds actual quotes for every year",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -265,7 +265,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup for actual CVM file links').output",
+						"value": "@activity('Lookup for actual CVM file links').output.value",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -310,7 +310,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@item()",
+											"value": "activity('Lookup for actual CVM file links').output.pipelineReturnValue",
 											"type": "Expression"
 										}
 									}
