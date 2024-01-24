@@ -310,7 +310,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@item().Prop_0",
+											"value": "@item().url",
 											"type": "Expression"
 										}
 									}
