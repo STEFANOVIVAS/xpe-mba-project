@@ -156,7 +156,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@item()",
+											"value": "@item().url",
 											"type": "Expression"
 										}
 									}
