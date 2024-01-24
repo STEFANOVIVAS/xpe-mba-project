@@ -62,7 +62,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@item()",
+											"value": "@item().Prop_0",
 											"type": "Expression"
 										}
 									}
@@ -74,7 +74,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@item()",
+											"value": "@item().Prop_0",
 											"type": "Expression"
 										}
 									}
@@ -311,7 +311,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@item().url",
+											"value": "@item().Prop_0",
 											"type": "Expression"
 										}
 									}
@@ -323,7 +323,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@item()",
+											"value": "@item().Prop_0",
 											"type": "Expression"
 										}
 									}
