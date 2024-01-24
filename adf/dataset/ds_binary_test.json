@@ -1,0 +1,21 @@
+{
+	"name": "ds_binary_test",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_cvm_if_http",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"relativeURL": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			}
+		}
+	}
+}
