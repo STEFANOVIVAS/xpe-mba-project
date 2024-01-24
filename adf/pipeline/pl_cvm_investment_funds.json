@@ -139,13 +139,7 @@
 							"inputs": [
 								{
 									"referenceName": "ds_cvm_if_zip_adls",
-									"type": "DatasetReference",
-									"parameters": {
-										"year": {
-											"value": "@item()",
-											"type": "Expression"
-										}
-									}
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
@@ -308,7 +302,13 @@
 							"inputs": [
 								{
 									"referenceName": "ds_cvm_if_links_binary_http",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"relativeURL": {
+											"value": "@item().url",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
