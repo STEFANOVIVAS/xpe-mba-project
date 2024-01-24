@@ -62,10 +62,10 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "ds_cvm_if_binary_adls",
+									"referenceName": "ds_cvm_if_links_binary_adls",
 									"type": "DatasetReference",
 									"parameters": {
-										"year": {
+										"relativeURL": {
 											"value": "@item()",
 											"type": "Expression"
 										}
@@ -299,15 +299,21 @@
 							"inputs": [
 								{
 									"referenceName": "ds_cvm_if_links_binary_http",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"relativeURL": {
+											"value": "@item()",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
 								{
-									"referenceName": "ds_cvm_if_binary_adls",
+									"referenceName": "ds_cvm_if_links_binary_adls",
 									"type": "DatasetReference",
 									"parameters": {
-										"year": {
+										"relativeURL": {
 											"value": "@item()",
 											"type": "Expression"
 										}
