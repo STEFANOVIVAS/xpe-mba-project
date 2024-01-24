@@ -19,7 +19,7 @@
 						"value": "@activity('Lookup for CVM historic file links').output",
 						"type": "Expression"
 					},
-					"isSequential": false,
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "Copy from http binary historic quotes",
@@ -265,9 +265,10 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup for CVM file links').output",
+						"value": "@activity('Lookup for actual CVM file links').output",
 						"type": "Expression"
 					},
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "Copy from http binary actual quotes",
