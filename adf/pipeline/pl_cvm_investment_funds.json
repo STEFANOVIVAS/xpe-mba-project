@@ -356,7 +356,7 @@
 						}
 					},
 					"dataset": {
-						"referenceName": "ds_cvm_actual_quotes_links",
+						"referenceName": "ds_cvm_if_historic_quotes_links",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
