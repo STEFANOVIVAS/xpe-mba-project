@@ -307,14 +307,8 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "ds_binary_test",
-									"type": "DatasetReference",
-									"parameters": {
-										"relativeURL": {
-											"value": "@item().url",
-											"type": "Expression"
-										}
-									}
+									"referenceName": "ds_cvm_if_links_binary_http",
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
