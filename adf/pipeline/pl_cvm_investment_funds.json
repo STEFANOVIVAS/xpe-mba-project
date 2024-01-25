@@ -62,7 +62,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@item().Prop_0",
+											"value": "@concat(item().url,'.zip')",
 											"type": "Expression"
 										}
 									}
@@ -74,7 +74,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@item().Prop_0",
+											"value": "@concat(item().url,'.zip')",
 											"type": "Expression"
 										}
 									}
@@ -142,7 +142,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": {
-											"value": "@item().Prop_0",
+											"value": "@concat(item().url,'.zip')",
 											"type": "Expression"
 										}
 									}
@@ -154,7 +154,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": {
-											"value": "@split(item().Prop_0,'.')[0]",
+											"value": "@concat(item().url,'.csv')",
 											"type": "Expression"
 										}
 									}
@@ -311,7 +311,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@item().url",
+											"value": "@concat(item().url,'.zip')",
 											"type": "Expression"
 										}
 									}
@@ -323,7 +323,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@item().url",
+											"value": "@concat(item().url,'.zip')",
 											"type": "Expression"
 										}
 									}
@@ -391,7 +391,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": {
-											"value": "@item().url",
+											"value": "@concat(item().url,'.zip')",
 											"type": "Expression"
 										}
 									}
@@ -403,7 +403,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": {
-											"value": "@split(item().url,'.')[0]",
+											"value": "@concat(item().url,'.csv')",
 											"type": "Expression"
 										}
 									}
