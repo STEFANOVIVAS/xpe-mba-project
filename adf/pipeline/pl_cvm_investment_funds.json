@@ -430,7 +430,9 @@
 						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
-							"fileListPath": "raw/cvm_historic_quotes_links.csv",
+							"recursive": true,
+							"wildcardFolderPath": "raw/cvm_historic_quotes_links.csv",
+							"wildcardFileName": "*.csv",
 							"enablePartitionDiscovery": true,
 							"partitionRootPath": "raw/cvm_historic_quotes_links.csv"
 						},
