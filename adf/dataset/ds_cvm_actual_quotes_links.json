@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "*.csv",
 				"folderPath": "cvm_actual_quotes_links.csv",
 				"fileSystem": "raw"
 			},
