@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-investment-funds"
 		},
+		"ls_azure_databricks_actual_quotes_http_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'ls_azure_databricks_actual_quotes_http'"
+		},
 		"ls_cvm_if_adls_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_cvm_if_adls'"
@@ -18,6 +22,10 @@
 		"ls_cvm_if_http_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://dados.cvm.gov.br/dados/FI/DOC/INF_DIARIO/DADOS/"
+		},
+		"ls_cvm_if_register_http_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://dados.cvm.gov.br/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -46,6 +54,9 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"ls_azure_databricks_actual_quotes_http_accessToken": {
+						"value": "[parameters('ls_azure_databricks_actual_quotes_http_accessToken')]"
+					},
 					"ls_cvm_if_adls_accountKey": {
 						"value": "[parameters('ls_cvm_if_adls_accountKey')]"
 					},
@@ -54,6 +65,9 @@
 					},
 					"ls_cvm_if_http_properties_typeProperties_url": {
 						"value": "[parameters('ls_cvm_if_http_properties_typeProperties_url')]"
+					},
+					"ls_cvm_if_register_http_properties_typeProperties_url": {
+						"value": "[parameters('ls_cvm_if_register_http_properties_typeProperties_url')]"
 					}
 				}
 			},

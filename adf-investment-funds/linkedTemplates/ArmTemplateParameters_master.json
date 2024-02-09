@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "adf-investment-funds"
 		},
+		"ls_azure_databricks_actual_quotes_http_accessToken": {
+			"value": ""
+		},
 		"ls_cvm_if_adls_accountKey": {
 			"value": ""
 		},
@@ -13,6 +16,9 @@
 		},
 		"ls_cvm_if_http_properties_typeProperties_url": {
 			"value": "https://dados.cvm.gov.br/dados/FI/DOC/INF_DIARIO/DADOS/"
+		},
+		"ls_cvm_if_register_http_properties_typeProperties_url": {
+			"value": "https://dados.cvm.gov.br/"
 		},
 		"containerUri": {
 			"value": ""
