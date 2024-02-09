@@ -1,0 +1,24 @@
+{
+	"name": "df_transform_funds_register",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_cvm_if_csv_adls",
+						"type": "DatasetReference"
+					},
+					"name": "investimentFundsQuotes"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> investimentFundsQuotes"
+			]
+		}
+	}
+}
