@@ -16,7 +16,7 @@
 						"referenceName": "ds_cvm_funds_register_adls",
 						"type": "DatasetReference"
 					},
-					"name": "cvmRegisterFunds"
+					"name": "RegisterFundsLookup"
 				}
 			],
 			"sinks": [],
@@ -25,7 +25,7 @@
 					"name": "selectOnlyRequiredFields"
 				},
 				{
-					"name": "lookup1"
+					"name": "LookupRegisterFunds"
 				}
 			],
 			"scriptLines": [
@@ -89,7 +89,7 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> cvmRegisterFunds",
+				"     ignoreNoFilesFound: false) ~> RegisterFundsLookup",
 				"investimentFundsQuotes select(mapColumn(",
 				"          tipo_fundo = TP_FUNDO,",
 				"          cnpj_fundo = CNPJ_FUNDO,",
@@ -103,10 +103,10 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> selectOnlyRequiredFields",
-				"selectOnlyRequiredFields lookup(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"selectOnlyRequiredFields, RegisterFundsLookup lookup(selectOnlyRequiredFields@cnpj_fundo == RegisterFundsLookup@CNPJ_FUNDO,",
 				"     multiple: false,",
 				"     pickup: 'any',",
-				"     broadcast: 'auto')~> lookup1"
+				"     broadcast: 'auto')~> LookupRegisterFunds"
 			]
 		}
 	}
