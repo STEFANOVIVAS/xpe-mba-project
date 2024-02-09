@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_cvm_raw_csv_if",
+						"referenceName": "ds_cvm_raw_if_adls",
 						"type": "DatasetReference"
 					},
 					"name": "investimentFundsQuotes"
@@ -16,11 +16,20 @@
 			"transformations": [],
 			"scriptLines": [
 				"source(output(",
-				"          {TP_FUNDO;CNPJ_FUNDO;DT_COMPTC;VL_TOTAL;VL_QUOTA;VL_PATRIM_LIQ;CAPTC_DIA;RESG_DIA;NR_COTST} as string",
+				"          TP_FUNDO as string,",
+				"          CNPJ_FUNDO as string,",
+				"          DT_COMPTC as string,",
+				"          VL_TOTAL as string,",
+				"          VL_QUOTA as string,",
+				"          VL_PATRIM_LIQ as string,",
+				"          CAPTC_DIA as string,",
+				"          RESG_DIA as string,",
+				"          NR_COTST as integer",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> investimentFundsQuotes"
+				"     ignoreNoFilesFound: false,",
+				"     wildcardPaths:['*.csv']) ~> investimentFundsQuotes"
 			]
 		}
 	}
