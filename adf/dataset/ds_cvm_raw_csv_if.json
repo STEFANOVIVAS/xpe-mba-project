@@ -10,20 +10,16 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "*.csv",
+				"fileName": "inf_diario_fi_202401.csv",
 				"folderPath": "investment-funds-quotes",
 				"fileSystem": "raw"
 			},
 			"columnDelimiter": ";",
+			"encodingName": "ISO-8859-1",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"name": "TP_FUNDO;CNPJ_FUNDO;DT_COMPTC;VL_TOTAL;VL_QUOTA;VL_PATRIM_LIQ;CAPTC_DIA;RESG_DIA;NR_COTST",
-				"type": "String"
-			}
-		]
+		"schema": []
 	}
 }
