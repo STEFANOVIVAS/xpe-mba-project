@@ -21,7 +21,39 @@
 		},
 		"schema": [
 			{
-				"name": "TP_FUNDO;CNPJ_FUNDO;DT_COMPTC;VL_TOTAL;VL_QUOTA;VL_PATRIM_LIQ;CAPTC_DIA;RESG_DIA;NR_COTST",
+				"name": "TP_FUNDO",
+				"type": "String"
+			},
+			{
+				"name": "CNPJ_FUNDO",
+				"type": "String"
+			},
+			{
+				"name": "DT_COMPTC",
+				"type": "String"
+			},
+			{
+				"name": "VL_TOTAL",
+				"type": "String"
+			},
+			{
+				"name": "VL_QUOTA",
+				"type": "String"
+			},
+			{
+				"name": "VL_PATRIM_LIQ",
+				"type": "String"
+			},
+			{
+				"name": "CAPTC_DIA",
+				"type": "String"
+			},
+			{
+				"name": "RESG_DIA",
+				"type": "String"
+			},
+			{
+				"name": "NR_COTST",
 				"type": "String"
 			}
 		]
