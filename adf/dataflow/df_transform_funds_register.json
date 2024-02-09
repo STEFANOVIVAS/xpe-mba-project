@@ -19,7 +19,19 @@
 					"name": "RegisterFundsLookup"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_sink_cvm_funds_transform",
+						"type": "DatasetReference"
+					},
+					"name": "FundsQuotesSink",
+					"rejectedDataLinkedService": {
+						"referenceName": "ls_cvm_if_adls",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
 			"transformations": [
 				{
 					"name": "selectOnlyRequiredFields"
@@ -33,11 +45,11 @@
 				"          TP_FUNDO as string,",
 				"          CNPJ_FUNDO as string,",
 				"          DT_COMPTC as date 'dd-MM-yyyy',",
-				"          VL_TOTAL as long '000,000,000',",
-				"          VL_QUOTA as long '000,000,000',",
-				"          VL_PATRIM_LIQ as long '000,000,000',",
-				"          CAPTC_DIA as long '000,000,000',",
-				"          RESG_DIA as long '000,000,000',",
+				"          VL_TOTAL as long,",
+				"          VL_QUOTA as long,",
+				"          VL_PATRIM_LIQ as long,",
+				"          CAPTC_DIA as long,",
+				"          RESG_DIA as long,",
 				"          NR_COTST as integer",
 				"     ),",
 				"     allowSchemaDrift: true,",
@@ -106,7 +118,14 @@
 				"selectOnlyRequiredFields, RegisterFundsLookup lookup(selectOnlyRequiredFields@cnpj_fundo == RegisterFundsLookup@CNPJ_FUNDO,",
 				"     multiple: false,",
 				"     pickup: 'any',",
-				"     broadcast: 'auto')~> LookupRegisterFunds"
+				"     broadcast: 'auto')~> LookupRegisterFunds",
+				"LookupRegisterFunds sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> FundsQuotesSink"
 			]
 		}
 	}
