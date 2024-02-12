@@ -267,7 +267,7 @@
 							"typeProperties": {
 								"variableName": "exists",
 								"value": {
-									"value": "@activity('Get Metadata1_copy1').output",
+									"value": "@activity('Get Metadata1_copy1').output.exists",
 									"type": "Expression"
 								}
 							}
