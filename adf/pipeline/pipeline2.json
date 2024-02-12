@@ -58,20 +58,9 @@
 						{
 							"name": "If Condition1",
 							"type": "IfCondition",
-							"dependsOn": [
-								{
-									"activity": "Get Metadata1_copy1",
-									"dependencyConditions": [
-										"Completed"
-									]
-								}
-							],
+							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
-								"expression": {
-									"value": "@activity('Get Metadata1_copy1').output.value\n\n",
-									"type": "Expression"
-								},
 								"ifFalseActivities": [
 									{
 										"name": "Copy from http binary historic quotes_copy1_copy1_copy1",
@@ -247,11 +236,40 @@
 									"type": "BinaryReadSettings"
 								}
 							}
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Get Metadata1_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "exists",
+								"value": {
+									"value": "@activity('Get Metadata1_copy1').output",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
 			}
 		],
+		"variables": {
+			"exists": {
+				"type": "Boolean"
+			}
+		},
 		"annotations": []
 	}
 }
