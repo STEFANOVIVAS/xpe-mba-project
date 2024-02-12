@@ -50,7 +50,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup for historic CVM file links').output.value",
+						"value": "@activity('Lookup for historic CVM file links').output.exists",
 						"type": "Expression"
 					},
 					"isSequential": true,
