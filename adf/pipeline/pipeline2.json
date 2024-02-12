@@ -58,9 +58,20 @@
 						{
 							"name": "If Condition1",
 							"type": "IfCondition",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Set variable1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"userProperties": [],
 							"typeProperties": {
+								"expression": {
+									"value": "@variables('exists')",
+									"type": "Expression"
+								},
 								"ifFalseActivities": [
 									{
 										"name": "Copy from http binary historic quotes_copy1_copy1_copy1",
