@@ -22,144 +22,186 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Copy from http binary historic quotes",
-							"type": "Copy",
+							"name": "If Condition2",
+							"type": "IfCondition",
 							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 1,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
 							"userProperties": [],
 							"typeProperties": {
-								"source": {
-									"type": "BinarySource",
-									"storeSettings": {
-										"type": "HttpReadSettings",
-										"requestMethod": "GET"
+								"ifFalseActivities": [
+									{
+										"name": "Copy from http binary historic quotes_copy1",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 1,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "BinarySource",
+												"storeSettings": {
+													"type": "HttpReadSettings",
+													"requestMethod": "GET"
+												},
+												"formatSettings": {
+													"type": "BinaryReadSettings",
+													"compressionProperties": {
+														"type": "ZipDeflateReadSettings",
+														"preserveZipFileNameAsFolder": false
+													}
+												}
+											},
+											"sink": {
+												"type": "BinarySink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												}
+											},
+											"enableStaging": false
+										},
+										"inputs": [
+											{
+												"referenceName": "ds_binary_test",
+												"type": "DatasetReference",
+												"parameters": {
+													"relativeURL": {
+														"value": "@concat(item().url,'.zip')",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "ds_cvm_if_links_binary_adls",
+												"type": "DatasetReference",
+												"parameters": {
+													"relativeURL": {
+														"value": "@concat(item().url,'.zip')",
+														"type": "Expression"
+													}
+												}
+											}
+										]
 									},
-									"formatSettings": {
-										"type": "BinaryReadSettings",
-										"compressionProperties": {
-											"type": "ZipDeflateReadSettings",
-											"preserveZipFileNameAsFolder": false
-										}
-									}
-								},
-								"sink": {
-									"type": "BinarySink",
-									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings"
-									}
-								},
-								"enableStaging": false
-							},
-							"inputs": [
-								{
-									"referenceName": "ds_binary_test",
-									"type": "DatasetReference",
-									"parameters": {
-										"relativeURL": {
-											"value": "@concat(item().url,'.zip')",
-											"type": "Expression"
-										}
-									}
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "ds_cvm_if_links_binary_adls",
-									"type": "DatasetReference",
-									"parameters": {
-										"relativeURL": {
-											"value": "@concat(item().url,'.zip')",
-											"type": "Expression"
-										}
-									}
-								}
-							]
-						},
-						{
-							"name": "Copy data from zipped binary to csv",
-							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Copy from http binary historic quotes",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "DelimitedTextSource",
-									"storeSettings": {
-										"type": "AzureBlobFSReadSettings",
-										"recursive": true,
-										"enablePartitionDiscovery": false
+									{
+										"name": "Copy data from zipped binary to csv_copy2",
+										"type": "Copy",
+										"dependsOn": [
+											{
+												"activity": "Copy from http binary historic quotes_copy1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "DelimitedTextSource",
+												"storeSettings": {
+													"type": "AzureBlobFSReadSettings",
+													"recursive": true,
+													"enablePartitionDiscovery": false
+												},
+												"formatSettings": {
+													"type": "DelimitedTextReadSettings",
+													"compressionProperties": {
+														"type": "ZipDeflateReadSettings"
+													}
+												}
+											},
+											"sink": {
+												"type": "DelimitedTextSink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												},
+												"formatSettings": {
+													"type": "DelimitedTextWriteSettings",
+													"quoteAllText": true,
+													"fileExtension": ".txt"
+												}
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "ds_cvm_if_zip_adls",
+												"type": "DatasetReference",
+												"parameters": {
+													"fileName": {
+														"value": "@concat(item().url,'.zip')",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "ds_cvm_if_csv_adls",
+												"type": "DatasetReference",
+												"parameters": {
+													"fileName": {
+														"value": "@concat(item().url,'.csv')",
+														"type": "Expression"
+													}
+												}
+											}
+										]
 									},
-									"formatSettings": {
-										"type": "DelimitedTextReadSettings",
-										"compressionProperties": {
-											"type": "ZipDeflateReadSettings"
+									{
+										"name": "Get Metadata1",
+										"type": "GetMetadata",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"dataset": {
+												"referenceName": "ds_cvm_if_links_binary_adls",
+												"type": "DatasetReference",
+												"parameters": {
+													"relativeURL": "@concat(item().url,'.zip')"
+												}
+											},
+											"fieldList": [
+												"exists"
+											],
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "BinaryReadSettings"
+											}
 										}
 									}
-								},
-								"sink": {
-									"type": "DelimitedTextSink",
-									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings"
-									},
-									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"quoteAllText": true,
-										"fileExtension": ".txt"
-									}
-								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
-							},
-							"inputs": [
-								{
-									"referenceName": "ds_cvm_if_zip_adls",
-									"type": "DatasetReference",
-									"parameters": {
-										"fileName": {
-											"value": "@concat(item().url,'.zip')",
-											"type": "Expression"
-										}
-									}
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "ds_cvm_if_csv_adls",
-									"type": "DatasetReference",
-									"parameters": {
-										"fileName": {
-											"value": "@concat(item().url,'.csv')",
-											"type": "Expression"
-										}
-									}
-								}
-							]
+								]
+							}
 						}
 					]
 				}
@@ -276,7 +318,14 @@
 						{
 							"name": "Copy from http binary actual quotes",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "If Condition1",
+									"dependencyConditions": [
+										"Completed"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 1,
@@ -411,6 +460,12 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "If Condition1",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": []
 						}
 					]
 				}
