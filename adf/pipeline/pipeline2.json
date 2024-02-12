@@ -69,7 +69,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@equals(activity('Get Metadata1_copy1').output.value,'False')\n\n",
+									"value": "@activity('Get Metadata1_copy1').output.value\n\n",
 									"type": "Expression"
 								},
 								"ifFalseActivities": [
