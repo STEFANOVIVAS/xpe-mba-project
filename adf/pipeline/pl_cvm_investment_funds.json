@@ -548,6 +548,11 @@
 				}
 			}
 		],
+		"variables": {
+			"exists": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
