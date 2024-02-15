@@ -132,6 +132,7 @@
 				"     skipDuplicateMapOutputs: true) ~> SelectOnlyRequiredRegisterFields",
 				"LookupRegisterFunds sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     filePattern:'',",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
