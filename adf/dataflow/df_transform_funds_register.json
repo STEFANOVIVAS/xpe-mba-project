@@ -44,6 +44,9 @@
 				}
 			],
 			"scriptLines": [
+				"parameters{",
+				"     fileName as string",
+				"}",
 				"source(output(",
 				"          TP_FUNDO as string,",
 				"          CNPJ_FUNDO as string,",
