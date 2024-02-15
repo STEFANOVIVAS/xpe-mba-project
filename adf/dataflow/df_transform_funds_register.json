@@ -135,7 +135,7 @@
 				"     skipDuplicateMapOutputs: true) ~> SelectOnlyRequiredRegisterFields",
 				"LookupRegisterFunds sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     filePattern:'',",
+				"     filePattern:(concat($fileName,'_transform.csv')),",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
