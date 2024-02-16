@@ -212,6 +212,42 @@
 												}
 											}
 										]
+									},
+									{
+										"name": "Data flow1",
+										"type": "ExecuteDataFlow",
+										"dependsOn": [
+											{
+												"activity": "Copy data from zipped binary to csv_copy2_copy1_copy1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"dataflow": {
+												"referenceName": "df_transform_funds_register",
+												"type": "DataFlowReference",
+												"datasetParameters": {
+													"FundsQuotesSink": {
+														"fileName": "item().url"
+													}
+												}
+											},
+											"compute": {
+												"coreCount": 8,
+												"computeType": "General"
+											},
+											"traceLevel": "Fine"
+										}
 									}
 								]
 							}
