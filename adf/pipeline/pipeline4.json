@@ -69,7 +69,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@variables('exists')",
+									"value": "@variables('exist')",
 									"type": "Expression"
 								},
 								"ifFalseActivities": [
