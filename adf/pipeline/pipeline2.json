@@ -60,7 +60,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "Set variable1",
+									"activity": "Get Metadata1_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -69,7 +69,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@variables('exists')",
+									"value": "@activity('Get Metadata1_copy1').output.exists",
 									"type": "Expression"
 								},
 								"ifFalseActivities": [
@@ -233,7 +233,10 @@
 									"referenceName": "ds_cvm_if_links_binary_adls",
 									"type": "DatasetReference",
 									"parameters": {
-										"relativeURL": "@concat(item().url,'.zip')"
+										"relativeURL": {
+											"value": "@concat(item().url,'.zip')",
+											"type": "Expression"
+										}
 									}
 								},
 								"fieldList": [
@@ -248,30 +251,6 @@
 									"type": "BinaryReadSettings"
 								}
 							}
-						},
-						{
-							"name": "Set variable1",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Get Metadata1_copy1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "exists",
-								"value": {
-									"value": "@activity('Get Metadata1_copy1').output.exists",
-									"type": "Expression"
-								}
-							}
 						}
 					]
 				}
@@ -279,7 +258,10 @@
 		],
 		"variables": {
 			"exists": {
-				"type": "Boolean"
+				"type": "String"
+			},
+			"fileName": {
+				"type": "String"
 			}
 		},
 		"annotations": []
