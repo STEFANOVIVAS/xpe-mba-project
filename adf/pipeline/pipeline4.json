@@ -238,7 +238,10 @@
 												"type": "DataFlowReference",
 												"datasetParameters": {
 													"FundsQuotesSink": {
-														"fileName": "item().url"
+														"fileName": {
+															"value": "item().url",
+															"type": "Expression"
+														}
 													}
 												}
 											},
