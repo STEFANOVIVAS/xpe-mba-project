@@ -266,7 +266,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "exists",
+								"variableName": "exist",
 								"value": {
 									"value": "@activity('Get Metadata1_copy1').output.exists",
 									"type": "Expression"
@@ -280,6 +280,9 @@
 		"variables": {
 			"exists": {
 				"type": "String"
+			},
+			"exist": {
+				"type": "Boolean"
 			}
 		},
 		"annotations": []
