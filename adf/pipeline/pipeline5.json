@@ -20,7 +20,7 @@
 						"type": "DataFlowReference",
 						"parameters": {
 							"fileName": {
-								"value": "'@{variables('fileName')}'",
+								"value": "'@{pipeline().parameters.fileName}'",
 								"type": "Expression"
 							}
 						}
