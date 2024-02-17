@@ -5,20 +5,11 @@
 			"referenceName": "ls_cvm_if_adls",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"fileName": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": {
-					"value": "@dataset().fileName",
-					"type": "Expression"
-				},
 				"fileSystem": "transform"
 			},
 			"columnDelimiter": ",",
