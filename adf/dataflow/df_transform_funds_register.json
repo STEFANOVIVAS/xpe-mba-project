@@ -63,7 +63,7 @@
 				"     ignoreNoFilesFound: false,",
 				"     modifiedAfter: (toTimestamp(1707696000000L)),",
 				"     modifiedBefore: (toTimestamp(1707782340000L)),",
-				"     wildcardPaths:[(concat($fileName,'.csv'))]) ~> investimentFundsQuotes",
+				"     wildcardPaths:[(concat('investment-funds-quotes/',$fileName,'.csv'))]) ~> investimentFundsQuotes",
 				"source(output(",
 				"          TP_FUNDO as string,",
 				"          CNPJ_FUNDO as string,",
