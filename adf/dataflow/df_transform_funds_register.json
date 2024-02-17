@@ -44,6 +44,9 @@
 				}
 			],
 			"scriptLines": [
+				"parameters{",
+				"     fileName as string",
+				"}",
 				"source(output(",
 				"          TP_FUNDO as string,",
 				"          CNPJ_FUNDO as string,",
@@ -59,7 +62,8 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     modifiedAfter: (toTimestamp(1707696000000L)),",
-				"     modifiedBefore: (toTimestamp(1707782340000L))) ~> investimentFundsQuotes",
+				"     modifiedBefore: (toTimestamp(1707782340000L)),",
+				"     wildcardPaths:[(concat($fileName,'.csv'))]) ~> investimentFundsQuotes",
 				"source(output(",
 				"          TP_FUNDO as string,",
 				"          CNPJ_FUNDO as string,",
@@ -132,6 +136,7 @@
 				"     skipDuplicateMapOutputs: true) ~> SelectOnlyRequiredRegisterFields",
 				"LookupRegisterFunds sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     filePattern:(concat($fileName,'_transform.csv')),",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
