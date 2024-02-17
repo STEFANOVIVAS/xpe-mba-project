@@ -16,7 +16,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": {
-					"value": "@concat(dataset().fileName,'_transform.csv')",
+					"value": "@concat(dataset().fileName,'.csv')",
 					"type": "Expression"
 				},
 				"folderPath": {
