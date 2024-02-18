@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "investment-funds-quotes",
+				"folderPath": "investment-funds-historic-quotes",
 				"fileSystem": "raw"
 			},
 			"columnDelimiter": ";",
