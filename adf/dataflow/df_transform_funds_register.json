@@ -12,7 +12,15 @@
 					"name": "InvestimentFundsRegisterSource"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_cvm_funds_register_sink_transform",
+						"type": "DatasetReference"
+					},
+					"name": "InvestimentFundsRegisterSink"
+				}
+			],
 			"transformations": [
 				{
 					"name": "SelectColumnsFundsrRegister"
@@ -98,7 +106,15 @@
 				"          classe_ambima = CLASSE_ANBIMA",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> SelectColumnsFundsrRegister"
+				"     skipDuplicateMapOutputs: true) ~> SelectColumnsFundsrRegister",
+				"SelectColumnsFundsrRegister sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     filePattern:'register_fii_transform.csv',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> InvestimentFundsRegisterSink"
 			]
 		}
 	}
