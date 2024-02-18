@@ -297,7 +297,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "df_transform_funds_register",
+						"referenceName": "df_transform_funds_historic_quotes",
 						"type": "DataFlowReference"
 					},
 					"compute": {
