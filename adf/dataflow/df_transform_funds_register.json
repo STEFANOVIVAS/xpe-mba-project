@@ -34,7 +34,7 @@
 				"source(output(",
 				"          TP_FUNDO as string,",
 				"          CNPJ_FUNDO as string,",
-				"          DT_COMPTC as date 'dd-MM-yyyy',",
+				"          DT_COMPTC as date 'yyyy-MM-dd',",
 				"          VL_TOTAL as double,",
 				"          VL_QUOTA as double,",
 				"          VL_PATRIM_LIQ as double,",
