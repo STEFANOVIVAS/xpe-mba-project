@@ -19,7 +19,7 @@
 					"value": "@dataset().fileName",
 					"type": "Expression"
 				},
-				"folderPath": "investment-funds-quotes",
+				"folderPath": "investment-funds-historic-quotes",
 				"fileSystem": "raw"
 			},
 			"columnDelimiter": ";",
