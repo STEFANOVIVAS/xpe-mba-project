@@ -17,13 +17,7 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "df_transform_funds_register",
-						"type": "DataFlowReference",
-						"parameters": {
-							"fileName": {
-								"value": "'@{pipeline().parameters.fileName}'",
-								"type": "Expression"
-							}
-						}
+						"type": "DataFlowReference"
 					},
 					"compute": {
 						"coreCount": 8,
