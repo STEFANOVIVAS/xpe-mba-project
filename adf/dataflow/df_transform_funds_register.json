@@ -45,7 +45,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     modifiedAfter: (toTimestamp(1707955200000L)),",
+				"     modifiedAfter: (toTimestamp(1707696000000L)),",
 				"     modifiedBefore: (toTimestamp(1708041540000L))) ~> investimentFundsQuotes",
 				"investimentFundsQuotes select(mapColumn(",
 				"          tipo_fundo = TP_FUNDO,",
