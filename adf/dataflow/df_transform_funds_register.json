@@ -6,65 +6,99 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_cvm_raw_if_adls",
+						"referenceName": "ds_cvm_funds_register_source_trasnform",
 						"type": "DatasetReference"
 					},
-					"name": "investimentFundsQuotes"
+					"name": "InvestimentFundsRegisterSource"
 				}
 			],
-			"sinks": [
-				{
-					"dataset": {
-						"referenceName": "ds_sink_cvm_funds_transform",
-						"type": "DatasetReference"
-					},
-					"name": "FundsQuotesSink",
-					"rejectedDataLinkedService": {
-						"referenceName": "ls_cvm_if_adls",
-						"type": "LinkedServiceReference"
-					}
-				}
-			],
+			"sinks": [],
 			"transformations": [
 				{
-					"name": "selectOnlyRequiredFields"
+					"name": "SelectColumnsFundsrRegister"
 				}
 			],
 			"scriptLines": [
 				"source(output(",
 				"          TP_FUNDO as string,",
 				"          CNPJ_FUNDO as string,",
-				"          DT_COMPTC as date 'yyyy-MM-dd',",
-				"          VL_TOTAL as decimal(13,2),",
-				"          VL_QUOTA as float,",
+				"          DENOM_SOCIAL as string,",
+				"          DT_REG as date 'yyyy-MM-dd',",
+				"          DT_CONST as date 'yyyy-MM-dd',",
+				"          CD_CVM as string,",
+				"          DT_CANCEL as date 'yyyy-MM-dd',",
+				"          SIT as string,",
+				"          DT_INI_SIT as date 'yyyy-MM-dd',",
+				"          DT_INI_ATIV as date 'yyyy-MM-dd',",
+				"          DT_INI_EXERC as date 'yyyy-MM-dd',",
+				"          DT_FIM_EXERC as date 'yyyy-MM-dd',",
+				"          CLASSE as string,",
+				"          DT_INI_CLASSE as date 'yyyy-MM-dd',",
+				"          RENTAB_FUNDO as string,",
+				"          CONDOM as string,",
+				"          FUNDO_COTAS as string,",
+				"          FUNDO_EXCLUSIVO as string,",
+				"          TRIB_LPRAZO as string,",
+				"          PUBLICO_ALVO as string,",
+				"          ENTID_INVEST as string,",
+				"          TAXA_PERFM as float,",
+				"          INF_TAXA_PERFM as string,",
+				"          TAXA_ADM as float,",
+				"          INF_TAXA_ADM as string,",
 				"          VL_PATRIM_LIQ as decimal(13,2),",
-				"          CAPTC_DIA as decimal(13,2),",
-				"          RESG_DIA as decimal(13,2),",
-				"          NR_COTST as integer",
+				"          DT_PATRIM_LIQ as date 'yyyy-MM-dd',",
+				"          DIRETOR as string,",
+				"          CNPJ_ADMIN as string,",
+				"          ADMIN as string,",
+				"          PF_PJ_GESTOR as string,",
+				"          CPF_CNPJ_GESTOR as string,",
+				"          GESTOR as string,",
+				"          CNPJ_AUDITOR as string,",
+				"          AUDITOR as string,",
+				"          CNPJ_CUSTODIANTE as string,",
+				"          CUSTODIANTE as string,",
+				"          CNPJ_CONTROLADOR as string,",
+				"          CONTROLADOR as string,",
+				"          INVEST_CEMPR_EXTER as string,",
+				"          CLASSE_ANBIMA as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> investimentFundsQuotes",
-				"investimentFundsQuotes select(mapColumn(",
+				"     ignoreNoFilesFound: false) ~> InvestimentFundsRegisterSource",
+				"InvestimentFundsRegisterSource select(mapColumn(",
 				"          tipo_fundo = TP_FUNDO,",
 				"          cnpj_fundo = CNPJ_FUNDO,",
-				"          dt_posicao = DT_COMPTC,",
-				"          valor_total = VL_TOTAL,",
-				"          valor_quota = VL_QUOTA,",
-				"          valor_patrim_liquido = VL_PATRIM_LIQ,",
-				"          capacity_dia = CAPTC_DIA,",
-				"          resgates_dia = RESG_DIA,",
-				"          numero_cotistas = NR_COTST",
+				"          denom_social = DENOM_SOCIAL,",
+				"          data_registro = DT_REG,",
+				"          data_constituicao = DT_CONST,",
+				"          cod_cvm = CD_CVM,",
+				"          data_cancel = DT_CANCEL,",
+				"          situacao = SIT,",
+				"          data_inicio_sit = DT_INI_SIT,",
+				"          data_inicio_ativ = DT_INI_ATIV,",
+				"          data_inicio_exerc = DT_INI_EXERC,",
+				"          data_fim_exerc = DT_FIM_EXERC,",
+				"          classe = CLASSE,",
+				"          data_inicio_classe = DT_INI_CLASSE,",
+				"          rentab_fundo = RENTAB_FUNDO,",
+				"          tributacao_lp = TRIB_LPRAZO,",
+				"          publico_alvo = PUBLICO_ALVO,",
+				"          taxa_perfm = TAXA_PERFM,",
+				"          taxa_adm = TAXA_ADM,",
+				"          vl_patrim_liq = VL_PATRIM_LIQ,",
+				"          data_patrim_liq = DT_PATRIM_LIQ,",
+				"          admin = ADMIN,",
+				"          tipo_gestor = PF_PJ_GESTOR,",
+				"          ident_gestor = CPF_CNPJ_GESTOR,",
+				"          nome_gestor = GESTOR,",
+				"          cnpj_custodiante = CNPJ_CUSTODIANTE,",
+				"          custodiante = CUSTODIANTE,",
+				"          cnpj_controlador = CNPJ_CONTROLADOR,",
+				"          controlador = CONTROLADOR,",
+				"          classe_ambima = CLASSE_ANBIMA",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> selectOnlyRequiredFields",
-				"selectOnlyRequiredFields sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     umask: 0022,",
-				"     preCommands: [],",
-				"     postCommands: [],",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> FundsQuotesSink"
+				"     skipDuplicateMapOutputs: true) ~> SelectColumnsFundsrRegister"
 			]
 		}
 	}
