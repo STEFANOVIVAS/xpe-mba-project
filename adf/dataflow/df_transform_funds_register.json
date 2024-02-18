@@ -62,7 +62,6 @@
 				"     skipDuplicateMapOutputs: true) ~> selectOnlyRequiredFields",
 				"selectOnlyRequiredFields sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     filePattern:(concat($fileName,'_transform.csv')),",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
