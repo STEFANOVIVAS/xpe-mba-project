@@ -46,7 +46,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     modifiedAfter: (toTimestamp(1707696000000L)),",
-				"     modifiedBefore: (toTimestamp(1708041540000L))) ~> investimentFundsQuotes",
+				"     modifiedBefore: (toTimestamp(1708127940000L))) ~> investimentFundsQuotes",
 				"investimentFundsQuotes select(mapColumn(",
 				"          tipo_fundo = TP_FUNDO,",
 				"          cnpj_fundo = CNPJ_FUNDO,",
