@@ -114,14 +114,7 @@
 						{
 							"name": "Copy from http binary actual quotes",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Exist file in adls",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 1,
@@ -178,7 +171,7 @@
 							]
 						},
 						{
-							"name": "Copy data from zipped binary to csv_copy1",
+							"name": "Copy data from zipped binary to csv",
 							"type": "Copy",
 							"dependsOn": [
 								{
@@ -256,63 +249,6 @@
 									}
 								}
 							]
-						},
-						{
-							"name": "Get Metadata actual quotes adls",
-							"type": "GetMetadata",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"dataset": {
-									"referenceName": "ds_cvm_if_links_binary_adls",
-									"type": "DatasetReference",
-									"parameters": {
-										"relativeURL": "@concat(item().url,'.zip')"
-									}
-								},
-								"fieldList": [
-									"exists"
-								],
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "BinaryReadSettings"
-								}
-							}
-						},
-						{
-							"name": "Exist file in adls",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Get Metadata actual quotes adls",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "exists",
-								"value": {
-									"value": "@activity('Get Metadata actual quotes adls').output.exists",
-									"type": "Expression"
-								}
-							}
 						}
 					]
 				}
