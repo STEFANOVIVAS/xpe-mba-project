@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "investiment-funds-register",
+				"folderPath": "investiment-funds-actual-quotes",
 				"fileSystem": "transform"
 			},
 			"compressionCodec": "snappy"
