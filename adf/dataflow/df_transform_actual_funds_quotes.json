@@ -1,0 +1,35 @@
+{
+	"name": "df_transform_actual_funds_quotes",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_source_raw_actual_funds_quotes_transform",
+						"type": "DatasetReference"
+					},
+					"name": "ActualFundsQuotesSource"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          TP_FUNDO as string,",
+				"          CNPJ_FUNDO as string,",
+				"          DT_COMPTC as string,",
+				"          VL_TOTAL as string,",
+				"          VL_QUOTA as string,",
+				"          VL_PATRIM_LIQ as string,",
+				"          CAPTC_DIA as string,",
+				"          RESG_DIA as string,",
+				"          NR_COTST as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> ActualFundsQuotesSource"
+			]
+		}
+	}
+}
