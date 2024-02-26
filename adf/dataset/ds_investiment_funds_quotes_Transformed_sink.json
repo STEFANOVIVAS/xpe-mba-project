@@ -1,0 +1,20 @@
+{
+	"name": "ds_investiment_funds_quotes_Transformed_sink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_cvm_if_adls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "investiment-funds-register",
+				"fileSystem": "transform"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}

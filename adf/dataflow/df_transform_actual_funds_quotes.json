@@ -12,8 +12,23 @@
 					"name": "ActualFundsQuotesSource"
 				}
 			],
-			"sinks": [],
-			"transformations": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_investiment_funds_quotes_Transformed_sink",
+						"type": "DatasetReference"
+					},
+					"name": "ActualFundsQuotesTransformedSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenamingColumns"
+				},
+				{
+					"name": "RemovingZeroQuotes"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          TP_FUNDO as string,",
@@ -28,7 +43,29 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> ActualFundsQuotesSource"
+				"     ignoreNoFilesFound: false) ~> ActualFundsQuotesSource",
+				"ActualFundsQuotesSource select(mapColumn(",
+				"          tipo_fundo = TP_FUNDO,",
+				"          cnpj_fundo = CNPJ_FUNDO,",
+				"          data_competencia = DT_COMPTC,",
+				"          valor_total = VL_TOTAL,",
+				"          valor_cota = VL_QUOTA,",
+				"          valor_patrimonial_liq = VL_PATRIM_LIQ,",
+				"          capacity_dia = CAPTC_DIA,",
+				"          resgates_dia = RESG_DIA,",
+				"          numero_cotistas = NR_COTST",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenamingColumns",
+				"RenamingColumns filter(valor_cota!=0) ~> RemovingZeroQuotes",
+				"RemovingZeroQuotes sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> ActualFundsQuotesTransformedSink"
 			]
 		}
 	}
