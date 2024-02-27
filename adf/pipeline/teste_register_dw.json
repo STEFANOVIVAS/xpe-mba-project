@@ -52,7 +52,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_sql_investiment_funds_quotas",
+						"referenceName": "ds_sql_investiment_funds_register",
 						"type": "DatasetReference"
 					}
 				]
