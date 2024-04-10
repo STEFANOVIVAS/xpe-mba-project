@@ -8,7 +8,7 @@ Here you want to write a short overview of the goals of your project and how it 
 
 ### Data Architecture
 
-![Example architecture image](example-architecture.png)
+![Example architecture image](azure-xpe-pipeline.drawio.png)
 
 If you decide to include this, you should also talk a bit about why you chose the architecture and tools you did for this project.
 
