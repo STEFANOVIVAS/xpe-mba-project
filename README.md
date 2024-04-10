@@ -4,7 +4,7 @@ Here you want to write a short overview of the goals of your project and how it 
 
 ### Data Visualization
 
-![Example dashboard image](example-dashboard.png)
+![Example dashboard image](investiment-funds-dashboard.png)
 
 ### Data Architecture
 
