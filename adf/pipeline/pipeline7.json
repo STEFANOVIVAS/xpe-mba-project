@@ -68,13 +68,13 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "BinarySource",
+									"type": "DelimitedTextSource",
 									"storeSettings": {
 										"type": "HttpReadSettings",
 										"requestMethod": "GET"
 									},
 									"formatSettings": {
-										"type": "BinaryReadSettings",
+										"type": "DelimitedTextReadSettings",
 										"compressionProperties": {
 											"type": "ZipDeflateReadSettings"
 										}
@@ -92,18 +92,20 @@
 										"fileExtension": ".csv"
 									}
 								},
-								"enableStaging": false
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
 							},
 							"inputs": [
 								{
-									"referenceName": "ds_cvm_if_links_binary_http",
-									"type": "DatasetReference",
-									"parameters": {
-										"relativeURL": {
-											"value": "@concat(item().url,'.zip')",
-											"type": "Expression"
-										}
-									}
+									"referenceName": "ds_cvm_if_links_csv_http",
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
