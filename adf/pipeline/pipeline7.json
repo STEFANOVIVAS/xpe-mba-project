@@ -109,7 +109,13 @@
 							"outputs": [
 								{
 									"referenceName": "ds_cvm_if_links_csv_adls",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"relativeURL": {
+											"value": "@concat(item().url,'.zip')",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
