@@ -105,7 +105,13 @@
 							"inputs": [
 								{
 									"referenceName": "ds_cvm_if_links_csv_http",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"relativeUrl": {
+											"value": "@concat(item().url,'.zip')",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
@@ -114,7 +120,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"relativeURL": {
-											"value": "@concat(item().url,'.zip')",
+											"value": "@concat(item().url,'.csv')",
 											"type": "Expression"
 										}
 									}
