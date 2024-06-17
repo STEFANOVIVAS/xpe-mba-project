@@ -1,0 +1,22 @@
+{
+	"name": "ds_cvm_if_links_csv_adls",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_cvm_if_adls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "teste"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
