@@ -16,55 +16,42 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
+						"type": "BinarySource",
 						"storeSettings": {
 							"type": "HttpReadSettings",
 							"requestMethod": "GET"
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings",
+							"type": "BinaryReadSettings",
 							"compressionProperties": {
 								"type": "ZipDeflateReadSettings"
 							}
 						}
 					},
 					"sink": {
-						"type": "DelimitedTextSink",
+						"type": "BinarySink",
 						"storeSettings": {
 							"type": "AzureBlobFSWriteSettings",
 							"copyBehavior": "PreserveHierarchy"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".csv"
 						}
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
+					"enableStaging": false
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_cvm_if_links_csv_http",
+						"referenceName": "ds_cvm_if_links_binary_http",
 						"type": "DatasetReference",
 						"parameters": {
-							"relativeUrl": "inf_diario_fi_202101.zip "
+							"relativeURL": "inf_diario_fi_202101.zip"
 						}
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_cvm_if_links_csv_adls",
+						"referenceName": "ds_cvm_if_links_binary_adls",
 						"type": "DatasetReference",
 						"parameters": {
-							"relativeURL": "inf_diario_fi_202101.csv"
+							"relativeURL": "inf_diario_fi_202101"
 						}
 					}
 				]
