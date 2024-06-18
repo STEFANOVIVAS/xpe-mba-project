@@ -21,10 +21,6 @@
 				},
 				"folderPath": "staging",
 				"fileSystem": "binary"
-			},
-			"compression": {
-				"type": "ZipDeflate",
-				"level": "Optimal"
 			}
 		}
 	}
