@@ -22,7 +22,6 @@
 				"fileSystem": "teste"
 			},
 			"columnDelimiter": ",",
-			"compressionCodec": "ZipDeflate",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
