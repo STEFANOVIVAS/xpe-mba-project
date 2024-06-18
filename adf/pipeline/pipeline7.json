@@ -22,10 +22,7 @@
 							"requestMethod": "GET"
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings",
-							"compressionProperties": {
-								"type": "ZipDeflateReadSettings"
-							}
+							"type": "DelimitedTextReadSettings"
 						}
 					},
 					"sink": {
