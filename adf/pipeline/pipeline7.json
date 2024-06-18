@@ -61,7 +61,7 @@
 						"referenceName": "ds_cvm_if_links_csv_adls",
 						"type": "DatasetReference",
 						"parameters": {
-							"relativeURL": "inf_diario_fi_202101"
+							"relativeURL": "inf_diario_fi_202101.csv"
 						}
 					}
 				]
