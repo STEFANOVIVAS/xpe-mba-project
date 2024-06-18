@@ -3,12 +3,12 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Lookup for actual CVM file links",
-				"type": "Lookup",
+				"name": "Copy from http binary actual quotes_copy1",
+				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
-					"retry": 0,
+					"retry": 1,
 					"retryIntervalInSeconds": 30,
 					"secureOutput": false,
 					"secureInput": false
@@ -18,117 +18,56 @@
 					"source": {
 						"type": "DelimitedTextSource",
 						"storeSettings": {
-							"type": "AzureBlobFSReadSettings",
-							"recursive": false,
-							"wildcardFolderPath": "raw/cvm_actual_quotes_links.csv",
-							"wildcardFileName": "*.csv",
-							"enablePartitionDiscovery": false
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
+							"type": "DelimitedTextReadSettings",
+							"compressionProperties": {
+								"type": "ZipDeflateReadSettings"
+							}
 						}
 					},
-					"dataset": {
-						"referenceName": "ds_cvm_actual_quotes_links",
-						"type": "DatasetReference"
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": "FlattenHierarchy"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".csv"
+						}
 					},
-					"firstRowOnly": false
-				}
-			},
-			{
-				"name": "Copy investment funds actual quotes for every year",
-				"type": "ForEach",
-				"dependsOn": [
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
 					{
-						"activity": "Lookup for actual CVM file links",
-						"dependencyConditions": [
-							"Succeeded"
-						]
+						"referenceName": "ds_cvm_if_links_csv_http",
+						"type": "DatasetReference",
+						"parameters": {
+							"relativeUrl": "inf_diario_fi_202101.zip "
+						}
 					}
 				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@activity('Lookup for actual CVM file links').output.value",
-						"type": "Expression"
-					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Copy from http binary actual quotes",
-							"type": "Copy",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 1,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "DelimitedTextSource",
-									"storeSettings": {
-										"type": "HttpReadSettings",
-										"requestMethod": "GET"
-									},
-									"formatSettings": {
-										"type": "DelimitedTextReadSettings",
-										"compressionProperties": {
-											"type": "ZipDeflateReadSettings"
-										}
-									}
-								},
-								"sink": {
-									"type": "DelimitedTextSink",
-									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings",
-										"copyBehavior": "FlattenHierarchy"
-									},
-									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"quoteAllText": true,
-										"fileExtension": ".csv"
-									}
-								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
-							},
-							"inputs": [
-								{
-									"referenceName": "ds_cvm_if_links_csv_http",
-									"type": "DatasetReference",
-									"parameters": {
-										"relativeUrl": {
-											"value": "@concat(item().url,'.zip')",
-											"type": "Expression"
-										}
-									}
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "ds_cvm_if_links_csv_adls",
-									"type": "DatasetReference",
-									"parameters": {
-										"relativeURL": {
-											"value": "@concat(item().url,'.csv')",
-											"type": "Expression"
-										}
-									}
-								}
-							]
+				"outputs": [
+					{
+						"referenceName": "ds_cvm_if_links_csv_adls",
+						"type": "DatasetReference",
+						"parameters": {
+							"relativeURL": "inf_diario_fi_202101"
 						}
-					]
-				}
+					}
+				]
 			}
 		],
 		"annotations": []
