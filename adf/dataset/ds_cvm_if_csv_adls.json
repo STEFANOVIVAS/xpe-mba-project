@@ -8,6 +8,9 @@
 		"parameters": {
 			"fileName": {
 				"type": "string"
+			},
+			"raw_folder": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
@@ -19,7 +22,6 @@
 					"value": "@dataset().fileName",
 					"type": "Expression"
 				},
-				"folderPath": "investment-funds-quotes",
 				"fileSystem": "raw"
 			},
 			"columnDelimiter": ";",
