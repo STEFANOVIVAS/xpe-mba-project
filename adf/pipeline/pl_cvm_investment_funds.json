@@ -278,12 +278,7 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [
-					{
-						"name": "raw_folder",
-						"value": "investment-funds-historic-quotes"
-					}
-				],
+				"userProperties": [],
 				"typeProperties": {
 					"source": {
 						"type": "DelimitedTextSource",
@@ -498,7 +493,8 @@
 													"fileName": {
 														"value": "@concat(item().url,'.csv')",
 														"type": "Expression"
-													}
+													},
+													"raw_folder": "investment-funds-historic-quotes"
 												}
 											}
 										]
