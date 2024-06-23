@@ -79,7 +79,8 @@
 						"type": "DelimitedTextSource",
 						"additionalColumns": [
 							{
-								"value": "$$FILEPATH"
+								"name": "timestamp",
+								"value": "2024-06-22"
 							}
 						],
 						"storeSettings": {
