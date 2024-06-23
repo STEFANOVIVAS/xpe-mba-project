@@ -130,7 +130,8 @@
 						"referenceName": "ds_cvm_if_csv_adls",
 						"type": "DatasetReference",
 						"parameters": {
-							"fileName": "inf_diario_fi_202406.csv"
+							"fileName": "inf_diario_fi_202406.csv",
+							"raw_folder": "investment-funds-quotes"
 						}
 					}
 				]
