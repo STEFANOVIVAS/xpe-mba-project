@@ -271,7 +271,7 @@
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
-							"wildcardFolderPath": "raw/cvm_historic_quotes_links.csv",
+							"wildcardFolderPath": "raw/cvm_historical_links.csv",
 							"wildcardFileName": "*.csv",
 							"enablePartitionDiscovery": true,
 							"partitionRootPath": "raw/cvm_historic_quotes_links.csv"
