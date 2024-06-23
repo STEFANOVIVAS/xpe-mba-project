@@ -206,6 +206,10 @@
 							"typeProperties": {
 								"source": {
 									"type": "DelimitedTextSource",
+									"additionalColumns": {
+										"type": "Expression",
+										"value": "@item().update"
+									},
 									"storeSettings": {
 										"type": "AzureBlobFSReadSettings",
 										"recursive": true,
