@@ -105,7 +105,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@equals(item().url,'texto')",
+									"value": "@equals(activity('Lookup for actual CVM file links').output.url,'teste')",
 									"type": "Expression"
 								}
 							}
