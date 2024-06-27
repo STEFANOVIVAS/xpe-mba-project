@@ -109,7 +109,7 @@
 							"typeProperties": {
 								"variableName": "file_exists",
 								"value": {
-									"value": "@activity('Lookup for actual CVM file links').output.exists",
+									"value": "@activity('Parse files in datalake').output.exists",
 									"type": "Expression"
 								}
 							}
