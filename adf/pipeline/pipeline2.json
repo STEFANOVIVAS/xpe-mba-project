@@ -79,7 +79,11 @@
 									}
 								},
 								"fieldList": [
-									"exists"
+									"exists",
+									{
+										"value": "@item().update",
+										"type": "Expression"
+									}
 								],
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
@@ -190,10 +194,12 @@
 										"typeProperties": {
 											"source": {
 												"type": "DelimitedTextSource",
-												"additionalColumns": {
-													"type": "Expression",
-													"value": "@activity('Lookup for actual CVM file links').output.update"
-												},
+												"additionalColumns": [
+													{
+														"name": "timestamp",
+														"value": ""
+													}
+												],
 												"storeSettings": {
 													"type": "AzureBlobFSReadSettings",
 													"recursive": true,
