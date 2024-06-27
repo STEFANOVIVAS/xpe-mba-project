@@ -89,11 +89,40 @@
 									"type": "DelimitedTextReadSettings"
 								}
 							}
+						},
+						{
+							"name": "Actual quotes file exists result",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Actual quotes file exists",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "file_exists",
+								"value": {
+									"value": "@activity('Actual quotes file exists').output",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
 			}
 		],
+		"variables": {
+			"file_exists": {
+				"type": "Boolean"
+			}
+		},
 		"annotations": []
 	}
 }
