@@ -83,6 +83,7 @@
 								],
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
@@ -93,7 +94,14 @@
 						{
 							"name": "If Condition1",
 							"type": "IfCondition",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Actual quotes files exists",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
@@ -249,14 +257,28 @@
 							}
 						},
 						{
-							"name": "Set variable1",
+							"name": "Actual quotes files exists",
 							"type": "SetVariable",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Parse files in datalake",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false
 							},
-							"userProperties": []
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "exists",
+								"value": {
+									"value": "@activity('Parse files in datalake').output.exists",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
