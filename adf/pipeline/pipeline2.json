@@ -91,35 +91,11 @@
 							}
 						},
 						{
-							"name": "Actual quote file exists",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Parse files in datalake",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "file_exists",
-								"value": {
-									"value": "@activity('Parse files in datalake').output.exists",
-									"type": "Expression"
-								}
-							}
-						},
-						{
 							"name": "If Condition1",
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "Actual quote file exists",
+									"activity": "Actual quotes files exists",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -128,7 +104,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@variables('file_exists')",
+									"value": "@variables('exists')",
 									"type": "Expression"
 								},
 								"ifFalseActivities": [
@@ -278,6 +254,30 @@
 									}
 								]
 							}
+						},
+						{
+							"name": "Actual quotes files exists",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Parse files in datalake",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "exists",
+								"value": {
+									"value": "@activity('Parse files in datalake').output.exists",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -285,7 +285,10 @@
 		],
 		"variables": {
 			"file_exists": {
-				"type": "String"
+				"type": "Boolean"
+			},
+			"exists": {
+				"type": "Boolean"
 			}
 		},
 		"annotations": []
