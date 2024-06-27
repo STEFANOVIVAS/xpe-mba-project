@@ -93,14 +93,7 @@
 						{
 							"name": "If Condition1",
 							"type": "IfCondition",
-							"dependsOn": [
-								{
-									"activity": "Actual quotes files exists",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
@@ -256,28 +249,14 @@
 							}
 						},
 						{
-							"name": "Actual quotes files exists",
+							"name": "Set variable1",
 							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Parse files in datalake",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false
 							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "exists",
-								"value": {
-									"value": "@activity('Parse files in datalake').output.exists",
-									"type": "Expression"
-								}
-							}
+							"userProperties": []
 						}
 					]
 				}
