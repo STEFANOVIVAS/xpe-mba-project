@@ -107,9 +107,9 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "file_exists",
+								"variableName": "file_name",
 								"value": {
-									"value": "@activity('Actual quotes file exists').output.exists",
+									"value": "@item().url",
 									"type": "Expression"
 								}
 							}
@@ -121,6 +121,9 @@
 		"variables": {
 			"file_exists": {
 				"type": "Boolean"
+			},
+			"file_name": {
+				"type": "String"
 			}
 		},
 		"annotations": []
