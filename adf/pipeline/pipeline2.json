@@ -105,7 +105,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@activity('Parse files in datalake').output.exists",
+									"value": "@equals(activity('Parse files in datalake').output.exists,true)",
 									"type": "Expression"
 								},
 								"ifFalseActivities": [
