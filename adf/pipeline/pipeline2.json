@@ -105,10 +105,10 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@equals(item().url,'inf_diario_fi_202401')",
+									"value": "@equals(activity('Parse files in datalake').output.exists,true)",
 									"type": "Expression"
 								},
-								"ifTrueActivities": [
+								"ifFalseActivities": [
 									{
 										"name": "Copy from http binary actual quotes",
 										"type": "Copy",
@@ -164,6 +164,91 @@
 														"value": "@concat(item().url,'.zip')",
 														"type": "Expression"
 													}
+												}
+											}
+										]
+									},
+									{
+										"name": "Copy data from zipped binary to csv",
+										"type": "Copy",
+										"dependsOn": [
+											{
+												"activity": "Copy from http binary actual quotes",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "DelimitedTextSource",
+												"additionalColumns": {
+													"type": "Expression",
+													"value": "@item().update"
+												},
+												"storeSettings": {
+													"type": "AzureBlobFSReadSettings",
+													"recursive": true,
+													"enablePartitionDiscovery": false
+												},
+												"formatSettings": {
+													"type": "DelimitedTextReadSettings",
+													"compressionProperties": {
+														"type": "ZipDeflateReadSettings"
+													}
+												}
+											},
+											"sink": {
+												"type": "DelimitedTextSink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												},
+												"formatSettings": {
+													"type": "DelimitedTextWriteSettings",
+													"quoteAllText": true,
+													"fileExtension": ".txt"
+												}
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "ds_cvm_if_zip_adls",
+												"type": "DatasetReference",
+												"parameters": {
+													"fileName": {
+														"value": "@concat(item().url,'.zip')",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "ds_cvm_if_csv_adls",
+												"type": "DatasetReference",
+												"parameters": {
+													"fileName": {
+														"value": "@concat(item().url,'.csv')",
+														"type": "Expression"
+													},
+													"raw_folder": "investment-funds-quotes"
 												}
 											}
 										]
