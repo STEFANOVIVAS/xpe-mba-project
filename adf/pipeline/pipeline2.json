@@ -96,7 +96,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "Actual quotes files exists",
+									"activity": "Parse files in datalake",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -105,7 +105,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@variables('exists').value",
+									"value": "@activity('Parse files in datalake').output.exists",
 									"type": "Expression"
 								},
 								"ifFalseActivities": [
@@ -254,30 +254,6 @@
 										]
 									}
 								]
-							}
-						},
-						{
-							"name": "Actual quotes files exists",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Parse files in datalake",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "exists",
-								"value": {
-									"value": "@activity('Parse files in datalake').output.exists",
-									"type": "Expression"
-								}
 							}
 						}
 					]
