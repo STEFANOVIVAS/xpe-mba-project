@@ -112,7 +112,14 @@
 									{
 										"name": "Copy from http binary actual quotes",
 										"type": "Copy",
-										"dependsOn": [],
+										"dependsOn": [
+											{
+												"activity": "Set variable1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 1,
@@ -192,7 +199,7 @@
 												"type": "DelimitedTextSource",
 												"additionalColumns": {
 													"type": "Expression",
-													"value": "@activity('Lookup for actual CVM file links').output.value.update"
+													"value": "@variables('update').update"
 												},
 												"storeSettings": {
 													"type": "AzureBlobFSReadSettings",
@@ -252,6 +259,23 @@
 												}
 											}
 										]
+									},
+									{
+										"name": "Set variable1",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "update",
+											"value": {
+												"value": "@activity('Lookup for actual CVM file links').output.value",
+												"type": "Expression"
+											}
+										}
 									}
 								]
 							}
@@ -266,6 +290,9 @@
 			},
 			"exists": {
 				"type": "Boolean"
+			},
+			"update": {
+				"type": "String"
 			}
 		},
 		"annotations": []
