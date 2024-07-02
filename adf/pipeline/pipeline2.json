@@ -256,6 +256,10 @@
 							],
 							"userProperties": [],
 							"typeProperties": {
+								"expression": {
+									"value": "@greater(item().update,activity('Parse files in datalake').output.lastModified)",
+									"type": "Expression"
+								},
 								"ifTrueActivities": [
 									{
 										"name": "Copy from http binary actual quotes_copy1_copy1",
