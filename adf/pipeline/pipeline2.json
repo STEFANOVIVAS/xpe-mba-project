@@ -272,9 +272,10 @@
 										"userProperties": [],
 										"typeProperties": {
 											"variableName": "date_updated",
-											"value": [
-												""
-											]
+											"value": {
+												"value": "@activity('Lookup for actual CVM file links').output.value",
+												"type": "Expression"
+											}
 										}
 									}
 								]
