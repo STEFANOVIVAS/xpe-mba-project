@@ -113,14 +113,7 @@
 									{
 										"name": "Copy from http binary actual quotes_copy1_copy1",
 										"type": "Copy",
-										"dependsOn": [
-											{
-												"activity": "Set variable1",
-												"dependencyConditions": [
-													"Succeeded"
-												]
-											}
-										],
+										"dependsOn": [],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 1,
@@ -198,10 +191,6 @@
 										"typeProperties": {
 											"source": {
 												"type": "DelimitedTextSource",
-												"additionalColumns": {
-													"type": "Expression",
-													"value": "@variables('date_updated').update"
-												},
 												"storeSettings": {
 													"type": "AzureBlobFSReadSettings",
 													"recursive": true,
@@ -260,23 +249,6 @@
 												}
 											}
 										]
-									},
-									{
-										"name": "Set variable1",
-										"type": "SetVariable",
-										"dependsOn": [],
-										"policy": {
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"variableName": "date_updated",
-											"value": {
-												"value": "@activity('Lookup for actual CVM file links').output.value",
-												"type": "Expression"
-											}
-										}
 									}
 								]
 							}
