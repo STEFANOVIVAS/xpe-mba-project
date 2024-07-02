@@ -269,6 +269,30 @@
 									"type": "Expression"
 								}
 							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Parse files in datalake",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "last_modified",
+								"value": {
+									"value": "@activity('Parse files in datalake').output.lastModified",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -292,6 +316,9 @@
 			},
 			"updated_bool": {
 				"type": "Boolean"
+			},
+			"last_modified": {
+				"type": "String"
 			}
 		},
 		"annotations": []
