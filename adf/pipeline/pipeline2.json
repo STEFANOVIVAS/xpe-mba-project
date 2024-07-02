@@ -72,14 +72,15 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": {
-											"value": "@concat(item().url,'.zip')",
+											"value": "@concat(item().url,'.csv')",
 											"type": "Expression"
 										},
 										"raw_folder": "investment-funds-quotes"
 									}
 								},
 								"fieldList": [
-									"exists"
+									"exists",
+									"lastModified"
 								],
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
@@ -92,7 +93,158 @@
 							}
 						},
 						{
-							"name": "If Condition1",
+							"name": "Copy from http binary actual quotes_copy1",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Parse files in datalake",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 1,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "BinarySource",
+									"storeSettings": {
+										"type": "HttpReadSettings",
+										"requestMethod": "GET"
+									},
+									"formatSettings": {
+										"type": "BinaryReadSettings",
+										"compressionProperties": {
+											"type": "ZipDeflateReadSettings"
+										}
+									}
+								},
+								"sink": {
+									"type": "BinarySink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_cvm_if_links_binary_http",
+									"type": "DatasetReference",
+									"parameters": {
+										"relativeURL": {
+											"value": "@concat(item().url,'.zip')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_cvm_if_links_binary_adls",
+									"type": "DatasetReference",
+									"parameters": {
+										"relativeURL": {
+											"value": "@concat(item().url,'.zip')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"name": "Copy data from zipped binary to csv_copy1",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Copy from http binary actual quotes_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"additionalColumns": {
+										"type": "Expression",
+										"value": "@variables('update').update"
+									},
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings",
+										"compressionProperties": {
+											"type": "ZipDeflateReadSettings"
+										}
+									}
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_cvm_if_zip_adls",
+									"type": "DatasetReference",
+									"parameters": {
+										"fileName": {
+											"value": "@concat(item().url,'.zip')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_cvm_if_csv_adls",
+									"type": "DatasetReference",
+									"parameters": {
+										"fileName": {
+											"value": "@concat(item().url,'.csv')",
+											"type": "Expression"
+										},
+										"raw_folder": "investment-funds-quotes"
+									}
+								}
+							]
+						},
+						{
+							"name": "If update is greater then timesatmp",
 							"type": "IfCondition",
 							"dependsOn": [
 								{
@@ -104,22 +256,11 @@
 							],
 							"userProperties": [],
 							"typeProperties": {
-								"expression": {
-									"value": "@equals(activity('Parse files in datalake').output.exists,true)",
-									"type": "Expression"
-								},
-								"ifFalseActivities": [
+								"ifTrueActivities": [
 									{
-										"name": "Copy from http binary actual quotes",
+										"name": "Copy from http binary actual quotes_copy1_copy1",
 										"type": "Copy",
-										"dependsOn": [
-											{
-												"activity": "Set variable1",
-												"dependencyConditions": [
-													"Succeeded"
-												]
-											}
-										],
+										"dependsOn": [],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 1,
@@ -176,11 +317,11 @@
 										]
 									},
 									{
-										"name": "Copy data from zipped binary to csv",
+										"name": "Copy data from zipped binary to csv_copy1_copy1",
 										"type": "Copy",
 										"dependsOn": [
 											{
-												"activity": "Copy from http binary actual quotes",
+												"activity": "Copy from http binary actual quotes_copy1_copy1",
 												"dependencyConditions": [
 													"Succeeded"
 												]
@@ -259,23 +400,6 @@
 												}
 											}
 										]
-									},
-									{
-										"name": "Set variable1",
-										"type": "SetVariable",
-										"dependsOn": [],
-										"policy": {
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"variableName": "update",
-											"value": {
-												"value": "@activity('Lookup for actual CVM file links').output.value",
-												"type": "Expression"
-											}
-										}
 									}
 								]
 							}
