@@ -252,6 +252,23 @@
 									}
 								]
 							}
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "updated_date_from_csv",
+								"value": {
+									"value": "@formatDateTime(item().update,'MM-dd-yyyyTHH:mm:ss')",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -269,6 +286,9 @@
 			},
 			"date_updated": {
 				"type": "Array"
+			},
+			"updated_date_from_csv": {
+				"type": "String"
 			}
 		},
 		"annotations": []
