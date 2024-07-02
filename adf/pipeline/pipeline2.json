@@ -256,23 +256,16 @@
 						{
 							"name": "Set variable1",
 							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Parse files in datalake",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "updated_bool",
+								"variableName": "updated_date_from_csv",
 								"value": {
-									"value": "@greater(formatDateTime(item().update,'MM-dd-yyyyTHH:mm:ss'),activity('Parse files in datalake').output.lastModified)",
+									"value": "@formatDateTime(item().update,'MM-dd-yyyyTHH:mm:ss')",
 									"type": "Expression"
 								}
 							}
