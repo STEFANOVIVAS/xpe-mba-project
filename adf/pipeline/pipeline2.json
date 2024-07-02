@@ -106,7 +106,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@or(and(equals(activity('Parse files in datalake').output.exists,true),greater(formatDateTime(item().update,'MM-dd-yyyy'),activity('Parse files in datalake').output.lastModified)),equals(activity('Parse files in datalake').output.exists,false))",
+									"value": "@or(and(equals(activity('Parse files in datalake').output.exists,true),greater(formatDateTime(item().update),activity('Parse files in datalake').output.lastModified)),equals(activity('Parse files in datalake').output.exists,false))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
