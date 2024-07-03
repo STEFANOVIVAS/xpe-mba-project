@@ -289,7 +289,7 @@
 							"typeProperties": {
 								"variableName": "last_modified",
 								"value": {
-									"value": "@activity('Parse files in datalake').output.lastModified",
+									"value": "@formatDateTime(activity('Parse files in datalake').output.lastModified,'MM-dd-yyyy')",
 									"type": "Expression"
 								}
 							}
