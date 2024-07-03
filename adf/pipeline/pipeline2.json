@@ -97,12 +97,6 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "Parse files in datalake",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								},
-								{
 									"activity": "Set variable1",
 									"dependencyConditions": [
 										"Succeeded"
