@@ -101,6 +101,12 @@
 									"dependencyConditions": [
 										"Succeeded"
 									]
+								},
+								{
+									"activity": "Set variable1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
 								}
 							],
 							"userProperties": [],
@@ -150,7 +156,7 @@
 												"type": "DatasetReference",
 												"parameters": {
 													"relativeURL": {
-														"value": "@concat(item().url,'.zip')",
+														"value": "@concat(variables('file_name'),'.zip')",
 														"type": "Expression"
 													}
 												}
@@ -162,7 +168,7 @@
 												"type": "DatasetReference",
 												"parameters": {
 													"relativeURL": {
-														"value": "@concat(item().url,'.zip')",
+														"value": "@concat(variables('file_name'),'.zip')",
 														"type": "Expression"
 													}
 												}
@@ -230,7 +236,7 @@
 												"type": "DatasetReference",
 												"parameters": {
 													"fileName": {
-														"value": "@concat(item().url,'.zip')",
+														"value": "@concat(variables('file_name'),'.zip')",
 														"type": "Expression"
 													}
 												}
@@ -242,7 +248,7 @@
 												"type": "DatasetReference",
 												"parameters": {
 													"fileName": {
-														"value": "@concat(item().url,'.csv')",
+														"value": "@concat(variables('file_name'),'.csv')",
 														"type": "Expression"
 													},
 													"raw_folder": "investment-funds-quotes"
@@ -255,23 +261,6 @@
 						},
 						{
 							"name": "Set variable1",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "updated_date_from_csv",
-								"value": {
-									"value": "@formatDateTime(item().update,'MM-dd-yyyy')",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "Set variable2",
 							"type": "SetVariable",
 							"dependsOn": [
 								{
@@ -287,9 +276,9 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "last_modified",
+								"variableName": "file_name",
 								"value": {
-									"value": "@formatDateTime(activity('Parse files in datalake').output.lastModified,'MM-dd-yyyy')",
+									"value": "@item().url",
 									"type": "Expression"
 								}
 							}
@@ -318,6 +307,9 @@
 				"type": "Boolean"
 			},
 			"last_modified": {
+				"type": "String"
+			},
+			"file_name": {
 				"type": "String"
 			}
 		},
