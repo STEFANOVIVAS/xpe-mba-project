@@ -289,7 +289,7 @@
 							"typeProperties": {
 								"variableName": "last_modified",
 								"value": {
-									"value": "@convertFromUtc(activity('Parse files in datalake').output.lastModified,'E. South America Standard Time','MM-dd-yyyy')",
+									"value": "@convertFromUtc(formatDateTime(activity('Parse files in datalake').output.lastModified,'MM-dd-yyyy'),'E. South America Standard Time')",
 									"type": "Expression"
 								}
 							}
