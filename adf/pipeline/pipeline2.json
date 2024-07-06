@@ -101,7 +101,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "file_name_from_metadata",
+									"activity": "Parse files in datalake",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -267,29 +267,6 @@
 											}
 										]
 									}
-								]
-							}
-						},
-						{
-							"name": "file_name_from_metadata",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Parse files in datalake",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "file_name",
-								"value": [
-									""
 								]
 							}
 						}
