@@ -109,25 +109,6 @@
 									"value": "@and(equals(activity('Parse files in datalake').output.exists,true),greater(formatDateTime(item().update,'yyyy-MM-ddTHH:mm:ss.fffffffK'),formatDateTime(activity('Parse files in datalake').output.lastModified,'yyyy-MM-ddTHH:mm:ss.fffffffK')))",
 									"type": "Expression"
 								},
-								"ifFalseActivities": [
-									{
-										"name": "variable return if condition",
-										"type": "SetVariable",
-										"dependsOn": [],
-										"policy": {
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"variableName": "if_condition",
-											"value": {
-												"value": "@activity('Parse files in datalake').output.childItems",
-												"type": "Expression"
-											}
-										}
-									}
-								],
 								"ifTrueActivities": [
 									{
 										"name": "Copy from http binary actual quotes_copy1_copy1",
@@ -311,9 +292,6 @@
 			},
 			"file_name": {
 				"type": "String"
-			},
-			"if_condition": {
-				"type": "Boolean"
 			}
 		},
 		"annotations": []
