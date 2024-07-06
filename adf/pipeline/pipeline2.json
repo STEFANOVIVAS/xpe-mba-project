@@ -134,7 +134,7 @@
 										"type": "Copy",
 										"dependsOn": [
 											{
-												"activity": "Set variable1",
+												"activity": "file_name_from_lookup",
 												"dependencyConditions": [
 													"Succeeded"
 												]
@@ -277,7 +277,7 @@
 										]
 									},
 									{
-										"name": "Set variable1",
+										"name": "file_name_from_lookup",
 										"type": "SetVariable",
 										"dependsOn": [],
 										"policy": {
