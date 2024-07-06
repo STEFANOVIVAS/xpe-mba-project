@@ -101,7 +101,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "Parse files in datalake",
+									"activity": "Set variable1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -170,7 +170,13 @@
 										"inputs": [
 											{
 												"referenceName": "ds_cvm_if_links_binary_http",
-												"type": "DatasetReference"
+												"type": "DatasetReference",
+												"parameters": {
+													"relativeURL": {
+														"value": "@concat(variables('file_name'),'.zip')",
+														"type": "Expression"
+													}
+												}
 											}
 										],
 										"outputs": [
@@ -269,6 +275,30 @@
 									}
 								]
 							}
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Parse files in datalake",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "file_name",
+								"value": {
+									"value": "@item().url",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -291,7 +321,7 @@
 				"type": "String"
 			},
 			"file_name": {
-				"type": "Array"
+				"type": "String"
 			},
 			"if_condition": {
 				"type": "Boolean"
