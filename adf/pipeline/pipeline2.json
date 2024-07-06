@@ -364,7 +364,7 @@
 				"type": "String"
 			},
 			"file_name": {
-				"type": "String"
+				"type": "Array"
 			},
 			"if_condition": {
 				"type": "Boolean"
