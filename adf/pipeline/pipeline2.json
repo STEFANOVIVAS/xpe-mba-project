@@ -80,7 +80,11 @@
 								},
 								"fieldList": [
 									"exists",
-									"lastModified"
+									"lastModified",
+									{
+										"value": "@item().url",
+										"type": "Expression"
+									}
 								],
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
@@ -97,7 +101,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "Parse files in datalake",
+									"activity": "file_name_from_metadata",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -132,14 +136,7 @@
 									{
 										"name": "Copy from http binary actual quotes_copy1_copy1",
 										"type": "Copy",
-										"dependsOn": [
-											{
-												"activity": "file_name_from_lookup",
-												"dependencyConditions": [
-													"Succeeded"
-												]
-											}
-										],
+										"dependsOn": [],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 1,
@@ -173,13 +170,7 @@
 										"inputs": [
 											{
 												"referenceName": "ds_cvm_if_links_binary_http",
-												"type": "DatasetReference",
-												"parameters": {
-													"relativeURL": {
-														"value": "@concat(variables('file_name').url,'.zip')",
-														"type": "Expression"
-													}
-												}
+												"type": "DatasetReference"
 											}
 										],
 										"outputs": [
@@ -275,42 +266,8 @@
 												}
 											}
 										]
-									},
-									{
-										"name": "file_name_from_lookup",
-										"type": "SetVariable",
-										"dependsOn": [],
-										"policy": {
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"variableName": "file_name",
-											"value": {
-												"value": "@activity('Lookup for actual CVM file links').output.value",
-												"type": "Expression"
-											}
-										}
 									}
 								]
-							}
-						},
-						{
-							"name": "cvm_update",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "cvm_update",
-								"value": {
-									"value": "@formatDateTime(item().update,'yyyy-MM-ddTHH:mm:ss.fffffffK')",
-									"type": "Expression"
-								}
 							}
 						},
 						{
@@ -336,6 +293,29 @@
 									"type": "Expression"
 								}
 							}
+						},
+						{
+							"name": "file_name_from_metadata",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Parse files in datalake",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "file_name",
+								"value": [
+									""
+								]
+							}
 						}
 					]
 				}
@@ -347,12 +327,6 @@
 			},
 			"exists": {
 				"type": "Boolean"
-			},
-			"update": {
-				"type": "String"
-			},
-			"date_updated": {
-				"type": "Array"
 			},
 			"updated_date_from_csv": {
 				"type": "String"
@@ -368,12 +342,6 @@
 			},
 			"if_condition": {
 				"type": "Boolean"
-			},
-			"cvm_update": {
-				"type": "String"
-			},
-			"adls_last_modified": {
-				"type": "String"
 			}
 		},
 		"annotations": []
