@@ -97,7 +97,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "Set variable2",
+									"activity": "Parse files in datalake",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -106,7 +106,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@and(equals(variables('exists'),true),greater(formatDateTime(item().update,'yyyy-MM-ddTHH:mm:ss.fffffffK'),formatDateTime(activity('Parse files in datalake').output.lastModified,'yyyy-MM-ddTHH:mm:ss.fffffffK')))",
+									"value": "@and(equals(activity('Parse files in datalake').output.exists,true),greater(formatDateTime(item().update,'yyyy-MM-ddTHH:mm:ss.fffffffK'),formatDateTime(activity('Parse files in datalake').output.lastModified,'yyyy-MM-ddTHH:mm:ss.fffffffK')))",
 									"type": "Expression"
 								},
 								"ifFalseActivities": [
@@ -285,30 +285,6 @@
 								"variableName": "file_name",
 								"value": {
 									"value": "@item().url",
-									"type": "Expression"
-								}
-							}
-						},
-						{
-							"name": "Set variable2",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Parse files in datalake",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "exists",
-								"value": {
-									"value": "@activity('Parse files in datalake').output.exists",
 									"type": "Expression"
 								}
 							}
