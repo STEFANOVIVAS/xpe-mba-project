@@ -132,7 +132,14 @@
 									{
 										"name": "Copy from http binary actual quotes_copy1_copy1",
 										"type": "Copy",
-										"dependsOn": [],
+										"dependsOn": [
+											{
+												"activity": "Set variable1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
 										"policy": {
 											"timeout": "0.12:00:00",
 											"retry": 1,
@@ -169,7 +176,7 @@
 												"type": "DatasetReference",
 												"parameters": {
 													"relativeURL": {
-														"value": "@concat(variables('file_name'),'.zip')",
+														"value": "@concat(variables('file_name').url,'.zip')",
 														"type": "Expression"
 													}
 												}
@@ -268,6 +275,23 @@
 												}
 											}
 										]
+									},
+									{
+										"name": "Set variable1",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "file_name",
+											"value": {
+												"value": "@activity('Lookup for actual CVM file links').output.value",
+												"type": "Expression"
+											}
+										}
 									}
 								]
 							}
