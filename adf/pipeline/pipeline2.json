@@ -271,30 +271,6 @@
 							}
 						},
 						{
-							"name": "adls_last_modified",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Parse files in datalake",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "adls_last_modified",
-								"value": {
-									"value": "@formatDateTime(activity('Parse files in datalake').output.lastModified,'yyyy-MM-ddTHH:mm:ss.fffffffK')",
-									"type": "Expression"
-								}
-							}
-						},
-						{
 							"name": "file_name_from_metadata",
 							"type": "SetVariable",
 							"dependsOn": [
