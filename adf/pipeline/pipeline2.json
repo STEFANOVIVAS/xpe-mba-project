@@ -284,7 +284,7 @@
 							"typeProperties": {
 								"variableName": "cvm_update",
 								"value": {
-									"value": "@formatDateTime(item().update,'aaaa-MM-ddTHH:mm:ss.fffffffK')",
+									"value": "@formatDateTime(item().update,'yyyy-MM-ddTHH:mm:ss.fffffffK')",
 									"type": "Expression"
 								}
 							}
@@ -308,7 +308,7 @@
 							"typeProperties": {
 								"variableName": "adls_last_modified",
 								"value": {
-									"value": "@formatDateTime(activity('Parse files in datalake').output.lastModified,'aaaa-MM-ddTHH:mm:ss.fffffffK')",
+									"value": "@formatDateTime(activity('Parse files in datalake').output.lastModified,'yyyy-MM-ddTHH:mm:ss.fffffffK')",
 									"type": "Expression"
 								}
 							}
