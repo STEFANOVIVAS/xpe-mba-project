@@ -80,11 +80,7 @@
 								},
 								"fieldList": [
 									"exists",
-									"lastModified",
-									{
-										"value": "@item().url",
-										"type": "Expression"
-									}
+									"lastModified"
 								],
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
