@@ -271,6 +271,47 @@
 									}
 								]
 							}
+						},
+						{
+							"name": "cvm_update",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "cvm_update",
+								"value": {
+									"value": "@formatDateTime(item().update,'aaaa-MM-ddTHH:mm:ss.fffffffK')",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "adls_last_modified",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Parse files in datalake",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "adls_last_modified",
+								"value": {
+									"value": "@formatDateTime(activity('Parse files in datalake').output.lastModified,'aaaa-MM-ddTHH:mm:ss.fffffffK')",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -303,6 +344,12 @@
 			},
 			"if_condition": {
 				"type": "Boolean"
+			},
+			"cvm_update": {
+				"type": "String"
+			},
+			"adls_last_modified": {
+				"type": "String"
 			}
 		},
 		"annotations": []
