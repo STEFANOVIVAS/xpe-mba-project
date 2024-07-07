@@ -106,7 +106,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@or(and(equals(activity('Parse files in datalake').output.exists,true),greater(formatDateTime(item().update,'yyyy-MM-ddTHH:mm:ss.fffffffK'),formatDateTime(activity('Parse files in datalake').output.lastModified,'yyyy-MM-ddTHH:mm:ss.fffffffK'))),equals(activity('Parse files in datalake').output.exists,false))",
+									"value": "@or(and(equals(activity('Parse files in datalake').output.exists,true),greater(formatDateTime(item().update,'yyyy-MM-ddTHH:mm:ss.fffffffK'),convertTimeZone(formatDateTime(activity('Parse files in datalake').output.lastModified,'yyyy-MM-ddTHH:mm:ss.fffffffK'),'UTC','E. South America Standard Time'))),equals(activity('Parse files in datalake').output.exists,false))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -289,7 +289,7 @@
 							"typeProperties": {
 								"variableName": "last_modified",
 								"value": {
-									"value": "@convertTimeZone(activity('Parse files in datalake').output.lastModified,'UTC','E. South America Standard Time')",
+									"value": "@convertTimeZone(formatDateTime(activity('Parse files in datalake').output.lastModified,'yyyy-MM-ddTHH:mm:ss.fffffffK'),'UTC','E. South America Standard Time')\n\n",
 									"type": "Expression"
 								}
 							}
