@@ -269,6 +269,30 @@
 									"type": "Expression"
 								}
 							}
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Parse files in datalake",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "last_modified",
+								"value": {
+									"value": "@convertTimeZone(activity('Parse files in datalake').output.lastModified,'UTC','E. South America Standard Time')",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -279,12 +303,6 @@
 				"type": "Boolean"
 			},
 			"exists": {
-				"type": "Boolean"
-			},
-			"updated_date_from_csv": {
-				"type": "String"
-			},
-			"updated_bool": {
 				"type": "Boolean"
 			},
 			"last_modified": {
