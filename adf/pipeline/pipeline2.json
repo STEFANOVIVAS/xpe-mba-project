@@ -269,30 +269,6 @@
 									"type": "Expression"
 								}
 							}
-						},
-						{
-							"name": "Set variable1",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Parse files in datalake",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "last_modified",
-								"value": {
-									"value": "@convertTimeZone(formatDateTime(activity('Parse files in datalake').output.lastModified,'yyyy-MM-ddTHH:mm:ss.fffffffK'),'UTC','E. South America Standard Time')\n\n",
-									"type": "Expression"
-								}
-							}
 						}
 					]
 				}
