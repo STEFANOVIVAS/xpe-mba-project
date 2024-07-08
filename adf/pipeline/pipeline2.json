@@ -289,7 +289,7 @@
 							"typeProperties": {
 								"variableName": "timestamp",
 								"value": {
-									"value": "@item().update",
+									"value": "@split(item().update,' ')[0]",
 									"type": "Expression"
 								}
 							}
