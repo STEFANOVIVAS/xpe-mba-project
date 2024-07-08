@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy investment funds register",
+				"name": "Ingest investment funds register",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -91,7 +91,7 @@
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "Copy investment funds register",
+						"activity": "Ingest investment funds register",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -177,7 +177,7 @@
 				}
 			},
 			{
-				"name": "Copy investment funds actual quotes for every year",
+				"name": "Ingest investment funds actual quotes",
 				"type": "ForEach",
 				"dependsOn": [
 					{
