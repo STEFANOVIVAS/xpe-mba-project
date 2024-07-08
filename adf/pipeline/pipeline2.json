@@ -189,6 +189,15 @@
 										"typeProperties": {
 											"source": {
 												"type": "DelimitedTextSource",
+												"additionalColumns": [
+													{
+														"name": "timestamp",
+														"value": {
+															"value": "@variables('timestamp')",
+															"type": "Expression"
+														}
+													}
+												],
 												"storeSettings": {
 													"type": "AzureBlobFSReadSettings",
 													"recursive": true,
