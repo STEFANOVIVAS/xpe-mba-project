@@ -67,26 +67,6 @@
 				]
 			},
 			{
-				"name": "Generate list of HTTP files to download",
-				"type": "DatabricksNotebook",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"notebookPath": "/Users/tefinhovivas_hotmail.com#ext#@tefinhovivashotmail.onmicrosoft.com/Take file list"
-				},
-				"linkedServiceName": {
-					"referenceName": "ls_azure_databricks_actual_quotes_http",
-					"type": "LinkedServiceReference"
-				}
-			},
-			{
 				"name": "Transform cvm investiment funds register",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
