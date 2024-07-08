@@ -267,6 +267,23 @@
 									"type": "Expression"
 								}
 							}
+						},
+						{
+							"name": "Set file timestamp",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "timestamp",
+								"value": {
+									"value": "@item().update",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -283,6 +300,9 @@
 				"type": "String"
 			},
 			"file_name": {
+				"type": "String"
+			},
+			"timestamp": {
 				"type": "String"
 			}
 		},
