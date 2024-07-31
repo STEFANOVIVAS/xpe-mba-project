@@ -78,7 +78,8 @@
 								},
 								"fieldList": [
 									"exists",
-									"lastModified"
+									"lastModified",
+									"structure"
 								],
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
