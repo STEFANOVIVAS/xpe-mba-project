@@ -5,11 +5,20 @@
 		"factoryName": {
 			"value": "adf-investment-funds"
 		},
+		"AzureFunction_ls_functionKey": {
+			"value": ""
+		},
 		"ls_azure_databricks_actual_quotes_http_accessToken": {
 			"value": ""
 		},
 		"ls_cvm_if_adls_accountKey": {
 			"value": ""
+		},
+		"ls_sql_investiment_funds_db_connectionString": {
+			"value": ""
+		},
+		"AzureFunction_ls_properties_typeProperties_functionAppUrl": {
+			"value": "https://getsourcefilescvm.azurewebsites.net"
 		},
 		"ls_cvm_if_adls_properties_typeProperties_url": {
 			"value": "https://investimentfundsadls.dfs.core.windows.net/"

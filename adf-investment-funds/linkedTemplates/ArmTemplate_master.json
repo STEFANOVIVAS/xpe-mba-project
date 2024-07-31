@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-investment-funds"
 		},
+		"AzureFunction_ls_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'AzureFunction_ls'"
+		},
 		"ls_azure_databricks_actual_quotes_http_accessToken": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'ls_azure_databricks_actual_quotes_http'"
@@ -14,6 +18,14 @@
 		"ls_cvm_if_adls_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_cvm_if_adls'"
+		},
+		"ls_sql_investiment_funds_db_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_sql_investiment_funds_db'"
+		},
+		"AzureFunction_ls_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": "https://getsourcefilescvm.azurewebsites.net"
 		},
 		"ls_cvm_if_adls_properties_typeProperties_url": {
 			"type": "string",
@@ -54,11 +66,20 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AzureFunction_ls_functionKey": {
+						"value": "[parameters('AzureFunction_ls_functionKey')]"
+					},
 					"ls_azure_databricks_actual_quotes_http_accessToken": {
 						"value": "[parameters('ls_azure_databricks_actual_quotes_http_accessToken')]"
 					},
 					"ls_cvm_if_adls_accountKey": {
 						"value": "[parameters('ls_cvm_if_adls_accountKey')]"
+					},
+					"ls_sql_investiment_funds_db_connectionString": {
+						"value": "[parameters('ls_sql_investiment_funds_db_connectionString')]"
+					},
+					"AzureFunction_ls_properties_typeProperties_functionAppUrl": {
+						"value": "[parameters('AzureFunction_ls_properties_typeProperties_functionAppUrl')]"
 					},
 					"ls_cvm_if_adls_properties_typeProperties_url": {
 						"value": "[parameters('ls_cvm_if_adls_properties_typeProperties_url')]"
