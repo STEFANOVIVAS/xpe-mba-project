@@ -21,7 +21,7 @@
 							{
 								"name": "ingestion_timestamp",
 								"value": {
-									"value": "@utcnow()\n\n",
+									"value": "@convertFromUtc(utcnow(),'UTC','E. South America Standard Time')",
 									"type": "Expression"
 								}
 							}
