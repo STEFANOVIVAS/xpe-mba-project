@@ -109,7 +109,7 @@
 								},
 								"ifTrueActivities": [
 									{
-										"name": "Copy from http binary actual quotes_copy1_copy1",
+										"name": "Copy data from http binary actual quotes",
 										"type": "Copy",
 										"dependsOn": [],
 										"policy": {
@@ -168,11 +168,11 @@
 										]
 									},
 									{
-										"name": "Copy data from zipped binary to csv_copy1_copy1",
+										"name": "Copy data from zipped binary to csv",
 										"type": "Copy",
 										"dependsOn": [
 											{
-												"activity": "Copy from http binary actual quotes_copy1_copy1",
+												"activity": "Copy data from http binary actual quotes",
 												"dependencyConditions": [
 													"Succeeded"
 												]
