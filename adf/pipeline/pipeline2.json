@@ -34,7 +34,7 @@
 				}
 			},
 			{
-				"name": "Copy investment funds actual quotes for every year",
+				"name": "Copy investment funds actual quotes for every month",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -91,7 +91,7 @@
 							}
 						},
 						{
-							"name": "If update is greater then timesatmp",
+							"name": "If file exists or source date is greater then timestamp",
 							"type": "IfCondition",
 							"dependsOn": [
 								{
