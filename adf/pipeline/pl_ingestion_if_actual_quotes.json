@@ -1,5 +1,5 @@
 {
-	"name": "pipeline2",
+	"name": "pl_ingestion_if_actual_quotes",
 	"properties": {
 		"activities": [
 			{
