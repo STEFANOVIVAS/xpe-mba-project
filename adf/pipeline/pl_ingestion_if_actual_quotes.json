@@ -191,7 +191,7 @@
 												"type": "DelimitedTextSource",
 												"additionalColumns": [
 													{
-														"name": "timestamp",
+														"name": "ingestion_timestamp",
 														"value": {
 															"value": "@variables('timestamp')",
 															"type": "Expression"
