@@ -17,6 +17,15 @@
 				"typeProperties": {
 					"source": {
 						"type": "DelimitedTextSource",
+						"additionalColumns": [
+							{
+								"name": "ingestion_timestamp",
+								"value": {
+									"value": "convertTimeZone(utcnow(),'UTC','E. South America Standard Time')\n\n",
+									"type": "Expression"
+								}
+							}
+						],
 						"storeSettings": {
 							"type": "HttpReadSettings",
 							"requestMethod": "GET"
