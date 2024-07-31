@@ -373,23 +373,6 @@
 									}
 								]
 							}
-						},
-						{
-							"name": "File_name",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "file_name",
-								"value": {
-									"value": "@item().url",
-									"type": "Expression"
-								}
-							}
 						}
 					]
 				}
