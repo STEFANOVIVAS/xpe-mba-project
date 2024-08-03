@@ -308,10 +308,10 @@
 			"last_modified": {
 				"type": "String"
 			},
-			"file_name": {
+			"timestamp": {
 				"type": "String"
 			},
-			"timestamp": {
+			"file_name": {
 				"type": "String"
 			}
 		},
