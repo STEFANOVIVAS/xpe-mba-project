@@ -1,0 +1,9 @@
+{
+	"name": "pl_data_quality_if_quotes",
+	"properties": {
+		"folder": {
+			"name": "Data Quality"
+		},
+		"annotations": []
+	}
+}
