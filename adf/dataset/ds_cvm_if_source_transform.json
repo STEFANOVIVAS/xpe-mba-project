@@ -1,5 +1,5 @@
 {
-	"name": "ds_cvm_if_source_transform_data_quality",
+	"name": "ds_cvm_if_source_transform",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_cvm_if_adls",
