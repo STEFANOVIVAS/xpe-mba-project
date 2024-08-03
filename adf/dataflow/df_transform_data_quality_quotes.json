@@ -3,13 +3,27 @@
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_cvm_if_source_transform_data_quality",
+						"type": "DatasetReference"
+					},
+					"name": "Data_Source_from_raw_layer"
+				}
+			],
 			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
 				"parameters{",
 				"     file_name as string",
-				"}"
+				"}",
+				"source(output(",
+				"          {TP_FUNDO;CNPJ_FUNDO;DT_COMPTC;VL_TOTAL;VL_QUOTA;VL_PATRIM_LIQ;CAPTC_DIA;RESG_DIA;NR_COTST} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Data_Source_from_raw_layer"
 			]
 		}
 	}
