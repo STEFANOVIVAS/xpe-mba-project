@@ -15,7 +15,8 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "AlterColumnNames"
+					"name": "LowerColumnNames",
+					"description": "Lower case column names "
 				}
 			],
 			"scriptLines": [
@@ -39,7 +40,7 @@
 				"               lower($$) = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> AlterColumnNames"
+				"     skipDuplicateMapOutputs: true) ~> LowerColumnNames"
 			]
 		}
 	}
