@@ -98,11 +98,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"file_name": {
-				"type": "string"
-			}
-		},
 		"folder": {
 			"name": "Data Quality"
 		},
