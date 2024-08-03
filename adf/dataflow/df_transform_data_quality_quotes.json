@@ -6,10 +6,10 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_cvm_if_source_transform_data_quality",
+						"referenceName": "ds_cvm_if_source_transform",
 						"type": "DatasetReference"
 					},
-					"name": "Data_Source_from_raw_layer"
+					"name": "SourceDataFromRaw"
 				}
 			],
 			"sinks": [],
@@ -23,7 +23,7 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> Data_Source_from_raw_layer"
+				"     ignoreNoFilesFound: false) ~> SourceDataFromRaw"
 			]
 		}
 	}
