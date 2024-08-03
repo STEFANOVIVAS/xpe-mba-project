@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Parse files in datalake",
+				"name": "Parse files in raw container",
 				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
@@ -31,6 +31,25 @@
 					},
 					"formatSettings": {
 						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Parse files in raw container",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Parse files in raw container').output.childItems.name",
+						"type": "Expression"
 					}
 				}
 			}
