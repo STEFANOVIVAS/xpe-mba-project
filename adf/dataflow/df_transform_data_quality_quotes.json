@@ -13,7 +13,11 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "AlterColumnNames"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          TP_FUNDO as string,",
@@ -29,7 +33,13 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> SourceDataFromRaw"
+				"     ignoreNoFilesFound: false) ~> SourceDataFromRaw",
+				"SourceDataFromRaw select(mapColumn(",
+				"          each(match(true()),",
+				"               lower($$) = $$)",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> AlterColumnNames"
 			]
 		}
 	}
