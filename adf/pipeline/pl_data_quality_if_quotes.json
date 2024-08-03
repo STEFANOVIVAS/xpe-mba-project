@@ -48,12 +48,36 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Parse files in raw container').output.childItems.name",
+						"value": "@activity('Parse files in raw container').output.childItems",
 						"type": "Expression"
-					}
+					},
+					"activities": [
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "file_name",
+								"value": {
+									"value": "@item().name",
+									"type": "Expression"
+								}
+							}
+						}
+					]
 				}
 			}
 		],
+		"variables": {
+			"file_name": {
+				"type": "String"
+			}
+		},
 		"folder": {
 			"name": "Data Quality"
 		},
