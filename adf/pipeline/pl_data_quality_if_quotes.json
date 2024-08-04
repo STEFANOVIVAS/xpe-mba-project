@@ -1,9 +1,0 @@
-{
-	"name": "pl_data_quality_if_quotes",
-	"properties": {
-		"folder": {
-			"name": "Transform"
-		},
-		"annotations": []
-	}
-}
