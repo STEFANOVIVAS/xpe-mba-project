@@ -9,7 +9,14 @@
 						"referenceName": "ds_cvm_if_source_transform",
 						"type": "DatasetReference"
 					},
-					"name": "SourceDataFromRawLayer"
+					"name": "SourceQuotesFromRawLayer"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_cvm_funds_register_adls",
+						"type": "DatasetReference"
+					},
+					"name": "SourceRegisterRawLayer"
 				}
 			],
 			"sinks": [],
@@ -26,6 +33,9 @@
 				{
 					"name": "LowerColumnNames",
 					"description": "Lowering Column Names with columns 'TP_FUNDO, CNPJ_FUNDO, DT_COMPTC, VL_TOTAL, VL_QUOTA, VL_PATRIM_LIQ, CAPTC_DIA, RESG_DIA, NR_COTST, ingestion_timestamp'"
+				},
+				{
+					"name": "filter1"
 				}
 			],
 			"scriptLines": [
@@ -43,24 +53,71 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> SourceDataFromRawLayer",
-				"WindowFunctionsToFindDuplicates assert(expectTrue(!isNull(CNPJ_FUNDO), false, 'assertCNPJNotNull'),",
-				"     expectTrue(!isNull(DT_COMPTC), false, 'assertDtComptcNotNull'),",
-				"     expectTrue(VL_QUOTA>0, false, 'assertValorCotaMaiorZero'),",
+				"     ignoreNoFilesFound: false) ~> SourceQuotesFromRawLayer",
+				"source(output(",
+				"          TP_FUNDO as string,",
+				"          CNPJ_FUNDO as string,",
+				"          DENOM_SOCIAL as string,",
+				"          DT_REG as string,",
+				"          DT_CONST as string,",
+				"          CD_CVM as string,",
+				"          DT_CANCEL as string,",
+				"          SIT as string,",
+				"          DT_INI_SIT as string,",
+				"          DT_INI_ATIV as string,",
+				"          DT_INI_EXERC as string,",
+				"          DT_FIM_EXERC as string,",
+				"          CLASSE as string,",
+				"          DT_INI_CLASSE as string,",
+				"          RENTAB_FUNDO as string,",
+				"          CONDOM as string,",
+				"          FUNDO_COTAS as string,",
+				"          FUNDO_EXCLUSIVO as string,",
+				"          TRIB_LPRAZO as string,",
+				"          PUBLICO_ALVO as string,",
+				"          ENTID_INVEST as string,",
+				"          TAXA_PERFM as string,",
+				"          INF_TAXA_PERFM as string,",
+				"          TAXA_ADM as string,",
+				"          INF_TAXA_ADM as string,",
+				"          VL_PATRIM_LIQ as string,",
+				"          DT_PATRIM_LIQ as string,",
+				"          DIRETOR as string,",
+				"          CNPJ_ADMIN as string,",
+				"          ADMIN as string,",
+				"          PF_PJ_GESTOR as string,",
+				"          CPF_CNPJ_GESTOR as string,",
+				"          GESTOR as string,",
+				"          CNPJ_AUDITOR as string,",
+				"          AUDITOR as string,",
+				"          CNPJ_CUSTODIANTE as string,",
+				"          CUSTODIANTE as string,",
+				"          CNPJ_CONTROLADOR as string,",
+				"          CONTROLADOR as string,",
+				"          INVEST_CEMPR_EXTER as string,",
+				"          CLASSE_ANBIMA as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SourceRegisterRawLayer",
+				"WindowFunctionsToFindDuplicates, SourceRegisterRawLayer assert(expectTrue(!isNull(LowerColumnNames@cnpj_fundo), false, 'assertCNPJNotNull'),",
+				"     expectTrue(!isNull(dt_comptc), false, 'assertDtComptcNotNull'),",
+				"     expectTrue(vl_quota>0, false, 'assertValorCotaMaiorZero'),",
 				"     expectTrue(row_number==1, false, 'assertNotDuplicates'),",
-				"     expectTrue(ERROR_FUNCTION(''), false, 'assert5')) ~> DataQualityAsserts",
+				"     expectExists(LowerColumnNames@cnpj_fundo == SourceRegisterRawLayer@CNPJ_FUNDO, false, 'assertFundsExists')) ~> DataQualityAsserts",
 				"LowerColumnNames window(over(cnpj_fundo,",
 				"          dt_comptc),",
 				"     asc(dt_comptc, true),",
 				"     row_number = rowNumber()) ~> WindowFunctionsToFindDuplicates",
-				"DataQualityAsserts split(ERROR_FUNCTION(''),",
-				"     disjoint: false) ~> split1@(, )",
-				"SourceDataFromRawLayer select(mapColumn(",
+				"DataQualityAsserts split(isError(),",
+				"     disjoint: false) ~> split1@(AssertFail, AssertPassed)",
+				"SourceQuotesFromRawLayer select(mapColumn(",
 				"          each(match(true()),",
 				"               lower($$) = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> LowerColumnNames"
+				"     skipDuplicateMapOutputs: true) ~> LowerColumnNames",
+				"split1@AssertFail filter(ERROR_FUNCTION('')) ~> filter1"
 			]
 		}
 	}
