@@ -37,14 +37,15 @@
 					"description": "Aggregates data based on a window and joins with original data to find duplicate rows."
 				},
 				{
-					"name": "split1"
+					"name": "splitDataBasedOnAsserts"
 				},
 				{
 					"name": "LowerColumnNames",
 					"description": "Lowering Column Names"
 				},
 				{
-					"name": "SelectMainColumnsAfterdataQuality"
+					"name": "SelectMainColumnsAfterdataQuality",
+					"description": "Select only desired columns."
 				},
 				{
 					"name": "SelectMainColumnsFundsRegister",
@@ -126,16 +127,16 @@
 				"     asc(dt_comptc, true),",
 				"     row_number = rowNumber()) ~> WindowFunctionsToFindDuplicates",
 				"DataQualityAsserts split(!isError(),",
-				"     disjoint: false) ~> split1@(AssertPassedCondition, AssertFailCondition)",
+				"     disjoint: false) ~> splitDataBasedOnAsserts@(AssertPassedCondition, AssertFailCondition)",
 				"SourceQuotesFromRawLayer select(mapColumn(",
 				"          each(match(true()),",
 				"               lower($$) = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> LowerColumnNames",
-				"split1@AssertPassedCondition select(mapColumn(",
-				"          tp_fundo = split1@AssertPassedCondition@tp_fundo,",
-				"          cnpj_fundo = split1@AssertPassedCondition@cnpj_fundo,",
+				"splitDataBasedOnAsserts@AssertPassedCondition select(mapColumn(",
+				"          tp_fundo = splitDataBasedOnAsserts@AssertPassedCondition@tp_fundo,",
+				"          cnpj_fundo = splitDataBasedOnAsserts@AssertPassedCondition@cnpj_fundo,",
 				"          dt_comptc,",
 				"          vl_total,",
 				"          vl_quota,",
