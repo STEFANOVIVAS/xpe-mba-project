@@ -86,11 +86,7 @@
 													"requestMethod": "GET"
 												},
 												"formatSettings": {
-													"type": "BinaryReadSettings",
-													"compressionProperties": {
-														"type": "ZipDeflateReadSettings",
-														"preserveZipFileNameAsFolder": false
-													}
+													"type": "BinaryReadSettings"
 												}
 											},
 											"sink": {
@@ -101,6 +97,15 @@
 											},
 											"enableStaging": false
 										},
+										"inputs": [
+											{
+												"referenceName": "ds_cvm_historic_source_binary_http",
+												"type": "DatasetReference",
+												"parameters": {
+													"relativeURL": "@concat(item().url,'.zip')"
+												}
+											}
+										],
 										"outputs": [
 											{
 												"referenceName": "ds_cvm_if_links_binary_adls",
