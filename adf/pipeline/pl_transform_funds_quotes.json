@@ -15,6 +15,15 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"dataflow": {
+						"referenceName": "df_transform_quotes",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"SourceQuotesFromRawLayer": {
+								"fileName": "inf_diario_fi_202407.csv"
+							}
+						}
+					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
