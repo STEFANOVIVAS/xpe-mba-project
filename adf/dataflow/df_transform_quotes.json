@@ -44,6 +44,9 @@
 				{
 					"name": "SelectMainColumnsFundsRegister",
 					"description": "Select main coluns of investiment funds register"
+				},
+				{
+					"name": "InsertTransformDateColumn"
 				}
 			],
 			"scriptLines": [
@@ -156,7 +159,8 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SelectMainColumnsFundsRegister",
-				"SelectMainColumnsAfterdataQuality sink(allowSchemaDrift: true,",
+				"SelectMainColumnsAfterdataQuality derive(transform_timestamp = currentDate()) ~> InsertTransformDateColumn",
+				"InsertTransformDateColumn sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> sink1"
