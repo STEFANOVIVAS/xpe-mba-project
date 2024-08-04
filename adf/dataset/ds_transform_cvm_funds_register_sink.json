@@ -5,6 +5,9 @@
 			"referenceName": "ls_cvm_if_adls",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Transform"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
