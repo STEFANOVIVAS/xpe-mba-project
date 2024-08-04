@@ -18,6 +18,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().sinkFileName",
+					"type": "Expression"
+				},
 				"fileSystem": "presentation"
 			},
 			"columnDelimiter": ";",
