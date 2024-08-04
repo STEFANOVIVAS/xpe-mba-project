@@ -169,6 +169,7 @@
 				"SelectMainColumnsAfterdataQuality derive(transform_timestamp = currentDate()) ~> InsertTransformDateColumn",
 				"InsertTransformDateColumn sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     filePattern:'',",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
