@@ -39,7 +39,7 @@
 					"description": "Lowering Column Names"
 				},
 				{
-					"name": "select1"
+					"name": "SelectMainColumnsAfterdataQuality"
 				},
 				{
 					"name": "SelectMainColumnsFundsRegister",
@@ -126,11 +126,19 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> LowerColumnNames",
 				"split1@AssertPassedCondition select(mapColumn(",
-				"          each(match(/* All input columns */ true()),",
-				"               /* Input name */ $$ = $$)",
+				"          tp_fundo = split1@AssertPassedCondition@tp_fundo,",
+				"          cnpj_fundo = split1@AssertPassedCondition@cnpj_fundo,",
+				"          dt_comptc,",
+				"          vl_total,",
+				"          vl_quota,",
+				"          vl_patrim_liq,",
+				"          captc_dia,",
+				"          resg_dia,",
+				"          nr_cotst,",
+				"          ingestion_timestamp",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
+				"     skipDuplicateMapOutputs: true) ~> SelectMainColumnsAfterdataQuality",
 				"SourceRegisterRawLayer select(mapColumn(",
 				"          TP_FUNDO,",
 				"          CNPJ_FUNDO,",
@@ -148,7 +156,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SelectMainColumnsFundsRegister",
-				"select1 sink(allowSchemaDrift: true,",
+				"SelectMainColumnsAfterdataQuality sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> sink1"
