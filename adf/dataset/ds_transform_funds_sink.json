@@ -22,7 +22,8 @@
 					"value": "@dataset().sinkFileName",
 					"type": "Expression"
 				},
-				"fileSystem": "presentation"
+				"folderPath": "investiment-funds-quotes",
+				"fileSystem": "transform"
 			},
 			"columnDelimiter": ";",
 			"escapeChar": "\\",
