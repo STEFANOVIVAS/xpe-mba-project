@@ -17,7 +17,13 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "df_transform_quotes",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"parameters": {
+							"DataFlowFileName": {
+								"value": "'@{variables('fileName')}'",
+								"type": "Expression"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,
