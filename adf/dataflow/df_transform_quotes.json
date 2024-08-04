@@ -60,6 +60,9 @@
 				}
 			],
 			"scriptLines": [
+				"parameters{",
+				"     DataFlowFileName as string",
+				"}",
 				"source(output(",
 				"          TP_FUNDO as string,",
 				"          CNPJ_FUNDO as string,",
@@ -185,12 +188,13 @@
 				"     errors: true) ~> castColumnTypes",
 				"InsertTransformDateColumn sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     filePattern:'',",
+				"     partitionFileNames:[($DataFlowFileName)],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> SaveFilesInPresentationLayer"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> SaveFilesInPresentationLayer"
 			]
 		}
 	}
