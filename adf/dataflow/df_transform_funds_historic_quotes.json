@@ -14,6 +14,10 @@
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "ds_transform_funds_historic_sink",
+						"type": "DatasetReference"
+					},
 					"name": "FundsQuotesSink",
 					"rejectedDataLinkedService": {
 						"referenceName": "ls_cvm_if_adls",
@@ -56,10 +60,11 @@
 				"     skipDuplicateMapOutputs: true) ~> selectOnlyRequiredFields",
 				"selectOnlyRequiredFields sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
+				"     umask: 0022,",
 				"     preCommands: [],",
-				"     postCommands: []) ~> FundsQuotesSink"
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> FundsQuotesSink"
 			]
 		}
 	}
