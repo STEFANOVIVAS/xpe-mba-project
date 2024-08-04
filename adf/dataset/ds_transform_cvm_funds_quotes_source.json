@@ -1,5 +1,5 @@
 {
-	"name": "ds_source_raw_actual_funds_quotes_transform",
+	"name": "ds_transform_cvm_funds_quotes_source",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_cvm_if_adls",
