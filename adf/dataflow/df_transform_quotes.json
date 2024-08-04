@@ -19,7 +19,11 @@
 					"name": "SourceRegisterRawLayer"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "DataQualityAsserts"
@@ -32,10 +36,14 @@
 				},
 				{
 					"name": "LowerColumnNames",
-					"description": "Lowering Column Names with columns 'TP_FUNDO, CNPJ_FUNDO, DT_COMPTC, VL_TOTAL, VL_QUOTA, VL_PATRIM_LIQ, CAPTC_DIA, RESG_DIA, NR_COTST, ingestion_timestamp'"
+					"description": "Lowering Column Names"
 				},
 				{
-					"name": "filter1"
+					"name": "select1"
+				},
+				{
+					"name": "SelectMainColumnsFundsRegister",
+					"description": "Select main coluns of investiment funds register"
 				}
 			],
 			"scriptLines": [
@@ -100,24 +108,50 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> SourceRegisterRawLayer",
-				"WindowFunctionsToFindDuplicates, SourceRegisterRawLayer assert(expectTrue(!isNull(LowerColumnNames@cnpj_fundo), false, 'assertCNPJNotNull'),",
+				"WindowFunctionsToFindDuplicates, SelectMainColumnsFundsRegister assert(expectTrue(!isNull(LowerColumnNames@cnpj_fundo), false, 'assertCNPJNotNull'),",
 				"     expectTrue(!isNull(dt_comptc), false, 'assertDtComptcNotNull'),",
 				"     expectTrue(vl_quota>0, false, 'assertValorCotaMaiorZero'),",
 				"     expectTrue(row_number==1, false, 'assertNotDuplicates'),",
-				"     expectExists(LowerColumnNames@cnpj_fundo == SourceRegisterRawLayer@CNPJ_FUNDO, false, 'assertFundsExists')) ~> DataQualityAsserts",
+				"     expectExists(LowerColumnNames@cnpj_fundo == SelectMainColumnsFundsRegister@CNPJ_FUNDO, false, 'assertFundsExists')) ~> DataQualityAsserts",
 				"LowerColumnNames window(over(cnpj_fundo,",
 				"          dt_comptc),",
 				"     asc(dt_comptc, true),",
 				"     row_number = rowNumber()) ~> WindowFunctionsToFindDuplicates",
-				"DataQualityAsserts split(isError(),",
-				"     disjoint: false) ~> split1@(AssertFail, AssertPassed)",
+				"DataQualityAsserts split(!isError(),",
+				"     disjoint: false) ~> split1@(AssertPassedCondition, AssertFailCondition)",
 				"SourceQuotesFromRawLayer select(mapColumn(",
 				"          each(match(true()),",
 				"               lower($$) = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> LowerColumnNames",
-				"split1@AssertFail filter(ERROR_FUNCTION('')) ~> filter1"
+				"split1@AssertPassedCondition select(mapColumn(",
+				"          each(match(/* All input columns */ true()),",
+				"               /* Input name */ $$ = $$)",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"SourceRegisterRawLayer select(mapColumn(",
+				"          TP_FUNDO,",
+				"          CNPJ_FUNDO,",
+				"          DENOM_SOCIAL,",
+				"          DT_REG,",
+				"          DT_CONST,",
+				"          CD_CVM,",
+				"          DT_CANCEL,",
+				"          SIT,",
+				"          DT_INI_SIT,",
+				"          DT_INI_ATIV,",
+				"          DT_INI_EXERC,",
+				"          DT_FIM_EXERC,",
+				"          CLASSE",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectMainColumnsFundsRegister",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
