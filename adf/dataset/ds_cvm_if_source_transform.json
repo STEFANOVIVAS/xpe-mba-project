@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "inf_diario_fi_202408.csv",
+				"fileName": "inf_diario_fi_202407.csv",
 				"folderPath": "investment-funds-quotes",
 				"fileSystem": "raw"
 			},
