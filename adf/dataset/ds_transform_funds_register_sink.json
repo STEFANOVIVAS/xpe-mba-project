@@ -1,5 +1,5 @@
 {
-	"name": "ds_transform_cvm_funds_register_sink",
+	"name": "ds_transform_funds_register_sink",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_cvm_if_adls",

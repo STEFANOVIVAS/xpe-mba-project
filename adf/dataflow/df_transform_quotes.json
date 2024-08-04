@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_transform_cvm_funds_source",
+						"referenceName": "ds_transform_funds_source",
 						"type": "DatasetReference"
 					},
 					"name": "SourceQuotesFromRawLayer"
@@ -22,7 +22,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ds_transform_cvm_funds_sink",
+						"referenceName": "ds_transform_funds_sink",
 						"type": "DatasetReference"
 					},
 					"name": "SaveFilesInPresentationLayer"

@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_transform_cvm_funds_register_source",
+						"referenceName": "ds_transform_funds_register_source",
 						"type": "DatasetReference"
 					},
 					"name": "FundsRegisterSource"
@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ds_transform_cvm_funds_register_sink",
+						"referenceName": "ds_transform_funds_register_sink",
 						"type": "DatasetReference"
 					},
 					"name": "sink1",

@@ -362,7 +362,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_transform_cvm_funds_register_sink",
+						"referenceName": "ds_transform_funds_register_sink",
 						"type": "DatasetReference"
 					}
 				],
