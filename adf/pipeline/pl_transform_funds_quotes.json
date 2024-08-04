@@ -17,15 +17,7 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "df_transform_quotes",
-						"type": "DataFlowReference",
-						"datasetParameters": {
-							"SourceQuotesFromRawLayer": {
-								"sourceFileName": "inf_diario_fi_202407.csv"
-							},
-							"SaveFilesInPresentationLayer": {
-								"sinkFileName": "inf_diario_fi_202407.csv"
-							}
-						}
+						"type": "DataFlowReference"
 					},
 					"compute": {
 						"coreCount": 8,
@@ -33,8 +25,30 @@
 					},
 					"traceLevel": "Fine"
 				}
+			},
+			{
+				"name": "Set file name",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "fileName",
+					"value": {
+						"value": "inf_diario_fi_202407.csv",
+						"type": "Expression"
+					}
+				}
 			}
 		],
+		"variables": {
+			"fileName": {
+				"type": "String"
+			}
+		},
 		"folder": {
 			"name": "Transform"
 		},
