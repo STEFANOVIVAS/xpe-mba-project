@@ -33,7 +33,8 @@
 					"name": "DataQualityAsserts"
 				},
 				{
-					"name": "WindowFunctionsToFindDuplicates"
+					"name": "WindowFunctionsToFindDuplicates",
+					"description": "Aggregates data based on a window and joins with original data to find duplicate rows."
 				},
 				{
 					"name": "split1"
