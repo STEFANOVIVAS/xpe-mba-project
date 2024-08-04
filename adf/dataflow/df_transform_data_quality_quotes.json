@@ -23,6 +23,9 @@
 				},
 				{
 					"name": "WindowFunctionsToFindDuplicates"
+				},
+				{
+					"name": "split1"
 				}
 			],
 			"scriptLines": [
@@ -47,14 +50,16 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> LowerColumnNames",
-				"WindowFunctionsToFindDuplicates assert(expectTrue(!isNull(cnpj_fundo), false, 'assertCNPJNotNull'),",
+				"split1 assert(expectTrue(!isNull(cnpj_fundo), false, 'assertCNPJNotNull'),",
 				"     expectTrue(!isNull(dt_comptc), false, 'assertDtComptcNotNull'),",
 				"     expectTrue(vl_quota>0, false, 'assertValorCotaMaiorZero'),",
 				"     expectUnique(cnpj_fundo && dt_comptc, false, 'assert4')) ~> assert1",
 				"LowerColumnNames window(over(cnpj_fundo,",
 				"          dt_comptc),",
 				"     asc(dt_comptc, true),",
-				"     row_number = rowNumber()) ~> WindowFunctionsToFindDuplicates"
+				"     row_number = rowNumber()) ~> WindowFunctionsToFindDuplicates",
+				"WindowFunctionsToFindDuplicates split(ERROR_FUNCTION(''),",
+				"     disjoint: false) ~> split1@(, )"
 			]
 		}
 	}
