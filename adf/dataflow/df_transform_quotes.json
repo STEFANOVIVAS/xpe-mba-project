@@ -52,7 +52,8 @@
 					"description": "Select main coluns of investiment funds register"
 				},
 				{
-					"name": "InsertTransformDateColumn"
+					"name": "InsertTransformDateColumn",
+					"description": "Inserting transform timestamp column"
 				}
 			],
 			"scriptLines": [
