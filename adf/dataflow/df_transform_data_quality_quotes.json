@@ -53,7 +53,8 @@
 				"     expectUnique(cnpj_fundo && dt_comptc, false, 'assert4')) ~> assert1",
 				"LowerColumnNames window(over(cnpj_fundo,",
 				"          dt_comptc),",
-				"     row_number = rank()) ~> window1"
+				"     asc(dt_comptc, true),",
+				"     row_number = rowNumber()) ~> window1"
 			]
 		}
 	}
