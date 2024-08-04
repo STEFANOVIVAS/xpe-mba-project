@@ -22,7 +22,7 @@
 					"name": "assert1"
 				},
 				{
-					"name": "window1"
+					"name": "WindowFunctionsToFindDuplicates"
 				}
 			],
 			"scriptLines": [
@@ -47,14 +47,14 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> LowerColumnNames",
-				"window1 assert(expectTrue(!isNull(cnpj_fundo), false, 'assertCNPJNotNull'),",
+				"WindowFunctionsToFindDuplicates assert(expectTrue(!isNull(cnpj_fundo), false, 'assertCNPJNotNull'),",
 				"     expectTrue(!isNull(dt_comptc), false, 'assertDtComptcNotNull'),",
 				"     expectTrue(vl_quota>0, false, 'assertValorCotaMaiorZero'),",
 				"     expectUnique(cnpj_fundo && dt_comptc, false, 'assert4')) ~> assert1",
 				"LowerColumnNames window(over(cnpj_fundo,",
 				"          dt_comptc),",
 				"     asc(dt_comptc, true),",
-				"     row_number = rowNumber()) ~> window1"
+				"     row_number = rowNumber()) ~> WindowFunctionsToFindDuplicates"
 			]
 		}
 	}
