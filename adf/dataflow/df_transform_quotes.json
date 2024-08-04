@@ -54,6 +54,9 @@
 				{
 					"name": "InsertTransformDateColumn",
 					"description": "Inserting transform timestamp column"
+				},
+				{
+					"name": "castColumnTypes"
 				}
 			],
 			"scriptLines": [
@@ -132,7 +135,7 @@
 				"     row_number = rowNumber()) ~> WindowFunctionsToFindDuplicates",
 				"DataQualityAsserts split(!isError(),",
 				"     disjoint: false) ~> splitDataBasedOnAsserts@(AssertPassedCondition, AssertFailCondition)",
-				"SourceQuotesFromRawLayer select(mapColumn(",
+				"castColumnTypes select(mapColumn(",
 				"          each(match(true()),",
 				"               lower($$) = $$)",
 				"     ),",
@@ -170,6 +173,19 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SelectMainColumnsFundsRegister",
 				"SelectMainColumnsAfterdataQuality derive(transform_timestamp = currentDate()) ~> InsertTransformDateColumn",
+				"SourceQuotesFromRawLayer cast(output(",
+				"          TP_FUNDO as string,",
+				"          CNPJ_FUNDO as string,",
+				"          DT_COMPTC as date,",
+				"          VL_TOTAL as double,",
+				"          VL_QUOTA as double,",
+				"          VL_PATRIM_LIQ as double,",
+				"          CAPTC_DIA as double,",
+				"          RESG_DIA as double,",
+				"          NR_COTST as integer,",
+				"          ingestion_timestamp as date",
+				"     ),",
+				"     errors: true) ~> castColumnTypes",
 				"InsertTransformDateColumn sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     filePattern:'',",
