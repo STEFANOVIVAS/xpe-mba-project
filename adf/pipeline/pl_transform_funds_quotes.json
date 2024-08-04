@@ -20,7 +20,7 @@
 						"type": "DataFlowReference",
 						"datasetParameters": {
 							"SourceQuotesFromRawLayer": {
-								"fileName": "inf_diario_fi_202407.csv"
+								"sourceFileName": "inf_diario_fi_202407.csv"
 							}
 						}
 					},
