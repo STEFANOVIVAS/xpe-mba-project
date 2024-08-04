@@ -21,6 +21,9 @@
 						"datasetParameters": {
 							"SourceQuotesFromRawLayer": {
 								"sourceFileName": "inf_diario_fi_202407.csv"
+							},
+							"SaveFilesInPresentationLayer": {
+								"sinkFileName": "inf_diario_fi_202407.csv"
 							}
 						}
 					},
