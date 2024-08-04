@@ -9,7 +9,7 @@
 						"referenceName": "ds_cvm_if_source_transform",
 						"type": "DatasetReference"
 					},
-					"name": "SourceDataFromRaw"
+					"name": "SourceDataFromRawLayer"
 				}
 			],
 			"sinks": [],
@@ -17,6 +17,12 @@
 				{
 					"name": "LowerColumnNames",
 					"description": "Lower case column names "
+				},
+				{
+					"name": "assert1"
+				},
+				{
+					"name": "window1"
 				}
 			],
 			"scriptLines": [
@@ -34,13 +40,20 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> SourceDataFromRaw",
-				"SourceDataFromRaw select(mapColumn(",
+				"     ignoreNoFilesFound: false) ~> SourceDataFromRawLayer",
+				"SourceDataFromRawLayer select(mapColumn(",
 				"          each(match(true()),",
 				"               lower($$) = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> LowerColumnNames"
+				"     skipDuplicateMapOutputs: true) ~> LowerColumnNames",
+				"window1 assert(expectTrue(!isNull(cnpj_fundo), false, 'assertCNPJNotNull'),",
+				"     expectTrue(!isNull(dt_comptc), false, 'assertDtComptcNotNull'),",
+				"     expectTrue(vl_quota>0, false, 'assertValorCotaMaiorZero'),",
+				"     expectUnique(cnpj_fundo && dt_comptc, false, 'assert4')) ~> assert1",
+				"LowerColumnNames window(over(cnpj_fundo,",
+				"          dt_comptc),",
+				"     row_number = rank()) ~> window1"
 			]
 		}
 	}
