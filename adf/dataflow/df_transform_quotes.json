@@ -15,17 +15,17 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "LowerColumnNames",
-					"description": "Lower case column names "
-				},
-				{
-					"name": "assert1"
+					"name": "DataQualityAsserts"
 				},
 				{
 					"name": "WindowFunctionsToFindDuplicates"
 				},
 				{
-					"name": "DeduplicatedRows"
+					"name": "split1"
+				},
+				{
+					"name": "LowerColumnNames",
+					"description": "Lowering Column Names with columns 'TP_FUNDO, CNPJ_FUNDO, DT_COMPTC, VL_TOTAL, VL_QUOTA, VL_PATRIM_LIQ, CAPTC_DIA, RESG_DIA, NR_COTST, ingestion_timestamp'"
 				}
 			],
 			"scriptLines": [
@@ -44,21 +44,23 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> SourceDataFromRawLayer",
+				"WindowFunctionsToFindDuplicates assert(expectTrue(!isNull(CNPJ_FUNDO), false, 'assertCNPJNotNull'),",
+				"     expectTrue(!isNull(DT_COMPTC), false, 'assertDtComptcNotNull'),",
+				"     expectTrue(VL_QUOTA>0, false, 'assertValorCotaMaiorZero'),",
+				"     expectTrue(row_number==1, false, 'assertNotDuplicates'),",
+				"     expectTrue(ERROR_FUNCTION(''), false, 'assert5')) ~> DataQualityAsserts",
+				"LowerColumnNames window(over(cnpj_fundo,",
+				"          dt_comptc),",
+				"     asc(dt_comptc, true),",
+				"     row_number = rowNumber()) ~> WindowFunctionsToFindDuplicates",
+				"DataQualityAsserts split(ERROR_FUNCTION(''),",
+				"     disjoint: false) ~> split1@(, )",
 				"SourceDataFromRawLayer select(mapColumn(",
 				"          each(match(true()),",
 				"               lower($$) = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> LowerColumnNames",
-				"DeduplicatedRows assert(expectTrue(!isNull(cnpj_fundo), false, 'assertCNPJNotNull'),",
-				"     expectTrue(!isNull(dt_comptc), false, 'assertDtComptcNotNull'),",
-				"     expectTrue(vl_quota>0, false, 'assertValorCotaMaiorZero'),",
-				"     expectUnique(cnpj_fundo && dt_comptc, false, 'assert4')) ~> assert1",
-				"LowerColumnNames window(over(cnpj_fundo,",
-				"          dt_comptc),",
-				"     asc(dt_comptc, true),",
-				"     row_number = rowNumber()) ~> WindowFunctionsToFindDuplicates",
-				"WindowFunctionsToFindDuplicates filter(row_number==1) ~> DeduplicatedRows"
+				"     skipDuplicateMapOutputs: true) ~> LowerColumnNames"
 			]
 		}
 	}
