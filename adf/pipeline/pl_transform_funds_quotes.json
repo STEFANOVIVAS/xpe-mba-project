@@ -1,0 +1,9 @@
+{
+	"name": "pl_transform_funds_quotes",
+	"properties": {
+		"folder": {
+			"name": "Transform"
+		},
+		"annotations": []
+	}
+}
