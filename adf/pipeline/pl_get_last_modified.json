@@ -96,14 +96,39 @@
 									]
 								}
 							],
-							"userProperties": []
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greater(activity('GetFileMetadata').output.lastModified, variables('latestModifiedDate'))",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "SetLatestModifiedDate",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "latestModifiedDate",
+											"value": {
+												"value": "@activity('GetFileMetadata').output.lastModified",
+												"type": "Expression"
+											}
+										}
+									}
+								]
+							}
 						}
 					]
 				}
 			}
 		],
 		"variables": {
-			"latestModifiedDate ": {
+			"latestModifiedDate": {
 				"type": "String"
 			}
 		},
