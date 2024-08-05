@@ -29,6 +29,10 @@
 								]
 							}
 						]
+					},
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://management.azure.com"
 					}
 				}
 			}
