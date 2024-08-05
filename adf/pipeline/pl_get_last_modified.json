@@ -102,6 +102,11 @@
 				}
 			}
 		],
+		"variables": {
+			"latestModifiedDate ": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
