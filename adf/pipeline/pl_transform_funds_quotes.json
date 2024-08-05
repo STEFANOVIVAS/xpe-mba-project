@@ -39,23 +39,6 @@
 					},
 					"traceLevel": "Fine"
 				}
-			},
-			{
-				"name": "Set file name",
-				"type": "SetVariable",
-				"dependsOn": [],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "fileName",
-					"value": {
-						"value": "inf_diario_fi_202407.csv",
-						"type": "Expression"
-					}
-				}
 			}
 		],
 		"variables": {
