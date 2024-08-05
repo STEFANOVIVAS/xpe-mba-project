@@ -31,8 +31,12 @@
 						]
 					},
 					"authentication": {
-						"type": "MSI",
-						"resource": "https://management.azure.com"
+						"resource": "https://management.azure.com",
+						"credential": {
+							"referenceName": "adf-user-credential",
+							"type": "CredentialReference"
+						},
+						"type": "UserAssignedManagedIdentity"
 					}
 				}
 			}
