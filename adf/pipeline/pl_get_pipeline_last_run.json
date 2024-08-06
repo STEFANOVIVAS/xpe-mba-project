@@ -23,8 +23,7 @@
 						"credential": {
 							"referenceName": "adf-user-credential",
 							"type": "CredentialReference"
-						},
-						"type": "UserAssignedManagedIdentity"
+						}
 					}
 				}
 			}
