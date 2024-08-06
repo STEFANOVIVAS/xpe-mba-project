@@ -19,18 +19,7 @@
 					"url": "https://management.azure.com/subscriptions/ 4d2b06c4-43c3-4174-ae4f-7cd2d52bdae2/resourceGroups/investment-funds/providers/Microsoft.DataFactory/factories/adf-investment-funds/queryPipelineRuns?api-version=2018-06-01",
 					"body": "{\"lastUpdatedAfter\":\"2022-06-16T00:36:44.3345758Z\",\"lastUpdatedBefore\":\"2024-08-16T00:49:48.3686473Z\",\"filters\":[{\"operand\":\"PipelineName\",\"operator\":\"Equals\",\"values\":\"pl_transform_funds_quotes\"]}]}",
 					"authentication": {
-						"type": "ServicePrincipal",
-						"userTenant": "4415efc0-fc02-4494-a228-5f6d13544717",
-						"username": "c10e90ad-ec52-4f19-b939-edbc0ff42707",
 						"resource": "https://management.azure.com/",
-						"password": {
-							"type": "AzureKeyVaultSecret",
-							"store": {
-								"referenceName": "AzureKeyVault",
-								"type": "LinkedServiceReference"
-							},
-							"secretName": "adf-app-secret-bf701622-c313-459e-b99d-04b194f38048"
-						},
 						"credential": {
 							"referenceName": "adf-user-credential",
 							"type": "CredentialReference"
