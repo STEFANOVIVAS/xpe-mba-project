@@ -31,12 +31,10 @@
 						]
 					},
 					"authentication": {
-						"resource": "https://management.azure.com/",
-						"credential": {
-							"referenceName": "credential1",
-							"type": "CredentialReference"
-						},
-						"type": "UserAssignedManagedIdentity"
+						"type": "ServicePrincipal",
+						"userTenant": "4415efc0-fc02-4494-a228-5f6d13544717",
+						"username": "c10e90ad-ec52-4f19-b939-edbc0ff42707",
+						"resource": "https://vault.azure.net/"
 					}
 				}
 			}
