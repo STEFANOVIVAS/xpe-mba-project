@@ -31,7 +31,12 @@
 						]
 					},
 					"authentication": {
-						"resource": "https://management.azure.com/"
+						"resource": "https://management.azure.com/",
+						"credential": {
+							"referenceName": "credential1",
+							"type": "CredentialReference"
+						},
+						"type": "UserAssignedManagedIdentity"
 					}
 				}
 			}
