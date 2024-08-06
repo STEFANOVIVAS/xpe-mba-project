@@ -31,12 +31,7 @@
 						]
 					},
 					"authentication": {
-						"resource": "https://management.azure.com/",
-						"credential": {
-							"referenceName": "adf-user-credential",
-							"type": "CredentialReference"
-						},
-						"type": "UserAssignedManagedIdentity"
+						"resource": "https://management.azure.com/"
 					}
 				}
 			}
