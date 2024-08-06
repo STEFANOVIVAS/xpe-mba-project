@@ -717,6 +717,58 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pl_get_pipeline_last_run')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Web1",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "POST",
+							"headers": {},
+							"url": "https://management.azure.com/subscriptions/ 4d2b06c4-43c3-4174-ae4f-7cd2d52bdae2/resourceGroups/investment-funds/providers/Microsoft.DataFactory/factories/adf-investment-funds/queryPipelineRuns?api-version=2018-06-01",
+							"body": {
+								"lastUpdatedAfter": "2022-06-16T00:36:44.3345758Z",
+								"lastUpdatedBefore": "2024-08-02T00:49:48.3686473Z",
+								"filters": [
+									{
+										"operand": "PipelineName",
+										"operator": "Equals",
+										"values": [
+											"pl_transform_funds_quotes"
+										]
+									}
+								]
+							},
+							"authentication": {
+								"resource": "https://management.azure.com/",
+								"credential": {
+									"referenceName": "adf-user-credential",
+									"type": "CredentialReference"
+								}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pl_ingestion_if_actual_quotes')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1141,6 +1193,70 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pl_transform_funds_quotes')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_transform_quotes",
+								"type": "DataFlowReference",
+								"parameters": {
+									"DataFlowFileName": {
+										"value": "'@{variables('fileName')}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"SourceQuotesFromRawLayer": {
+										"sourceFileName": "inf_diario_fi_202407.csv"
+									},
+									"SourceRegisterRawLayer": {},
+									"SaveFilesInPresentationLayer": {
+										"sinkFileName": "inf_diario_fi_202407.csv"
+									}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"fileName": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "Transform"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/df_transform_quotes')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/test_transform_register')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1184,396 +1300,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/df_transform_funds_register')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/teste_register_dw')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"wildcardFileName": "*.csv",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "TRUNCATE TABLE \n[investiment_funds].[funds_registration]",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "tipo_fundo",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "tipo_fundo",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "cnpj_fundo",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "cnpj_fundo",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "denom_social",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "denom_social",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "data_registro",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "data_registro",
-											"type": "DateTime",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "data_constituicao",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "data_constituicao",
-											"type": "DateTime",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "cod_cvm",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "cod_cvm",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "data_cancel",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "data_cancel",
-											"type": "DateTime",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "situacao",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "situacao",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "data_inicio_sit",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "data_inicio_sit",
-											"type": "DateTime",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "data_inicio_ativ",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "data_inicio_ativ",
-											"type": "DateTime",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "data_inicio_exerc",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "data_inicio_exerc",
-											"type": "DateTime",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "data_fim_exerc",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "data_fim_exerc",
-											"type": "DateTime",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "classe",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "classe",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "data_inic_classe",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "data_inic_classe",
-											"type": "DateTime",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "rentab_fundo",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "rentab_fundo",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "tributacao_lp",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "tributacao_lp",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "publico_alvo",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "publico_alvo",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "taxa_perform",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "taxa_perform",
-											"type": "Double",
-											"physicalType": "float"
-										}
-									},
-									{
-										"source": {
-											"name": "taxa_adm",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "taxa_adm",
-											"type": "Double",
-											"physicalType": "float"
-										}
-									},
-									{
-										"source": {
-											"name": "valor_patrim_liq",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "valor_patrim_liq",
-											"type": "Decimal",
-											"physicalType": "decimal",
-											"scale": 2,
-											"precision": 14
-										}
-									},
-									{
-										"source": {
-											"name": "data_patrim_liq",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "data_patrim_liq",
-											"type": "DateTime",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "diretor",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "diretor",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "cnpj_admin",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "cnpj_admin",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "admin",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "adm",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "gestor",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "gestor",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "classe_anbima",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "classe_anbima",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_transform_funds_register_sink",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_sql_investiment_funds_register",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_transform_funds_register_sink')]",
-				"[concat(variables('factoryId'), '/datasets/ds_sql_investiment_funds_register')]"
 			]
 		},
 		{
@@ -1796,6 +1522,36 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_adls')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_cvm_historic_source_binary_http')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_cvm_if_http",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"relativeURL": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": {
+							"value": "@concat('HIST/',dataset().relativeURL)",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_http')]"
 			]
 		},
 		{
@@ -2195,6 +1951,81 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_get_last_modified_raw')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_cvm_if_adls",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "investment-funds-quotes",
+						"fileSystem": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "TP_FUNDO;CNPJ_FUNDO;DT_COMPTC;VL_TOTAL;VL_QUOTA;VL_PATRIM_LIQ;CAPTC_DIA;RESG_DIA;NR_COTST",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_adls')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_get_metadata_adls_raw')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_cvm_if_adls",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"raw_adls_file_name": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().raw_adls_file_name",
+							"type": "Expression"
+						},
+						"folderPath": "investment-funds-quotes",
+						"fileSystem": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "TP_FUNDO;CNPJ_FUNDO;DT_COMPTC;VL_TOTAL;VL_QUOTA;VL_PATRIM_LIQ;CAPTC_DIA;RESG_DIA;NR_COTST",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_adls')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_sql_investiment_funds_quotas')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2390,6 +2221,46 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ls_sql_investiment_funds_db')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_transform_funds_historic_sink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_cvm_if_adls",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"fileName": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Transform"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().fileName",
+							"type": "Expression"
+						},
+						"folderPath": "investiment-funds-historic-quotes",
+						"fileSystem": "transform"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_adls')]"
 			]
 		},
 		{
@@ -2630,6 +2501,11 @@
 					"referenceName": "ls_cvm_if_adls",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"sinkFileName": {
+						"type": "string"
+					}
+				},
 				"folder": {
 					"name": "Transform"
 				},
@@ -2638,7 +2514,12 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileSystem": "presentation"
+						"fileName": {
+							"value": "@dataset().sinkFileName",
+							"type": "Expression"
+						},
+						"folderPath": "investiment-funds-quotes",
+						"fileSystem": "transform"
 					},
 					"columnDelimiter": ";",
 					"escapeChar": "\\",
@@ -2660,6 +2541,11 @@
 					"referenceName": "ls_cvm_if_adls",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"sourceFileName": {
+						"type": "string"
+					}
+				},
 				"folder": {
 					"name": "Transform"
 				},
@@ -2668,7 +2554,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "inf_diario_fi_202407.csv",
+						"fileName": {
+							"value": "@dataset().sourceFileName",
+							"type": "Expression"
+						},
 						"folderPath": "investment-funds-quotes",
 						"fileSystem": "raw"
 					},
@@ -2902,8 +2791,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_cvm_raw_if_adls')]",
-				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_adls')]",
-				"[concat(variables('factoryId'), '/datasets/ds_transform_funds_historic_sink')]"
+				"[concat(variables('factoryId'), '/datasets/ds_transform_funds_historic_sink')]",
+				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_adls')]"
 			]
 		},
 		{
@@ -3070,38 +2959,47 @@
 							"name": "DataQualityAsserts"
 						},
 						{
-							"name": "WindowFunctionsToFindDuplicates"
+							"name": "WindowFunctionsToFindDuplicates",
+							"description": "Aggregates data based on a window and joins with original data to find duplicate rows."
 						},
 						{
-							"name": "split1"
+							"name": "splitDataBasedOnAsserts"
 						},
 						{
 							"name": "LowerColumnNames",
 							"description": "Lowering Column Names"
 						},
 						{
-							"name": "SelectMainColumnsAfterdataQuality"
+							"name": "SelectMainColumnsAfterdataQuality",
+							"description": "Select only desired columns."
 						},
 						{
 							"name": "SelectMainColumnsFundsRegister",
 							"description": "Select main coluns of investiment funds register"
 						},
 						{
-							"name": "InsertTransformDateColumn"
+							"name": "InsertTransformDateColumn",
+							"description": "Inserting transform timestamp column"
+						},
+						{
+							"name": "castColumnTypes"
 						}
 					],
 					"scriptLines": [
+						"parameters{",
+						"     DataFlowFileName as string",
+						"}",
 						"source(output(",
 						"          TP_FUNDO as string,",
 						"          CNPJ_FUNDO as string,",
-						"          DT_COMPTC as date,",
-						"          VL_TOTAL as double,",
-						"          VL_QUOTA as double,",
-						"          VL_PATRIM_LIQ as double,",
-						"          CAPTC_DIA as double,",
-						"          RESG_DIA as double,",
-						"          NR_COTST as integer,",
-						"          ingestion_timestamp as date",
+						"          DT_COMPTC as string,",
+						"          VL_TOTAL as string,",
+						"          VL_QUOTA as string,",
+						"          VL_PATRIM_LIQ as string,",
+						"          CAPTC_DIA as string,",
+						"          RESG_DIA as string,",
+						"          NR_COTST as string,",
+						"          ingestion_timestamp as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -3162,16 +3060,16 @@
 						"     asc(dt_comptc, true),",
 						"     row_number = rowNumber()) ~> WindowFunctionsToFindDuplicates",
 						"DataQualityAsserts split(!isError(),",
-						"     disjoint: false) ~> split1@(AssertPassedCondition, AssertFailCondition)",
-						"SourceQuotesFromRawLayer select(mapColumn(",
+						"     disjoint: false) ~> splitDataBasedOnAsserts@(AssertPassedCondition, AssertFailCondition)",
+						"castColumnTypes select(mapColumn(",
 						"          each(match(true()),",
 						"               lower($$) = $$)",
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> LowerColumnNames",
-						"split1@AssertPassedCondition select(mapColumn(",
-						"          tp_fundo = split1@AssertPassedCondition@tp_fundo,",
-						"          cnpj_fundo = split1@AssertPassedCondition@cnpj_fundo,",
+						"splitDataBasedOnAsserts@AssertPassedCondition select(mapColumn(",
+						"          tp_fundo,",
+						"          cnpj_fundo,",
 						"          dt_comptc,",
 						"          vl_total,",
 						"          vl_quota,",
@@ -3201,13 +3099,28 @@
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> SelectMainColumnsFundsRegister",
 						"SelectMainColumnsAfterdataQuality derive(transform_timestamp = currentDate()) ~> InsertTransformDateColumn",
+						"SourceQuotesFromRawLayer cast(output(",
+						"          TP_FUNDO as string,",
+						"          CNPJ_FUNDO as string,",
+						"          DT_COMPTC as date,",
+						"          VL_TOTAL as double,",
+						"          VL_QUOTA as double,",
+						"          VL_PATRIM_LIQ as double,",
+						"          CAPTC_DIA as double,",
+						"          RESG_DIA as double,",
+						"          NR_COTST as integer,",
+						"          ingestion_timestamp as date",
+						"     ),",
+						"     errors: true) ~> castColumnTypes",
 						"InsertTransformDateColumn sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     partitionFileNames:[($DataFlowFileName)],",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> SaveFilesInPresentationLayer"
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> SaveFilesInPresentationLayer"
 					]
 				}
 			},
@@ -3215,76 +3128,6 @@
 				"[concat(variables('factoryId'), '/datasets/ds_transform_funds_source')]",
 				"[concat(variables('factoryId'), '/datasets/ds_cvm_funds_register_adls')]",
 				"[concat(variables('factoryId'), '/datasets/ds_transform_funds_sink')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_cvm_historic_source_binary_http')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_cvm_if_http",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"relativeURL": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "Binary",
-				"typeProperties": {
-					"location": {
-						"type": "HttpServerLocation",
-						"relativeUrl": {
-							"value": "@concat('HIST/',dataset().relativeURL)",
-							"type": "Expression"
-						}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_http')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_transform_funds_historic_sink')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_cvm_if_adls",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"fileName": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "Transform"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": {
-							"value": "@dataset().fileName",
-							"type": "Expression"
-						},
-						"folderPath": "investiment-funds-historic-quotes",
-						"fileSystem": "transform"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_adls')]"
 			]
 		}
 	]

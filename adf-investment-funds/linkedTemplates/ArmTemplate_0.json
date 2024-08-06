@@ -45,6 +45,58 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/pl_get_pipeline_last_run')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Web1",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "POST",
+							"headers": {},
+							"url": "https://management.azure.com/subscriptions/ 4d2b06c4-43c3-4174-ae4f-7cd2d52bdae2/resourceGroups/investment-funds/providers/Microsoft.DataFactory/factories/adf-investment-funds/queryPipelineRuns?api-version=2018-06-01",
+							"body": {
+								"lastUpdatedAfter": "2022-06-16T00:36:44.3345758Z",
+								"lastUpdatedBefore": "2024-08-02T00:49:48.3686473Z",
+								"filters": [
+									{
+										"operand": "PipelineName",
+										"operator": "Equals",
+										"values": [
+											"pl_transform_funds_quotes"
+										]
+									}
+								]
+							},
+							"authentication": {
+								"resource": "https://management.azure.com/",
+								"credential": {
+									"referenceName": "adf-user-credential",
+									"type": "CredentialReference"
+								}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureFunction_ls')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -368,6 +420,36 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_adls')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_cvm_historic_source_binary_http')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_cvm_if_http",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"relativeURL": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": {
+							"value": "@concat('HIST/',dataset().relativeURL)",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_http')]"
 			]
 		},
 		{
@@ -699,139 +781,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_adls')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_cvm_raw_if_adls')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_cvm_if_adls",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"folderPath": "investment-funds-historic-quotes",
-						"fileSystem": "raw"
-					},
-					"columnDelimiter": ";",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "TP_FUNDO",
-						"type": "String"
-					},
-					{
-						"name": "CNPJ_FUNDO",
-						"type": "String"
-					},
-					{
-						"name": "DT_COMPTC",
-						"type": "String"
-					},
-					{
-						"name": "VL_TOTAL",
-						"type": "String"
-					},
-					{
-						"name": "VL_QUOTA",
-						"type": "String"
-					},
-					{
-						"name": "VL_PATRIM_LIQ",
-						"type": "String"
-					},
-					{
-						"name": "CAPTC_DIA",
-						"type": "String"
-					},
-					{
-						"name": "RESG_DIA",
-						"type": "String"
-					},
-					{
-						"name": "NR_COTST",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_adls')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_sql_investiment_funds_quotas')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_sql_investiment_funds_db",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "tipo_fundo",
-						"type": "varchar"
-					},
-					{
-						"name": "cnpj_fundo",
-						"type": "varchar"
-					},
-					{
-						"name": "data_competencia",
-						"type": "date"
-					},
-					{
-						"name": "valor_total",
-						"type": "decimal",
-						"precision": 14,
-						"scale": 2
-					},
-					{
-						"name": "valor_cota",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "valor_patrimonial_liq",
-						"type": "decimal",
-						"precision": 14,
-						"scale": 2
-					},
-					{
-						"name": "capacity_dia",
-						"type": "decimal",
-						"precision": 14,
-						"scale": 2
-					},
-					{
-						"name": "resgates_dia",
-						"type": "decimal",
-						"precision": 14,
-						"scale": 2
-					},
-					{
-						"name": "numero_cotistas",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"schema": "investiment_funds",
-					"table": "diary_quota"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_sql_investiment_funds_db')]"
 			]
 		}
 	]
