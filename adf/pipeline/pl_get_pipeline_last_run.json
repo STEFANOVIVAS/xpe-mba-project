@@ -18,15 +18,13 @@
 					"method": "POST",
 					"url": "https://management.azure.com/subscriptions/4d2b06c4-43c3-4174-ae4f-7cd2d52bdae2/resourceGroups/investment-funds/providers/Microsoft.DataFactory/factories/adf-investment-funds/queryPipelineRuns?api-version=2018-06-01",
 					"body": {
-						"lastUpdatedAfter": "2018-06-16T00:36:44.3345758Z",
-						"lastUpdatedBefore": "2024-08-06T00:49:48.3686473Z",
+						"lastUpdatedAfter": "2022-06-16T00:36:44.3345758Z",
+						"lastUpdatedBefore": "2024-08-16T00:49:48.3686473Z",
 						"filters": [
 							{
 								"operand": "PipelineName",
 								"operator": "Equals",
-								"values": [
-									"pl_ingestion_if_register"
-								]
+								"values": "pl_transform_funds_quotes"
 							}
 						]
 					},
