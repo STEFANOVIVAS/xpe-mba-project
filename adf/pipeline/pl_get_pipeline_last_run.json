@@ -25,7 +25,7 @@
 								"operand": "PipelineName",
 								"operator": "Equals",
 								"values": [
-									"pl_ingestion_if_register"
+									"pl_ingestion_if_actual_quotes"
 								]
 							}
 						]
