@@ -24,7 +24,9 @@
 							{
 								"operand": "PipelineName",
 								"operator": "Equals",
-								"values": "pl_transform_funds_quotes"
+								"values": [
+									"pl_transform_funds_quotes"
+								]
 							}
 						]
 					},
