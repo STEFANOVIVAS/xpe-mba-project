@@ -25,7 +25,7 @@
 								"operand": "PipelineName",
 								"operator": "Equals",
 								"values": [
-									"pl_transform_funds_quotes"
+									"pl_ingestion_if_register"
 								]
 							}
 						]
