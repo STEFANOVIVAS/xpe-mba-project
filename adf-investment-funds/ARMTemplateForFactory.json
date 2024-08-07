@@ -27,6 +27,10 @@
 			"type": "string",
 			"defaultValue": "https://getsourcefilescvm.azurewebsites.net"
 		},
+		"AzureKeyVault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://investimentFundsKV.vault.azure.net/"
+		},
 		"ls_cvm_if_adls_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://investimentfundsadls.dfs.core.windows.net/"
@@ -737,32 +741,32 @@
 						"typeProperties": {
 							"method": "POST",
 							"headers": {},
-							"url": "https://management.azure.com/subscriptions/ 4d2b06c4-43c3-4174-ae4f-7cd2d52bdae2/resourceGroups/investment-funds/providers/Microsoft.DataFactory/factories/adf-investment-funds/queryPipelineRuns?api-version=2018-06-01",
+							"url": "https://management.azure.com/subscriptions/4d2b06c4-43c3-4174-ae4f-7cd2d52bdae2/resourceGroups/investment-funds/providers/Microsoft.DataFactory/factories/adf-investment-funds/queryPipelineRuns?api-version=2018-06-01",
 							"body": {
-								"lastUpdatedAfter": "2022-06-16T00:36:44.3345758Z",
-								"lastUpdatedBefore": "2024-08-02T00:49:48.3686473Z",
 								"filters": [
 									{
 										"operand": "PipelineName",
 										"operator": "Equals",
 										"values": [
-											"pl_transform_funds_quotes"
+											"pl_ingestion_if_register"
 										]
 									}
 								]
 							},
 							"authentication": {
-								"resource": "https://management.azure.com/",
-								"credential": {
-									"referenceName": "adf-user-credential",
-									"type": "CredentialReference"
-								}
+								"type": "MSI",
+								"resource": "https://management.azure.com"
 							}
 						}
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"token": {
+						"type": "String"
+					}
 				},
 				"annotations": []
 			},
@@ -1182,9 +1186,6 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"folder": {
-					"name": "Ingestion"
-				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -1222,11 +1223,11 @@
 								},
 								"datasetParameters": {
 									"SourceQuotesFromRawLayer": {
-										"sourceFileName": "inf_diario_fi_202407.csv"
+										"sourceFileName": "inf_diario_fi_202406.csv"
 									},
 									"SourceRegisterRawLayer": {},
 									"SaveFilesInPresentationLayer": {
-										"sinkFileName": "inf_diario_fi_202407.csv"
+										"sinkFileName": "inf_diario_fi_202406.csv"
 									}
 								}
 							},
@@ -2627,6 +2628,19 @@
 						"type": "SecureString",
 						"value": "[parameters('AzureFunction_ls_functionKey')]"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureKeyVault')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('AzureKeyVault_properties_typeProperties_baseUrl')]"
 				}
 			},
 			"dependsOn": []

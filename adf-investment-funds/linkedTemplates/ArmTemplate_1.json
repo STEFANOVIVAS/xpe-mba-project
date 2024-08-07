@@ -13,6 +13,43 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_cvm_if_zip_adls')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_cvm_if_adls",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"fileName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().fileName",
+							"type": "Expression"
+						},
+						"folderPath": "staging",
+						"fileSystem": "binary"
+					},
+					"columnDelimiter": ";",
+					"compressionCodec": "ZipDeflate",
+					"compressionLevel": "Optimal",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_cvm_raw_if_adls')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -970,7 +1007,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_cvm_if_zip_adls')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pl_ingestion_if_actual_quotes')]",
@@ -1300,7 +1339,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_cvm_if_zip_adls')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pl_ingestion_if_register')]",
@@ -1379,9 +1420,6 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "Ingestion"
 				},
 				"annotations": []
 			},
@@ -2200,7 +2238,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/df_transform_funds_register')]"
+				"[concat(variables('factoryId'), '/dataflows/df_transform_funds_register')]",
+				"[concat(variables('factoryId'), '/datasets/ds_cvm_if_zip_adls')]"
 			]
 		},
 		{
@@ -2233,11 +2272,11 @@
 								},
 								"datasetParameters": {
 									"SourceQuotesFromRawLayer": {
-										"sourceFileName": "inf_diario_fi_202407.csv"
+										"sourceFileName": "inf_diario_fi_202406.csv"
 									},
 									"SourceRegisterRawLayer": {},
 									"SaveFilesInPresentationLayer": {
-										"sinkFileName": "inf_diario_fi_202407.csv"
+										"sinkFileName": "inf_diario_fi_202406.csv"
 									}
 								}
 							},

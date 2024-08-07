@@ -20,6 +20,9 @@
 		"AzureFunction_ls_properties_typeProperties_functionAppUrl": {
 			"value": "https://getsourcefilescvm.azurewebsites.net"
 		},
+		"AzureKeyVault_properties_typeProperties_baseUrl": {
+			"value": "https://investimentFundsKV.vault.azure.net/"
+		},
 		"ls_cvm_if_adls_properties_typeProperties_url": {
 			"value": "https://investimentfundsadls.dfs.core.windows.net/"
 		},
