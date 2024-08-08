@@ -215,7 +215,7 @@
 				"type": "Array"
 			},
 			"max_date": {
-				"type": "String"
+				"type": "Boolean"
 			}
 		},
 		"annotations": []
