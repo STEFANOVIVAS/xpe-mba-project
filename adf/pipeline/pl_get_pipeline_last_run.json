@@ -155,6 +155,26 @@
 									"type": "DelimitedTextReadSettings"
 								}
 							}
+						},
+						{
+							"name": "Append variable1",
+							"type": "AppendVariable",
+							"dependsOn": [
+								{
+									"activity": "Get Metadata2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "raw_container_last_modified",
+								"value": {
+									"value": "@activity('Get Metadata2').output",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
