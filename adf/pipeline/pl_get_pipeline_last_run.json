@@ -180,7 +180,7 @@
 				}
 			},
 			{
-				"name": "If Condition1",
+				"name": "If there are new files",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
@@ -204,17 +204,27 @@
 					},
 					"ifTrueActivities": [
 						{
-							"name": "There is new files to transform",
-							"type": "SetVariable",
+							"name": "df_transform_quotes",
+							"type": "ExecuteDataFlow",
 							"dependsOn": [],
 							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
 								"secureOutput": false,
 								"secureInput": false
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "new_files_to_transform",
-								"value": "@greater(last(variables('raw_container_last_modified')),variables('transform_quotes_pipeline_last_run'))"
+								"dataflow": {
+									"referenceName": "df_transform_quotes",
+									"type": "DataFlowReference"
+								},
+								"compute": {
+									"coreCount": 8,
+									"computeType": "General"
+								},
+								"traceLevel": "Fine"
 							}
 						}
 					]
