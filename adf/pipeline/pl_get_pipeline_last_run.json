@@ -171,7 +171,7 @@
 							"typeProperties": {
 								"variableName": "raw_container_last_modified",
 								"value": {
-									"value": "@activity('Get Metadata2').output",
+									"value": "@activity('Get Metadata2').output.lastModified",
 									"type": "Expression"
 								}
 							}
