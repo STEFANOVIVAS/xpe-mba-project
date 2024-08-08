@@ -55,7 +55,7 @@
 				"typeProperties": {
 					"variableName": "last_update",
 					"value": {
-						"value": "@activity('Web1').output.pipelineReturnValue.lastUpdated",
+						"value": "@activity('Web1').output.value.lastUpdated",
 						"type": "Expression"
 					}
 				}
