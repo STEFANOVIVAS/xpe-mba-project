@@ -105,8 +105,6 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Get Metadata1",
@@ -133,7 +131,13 @@
 							"typeProperties": {
 								"dataset": {
 									"referenceName": "ds_get_metadata_adls_raw",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"raw_adls_file_name": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
 								},
 								"fieldList": [],
 								"storeSettings": {
