@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Web1",
+				"name": "Take transform quotes pipeline last run",
 				"type": "WebActivity",
 				"dependsOn": [],
 				"policy": {
@@ -50,11 +50,11 @@
 				}
 			},
 			{
-				"name": "Take transform quotes pipeline last run",
+				"name": "Set last run date to variable",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
-						"activity": "Web1",
+						"activity": "Take transform quotes pipeline last run",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -190,7 +190,7 @@
 						]
 					},
 					{
-						"activity": "Take transform quotes pipeline last run",
+						"activity": "Set last run date to variable",
 						"dependencyConditions": [
 							"Succeeded"
 						]
