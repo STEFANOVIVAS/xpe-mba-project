@@ -180,30 +180,44 @@
 				}
 			},
 			{
-				"name": "Set variable2",
-				"type": "SetVariable",
+				"name": "If Condition1",
+				"type": "IfCondition",
 				"dependsOn": [
-					{
-						"activity": "Set variable1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
 					{
 						"activity": "ForEach1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "max_date",
-					"value": "@greater(last(variables('raw_container_last_modified')),variables('transform_quotes_pipeline_last_run'))"
+					"expression": {
+						"value": "@greater(last(variables('raw_container_last_modified')),variables('transform_quotes_pipeline_last_run'))",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "new-files_to_transform",
+								"value": "@greater(last(variables('raw_container_last_modified')),variables('transform_quotes_pipeline_last_run'))"
+							}
+						}
+					]
 				}
 			}
 		],
@@ -214,7 +228,7 @@
 			"raw_container_last_modified": {
 				"type": "Array"
 			},
-			"max_date": {
+			"new_files_to_transform": {
 				"type": "Boolean"
 			}
 		},
