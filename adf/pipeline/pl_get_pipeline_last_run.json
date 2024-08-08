@@ -199,7 +199,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@greater(variables('raw_container_last_modified').last(),variables('transform_quotes_pipeline_last_run'))",
+						"value": "@greater(last(variables('raw_container_last_modified')),variables('transform_quotes_pipeline_last_run'))",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [
@@ -215,7 +215,7 @@
 							"typeProperties": {
 								"variableName": "max_date",
 								"value": {
-									"value": "@variables('raw_container_last_modified').last()",
+									"value": "@last(variables('raw_container_last_modified'))",
 									"type": "Expression"
 								}
 							}
