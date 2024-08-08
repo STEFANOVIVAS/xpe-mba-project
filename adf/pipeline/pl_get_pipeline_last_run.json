@@ -50,7 +50,7 @@
 				}
 			},
 			{
-				"name": "Set variable1",
+				"name": "Take transform quotes pipeline last run",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
@@ -74,7 +74,7 @@
 				}
 			},
 			{
-				"name": "Get Metadata1",
+				"name": "Get files from raw container",
 				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
@@ -107,7 +107,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Get Metadata1",
+						"activity": "Get files from raw container",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -122,7 +122,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Get Metadata2",
+							"name": "Get last modifieid date from raw container",
 							"type": "GetMetadata",
 							"dependsOn": [],
 							"policy": {
@@ -161,7 +161,7 @@
 							"type": "AppendVariable",
 							"dependsOn": [
 								{
-									"activity": "Get Metadata2",
+									"activity": "Get last modifieid date from raw container",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -190,7 +190,7 @@
 						]
 					},
 					{
-						"activity": "Set variable1",
+						"activity": "Take transform quotes pipeline last run",
 						"dependencyConditions": [
 							"Succeeded"
 						]
