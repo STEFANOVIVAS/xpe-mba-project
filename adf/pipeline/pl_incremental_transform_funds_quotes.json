@@ -1,5 +1,5 @@
 {
-	"name": "pl_get_pipeline_last_run",
+	"name": "pl_incremental_transform_funds_quotes",
 	"properties": {
 		"activities": [
 			{
