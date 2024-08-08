@@ -163,6 +163,9 @@
 		"variables": {
 			"transform_quotes_pipeline_last_run": {
 				"type": "String"
+			},
+			"raw_container_last_modified": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
