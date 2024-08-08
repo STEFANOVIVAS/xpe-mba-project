@@ -27,6 +27,13 @@
 								"values": [
 									"pl_ingestion_if_register"
 								]
+							},
+							{
+								"operand": "Status",
+								"operator": "Equals",
+								"values": [
+									"Succeeded"
+								]
 							}
 						],
 						"orderBy": [
