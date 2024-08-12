@@ -176,6 +176,8 @@
 						{
 							"name": "If there are new files",
 							"type": "IfCondition",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Get last modified date from raw container",
