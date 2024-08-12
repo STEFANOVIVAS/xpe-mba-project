@@ -208,6 +208,8 @@
 						{
 							"name": "Lookup for actual CVM file links",
 							"type": "Lookup",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
@@ -239,6 +241,8 @@
 						{
 							"name": "Copy investment funds actual quotes for every month",
 							"type": "ForEach",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Lookup for actual CVM file links",
