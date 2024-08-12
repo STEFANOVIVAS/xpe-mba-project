@@ -112,7 +112,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greater(activity('Get last modified date from raw container').output.lastModified,convertTimeZone(formatDateTime(variables('transform_quotes_pipeline_last_run'),'yyyy-MM-ddTHH:mm:ss.fffffffK'),'UTC','E. South America Standard Time'))\n\n\n",
+									"value": "@greater(activity('Get last modified date from raw container').output.lastModified,convertTimeZone(formatDateTime(variables('transform_quotes_pipeline_last_run'),'yyyy-MM-ddTHH:mm:ss'),'UTC','E. South America Standard Time'))\n\n\n",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -235,7 +235,7 @@
 							"typeProperties": {
 								"variableName": "transform_quotes_pipeline_last_run",
 								"value": {
-									"value": "'2024-07-07 00:00:00.000'",
+									"value": "'2024-07-07 00:00:00'",
 									"type": "Expression"
 								}
 							}
