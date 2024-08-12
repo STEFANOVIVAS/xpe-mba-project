@@ -5,7 +5,14 @@
 			{
 				"name": "Lookup for actual CVM file links",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -39,12 +46,6 @@
 				"dependsOn": [
 					{
 						"activity": "Lookup for actual CVM file links",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "If Condition1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -85,10 +86,6 @@
 								"fieldList": [
 									"exists",
 									"lastModified",
-									{
-										"value": "@concat(item().url,'.csv')",
-										"type": "Expression"
-									},
 									"itemName"
 								],
 								"storeSettings": {
