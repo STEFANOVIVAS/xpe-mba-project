@@ -50,8 +50,8 @@
 				}
 			},
 			{
-				"name": "Set last pipeline run date to variable",
-				"type": "SetVariable",
+				"name": "If Condition1",
+				"type": "IfCondition",
 				"dependsOn": [
 					{
 						"activity": "Take transform quotes pipeline last run",
@@ -60,24 +60,56 @@
 						]
 					}
 				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "last_date",
-					"value": {
-						"value": "@bool(empty(activity('Take transform quotes pipeline last run').output.value.lastUpdated))",
+					"expression": {
+						"value": "@bool(empty(activity('Take transform quotes pipeline last run').output.value))",
 						"type": "Expression"
-					}
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Set last pipeline run date to variable_copy1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "last_date",
+								"value": {
+									"value": "@bool(empty(activity('Take transform quotes pipeline last run').output.value))",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Set last pipeline run date to variable",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "last_date",
+								"value": {
+									"value": "@bool(empty(activity('Take transform quotes pipeline last run').output.value))",
+									"type": "Expression"
+								}
+							}
+						}
+					]
 				}
 			}
 		],
 		"variables": {
 			"last_date": {
-				"type": "Boolean",
-				"defaultValue": "'1990-01-01'"
+				"type": "String"
 			}
 		},
 		"annotations": []
