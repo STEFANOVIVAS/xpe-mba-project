@@ -100,6 +100,25 @@
 									"type": "DelimitedTextReadSettings"
 								}
 							}
+						},
+						{
+							"name": "If Condition2",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "Get last modified date from raw container",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greater(activity('Get last modified date from raw container').output.lastModified,variables('transform_quotes_pipeline_last_run'))",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
