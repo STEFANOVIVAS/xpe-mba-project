@@ -66,9 +66,9 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "transform_quotes_pipeline_last_run",
+					"variableName": "last_date",
 					"value": {
-						"value": "@activity('Web1').output.value[0].lastUpdated",
+						"value": "@activity('Take transform quotes pipeline last run').output.value[0].lastUpdated",
 						"type": "Expression"
 					}
 				}
