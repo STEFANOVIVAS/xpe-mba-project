@@ -160,7 +160,8 @@
 									{
 										"value": "@concat(item().url,'.csv')",
 										"type": "Expression"
-									}
+									},
+									"itemName"
 								],
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
