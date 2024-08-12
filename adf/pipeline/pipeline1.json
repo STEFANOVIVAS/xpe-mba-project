@@ -127,7 +127,14 @@
 											"secureOutput": false,
 											"secureInput": false
 										},
-										"userProperties": []
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "file_name",
+											"value": {
+												"value": "@activity('Get last modified date from raw container').output.itemName",
+												"type": "Expression"
+											}
+										}
 									}
 								]
 							}
