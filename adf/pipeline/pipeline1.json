@@ -3,87 +3,9 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Take transform quotes pipeline last run",
-				"type": "WebActivity",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"method": "POST",
-					"url": "https://management.azure.com/subscriptions/4d2b06c4-43c3-4174-ae4f-7cd2d52bdae2/resourceGroups/investment-funds/providers/Microsoft.DataFactory/factories/adf-investment-funds/queryPipelineRuns?api-version=2018-06-01",
-					"body": {
-						"lastUpdatedAfter": "2022-06-16T00:36:44.3345758Z",
-						"lastUpdatedBefore": "2024-08-16T00:49:48.3686473Z",
-						"filters": [
-							{
-								"operand": "PipelineName",
-								"operator": "Equals",
-								"values": [
-									"pl_transform_funds_quotes"
-								]
-							},
-							{
-								"operand": "Status",
-								"operator": "Equals",
-								"values": [
-									"Succeeded"
-								]
-							}
-						],
-						"orderBy": [
-							{
-								"order": "DESC",
-								"orderBy": "RunEnd"
-							}
-						]
-					},
-					"authentication": {
-						"type": "MSI",
-						"resource": "https://management.azure.com"
-					}
-				}
-			},
-			{
-				"name": "Set last pipeline run date to variable",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Take transform quotes pipeline last run",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "transform_quotes_pipeline_last_run",
-					"value": {
-						"value": "@activity('Web1').output.value[0].lastUpdated",
-						"type": "Expression"
-					}
-				}
-			},
-			{
 				"name": "Lookup for actual CVM file links",
 				"type": "Lookup",
-				"dependsOn": [
-					{
-						"activity": "Set last pipeline run date to variable",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -117,6 +39,12 @@
 				"dependsOn": [
 					{
 						"activity": "Lookup for actual CVM file links",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "If Condition1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -170,6 +98,110 @@
 								},
 								"formatSettings": {
 									"type": "DelimitedTextReadSettings"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Take transform quotes pipeline last run",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://management.azure.com/subscriptions/4d2b06c4-43c3-4174-ae4f-7cd2d52bdae2/resourceGroups/investment-funds/providers/Microsoft.DataFactory/factories/adf-investment-funds/queryPipelineRuns?api-version=2018-06-01",
+					"body": {
+						"lastUpdatedAfter": "2022-06-16T00:36:44.3345758Z",
+						"lastUpdatedBefore": "2024-08-16T00:49:48.3686473Z",
+						"filters": [
+							{
+								"operand": "PipelineName",
+								"operator": "Equals",
+								"values": [
+									"pl_transform_funds_quotes"
+								]
+							},
+							{
+								"operand": "Status",
+								"operator": "Equals",
+								"values": [
+									"Succeeded"
+								]
+							}
+						],
+						"orderBy": [
+							{
+								"order": "DESC",
+								"orderBy": "RunEnd"
+							}
+						]
+					},
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://management.azure.com"
+					}
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Take transform quotes pipeline last run",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@bool(empty(activity('Take transform quotes pipeline last run').output.value))",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Set last pipeline run date to variable_copy1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "last_date",
+								"value": {
+									"value": "@activity('Take transform quotes pipeline last run').output.value[0].lastUpdated",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Set last pipeline run date to variable",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "transform_quotes_pipeline_last_run",
+								"value": {
+									"value": "'1990-01-01'",
+									"type": "Expression"
 								}
 							}
 						}
