@@ -264,6 +264,8 @@
 									{
 										"name": "Parse files in datalake",
 										"type": "GetMetadata",
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
 										"dependsOn": [],
 										"policy": {
 											"timeout": "0.12:00:00",
@@ -302,6 +304,8 @@
 									{
 										"name": "If file exists or source date is greater then timestamp",
 										"type": "IfCondition",
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
 										"dependsOn": [
 											{
 												"activity": "Parse files in datalake",
@@ -472,6 +476,8 @@
 									{
 										"name": "File_name",
 										"type": "SetVariable",
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
 										"dependsOn": [],
 										"policy": {
 											"secureOutput": false,
@@ -489,6 +495,8 @@
 									{
 										"name": "Set file timestamp",
 										"type": "SetVariable",
+										"state": "Inactive",
+										"onInactiveMarkAs": "Succeeded",
 										"dependsOn": [],
 										"policy": {
 											"secureOutput": false,
