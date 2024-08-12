@@ -74,7 +74,7 @@
 				}
 			},
 			{
-				"name": "Lookup for actual CVM file links_copy1",
+				"name": "Lookup for actual CVM file links",
 				"type": "Lookup",
 				"dependsOn": [
 					{
@@ -112,11 +112,11 @@
 				}
 			},
 			{
-				"name": "Copy investment funds actual quotes for every month_copy1",
+				"name": "Investment funds actual quotes for every month_copy1",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup for actual CVM file links_copy1",
+						"activity": "Lookup for actual CVM file links",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -131,7 +131,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Parse files in datalake_copy1",
+							"name": "Get last modified date from raw container",
 							"type": "GetMetadata",
 							"dependsOn": [],
 							"policy": {
@@ -173,7 +173,7 @@
 							"type": "IfCondition",
 							"dependsOn": [
 								{
-									"activity": "Parse files in datalake_copy1",
+									"activity": "Get last modified date from raw container",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -182,7 +182,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@greater(last(variables('raw_container_last_modified')),variables('transform_quotes_pipeline_last_run'))",
+									"value": "@greater(activity('Get last modified date from raw container').output.lastModified,variables('transform_quotes_pipeline_last_run'))",
 									"type": "Expression"
 								},
 								"ifTrueActivities": [
@@ -217,6 +217,11 @@
 				}
 			}
 		],
+		"variables": {
+			"transform_quotes_pipeline_last_run": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
