@@ -68,7 +68,7 @@
 				"typeProperties": {
 					"variableName": "last_date",
 					"value": {
-						"value": "@activity('Take transform quotes pipeline last run').output.value[0].lastUpdated",
+						"value": "@coalesce(activity('Take transform quotes pipeline last run').output.value[0].lastUpdated,'1990-01-01')",
 						"type": "Expression"
 					}
 				}
