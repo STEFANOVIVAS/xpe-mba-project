@@ -68,7 +68,7 @@
 				"typeProperties": {
 					"variableName": "last_date",
 					"value": {
-						"value": "@empty(activity('Take transform quotes pipeline last run').output.value[0].lastUpdated)",
+						"value": "@bool(empty(activity('Take transform quotes pipeline last run').output.value.lastUpdated))",
 						"type": "Expression"
 					}
 				}
@@ -76,7 +76,7 @@
 		],
 		"variables": {
 			"last_date": {
-				"type": "String",
+				"type": "Boolean",
 				"defaultValue": "'1990-01-01'"
 			}
 		},
