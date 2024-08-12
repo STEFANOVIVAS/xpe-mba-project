@@ -172,53 +172,6 @@
 									"type": "DelimitedTextReadSettings"
 								}
 							}
-						},
-						{
-							"name": "If there are new files",
-							"type": "IfCondition",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
-							"dependsOn": [
-								{
-									"activity": "Get last modified date from raw container",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"userProperties": [],
-							"typeProperties": {
-								"expression": {
-									"value": "@greater(activity('Get last modified date from raw container').output.lastModified,variables('transform_quotes_pipeline_last_run'))",
-									"type": "Expression"
-								},
-								"ifTrueActivities": [
-									{
-										"name": "df_transform_quotes_copy1",
-										"type": "ExecuteDataFlow",
-										"dependsOn": [],
-										"policy": {
-											"timeout": "0.12:00:00",
-											"retry": 0,
-											"retryIntervalInSeconds": 30,
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"dataflow": {
-												"referenceName": "df_transform_quotes",
-												"type": "DataFlowReference"
-											},
-											"compute": {
-												"coreCount": 8,
-												"computeType": "General"
-											},
-											"traceLevel": "Fine"
-										}
-									}
-								]
-							}
 						}
 					]
 				}
