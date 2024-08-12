@@ -247,7 +247,7 @@
 		"variables": {
 			"transform_quotes_pipeline_last_run": {
 				"type": "String",
-				"defaultValue": "'1990-01-01'"
+				"defaultValue": "'1990-01-01 00:00:00'"
 			},
 			"file_name": {
 				"type": "String"
