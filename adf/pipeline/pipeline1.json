@@ -235,7 +235,7 @@
 							"typeProperties": {
 								"variableName": "transform_quotes_pipeline_last_run",
 								"value": {
-									"value": "'1990-01-01'",
+									"value": "'2024-07-07'",
 									"type": "Expression"
 								}
 							}
