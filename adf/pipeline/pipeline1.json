@@ -34,7 +34,7 @@
 				}
 			},
 			{
-				"name": "Investment funds actual quotes for every month_copy1",
+				"name": "Investment funds actual quotes for every month",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -117,7 +117,19 @@
 								"expression": {
 									"value": "@greater(activity('Get last modified date from raw container').output.lastModified,variables('transform_quotes_pipeline_last_run'))",
 									"type": "Expression"
-								}
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Set variable1",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": []
+									}
+								]
 							}
 						}
 					]
@@ -232,6 +244,9 @@
 			"transform_quotes_pipeline_last_run": {
 				"type": "String",
 				"defaultValue": "'1990-01-01'"
+			},
+			"file_name": {
+				"type": "String"
 			}
 		},
 		"annotations": []
