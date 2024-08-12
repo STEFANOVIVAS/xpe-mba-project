@@ -226,7 +226,8 @@
 		],
 		"variables": {
 			"transform_quotes_pipeline_last_run": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "'1990-01-01'"
 			}
 		},
 		"annotations": []
