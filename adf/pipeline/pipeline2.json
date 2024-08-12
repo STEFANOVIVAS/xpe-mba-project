@@ -76,7 +76,8 @@
 		],
 		"variables": {
 			"last_date": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "'1990-01-01'"
 			}
 		},
 		"annotations": []
