@@ -2,7 +2,7 @@
 	"name": "tr_daily_if_quotes",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Stopped",
+		"runtimeState": "Started",
 		"pipelines": [
 			{
 				"pipelineReference": {
