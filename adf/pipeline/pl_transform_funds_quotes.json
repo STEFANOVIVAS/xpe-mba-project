@@ -1,5 +1,5 @@
 {
-	"name": "pl_incremental_transform_funds_quotes",
+	"name": "pl_transform_funds_quotes",
 	"properties": {
 		"activities": [
 			{
