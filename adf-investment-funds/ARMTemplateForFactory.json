@@ -3985,6 +3985,27 @@
 				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_adls')]",
 				"[concat(variables('factoryId'), '/datasets/ds_transform_rows_with_error_sink')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tr_daily_if_quotes')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Week",
+						"interval": 1,
+						"startTime": "2024-08-13T23:36:00",
+						"timeZone": "Bahia Standard Time",
+						"schedule": {}
+					}
+				}
+			},
+			"dependsOn": []
 		}
 	]
 }
