@@ -262,7 +262,7 @@
 							"typeProperties": {
 								"variableName": "transform_quotes_pipeline_last_run",
 								"value": {
-									"value": "2024-07-07 00:00:00",
+									"value": "1990-01-01 00:00:00",
 									"type": "Expression"
 								}
 							}
