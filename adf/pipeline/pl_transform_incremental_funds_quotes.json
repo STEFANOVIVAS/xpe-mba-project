@@ -117,25 +117,6 @@
 								},
 								"ifTrueActivities": [
 									{
-										"name": "Set variable1",
-										"type": "SetVariable",
-										"state": "Inactive",
-										"onInactiveMarkAs": "Succeeded",
-										"dependsOn": [],
-										"policy": {
-											"secureOutput": false,
-											"secureInput": false
-										},
-										"userProperties": [],
-										"typeProperties": {
-											"variableName": "file_name",
-											"value": {
-												"value": "@activity('Get last modified date from raw container').output.itemName",
-												"type": "Expression"
-											}
-										}
-									},
-									{
 										"name": "Transform incremental ingestion funds quotes",
 										"type": "ExecuteDataFlow",
 										"dependsOn": [],
