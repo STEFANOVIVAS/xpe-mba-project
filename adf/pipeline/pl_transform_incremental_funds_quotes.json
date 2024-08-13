@@ -151,16 +151,16 @@
 											"dataflow": {
 												"referenceName": "df_transform_quotes",
 												"type": "DataFlowReference",
+												"parameters": {
+													"SinkFileName": {
+														"value": "'@{concat('transform_',activity('Get last modified date from raw container').output.itemName)}'",
+														"type": "Expression"
+													}
+												},
 												"datasetParameters": {
 													"SourceQuotesFromRawLayer": {
 														"sourceFileName": {
 															"value": "@activity('Get last modified date from raw container').output.itemName",
-															"type": "Expression"
-														}
-													},
-													"SaveFilesInPresentationLayer": {
-														"sinkFileName": {
-															"value": "@concat('transform_',activity('Get last modified date from raw container').output.itemName)",
 															"type": "Expression"
 														}
 													},
