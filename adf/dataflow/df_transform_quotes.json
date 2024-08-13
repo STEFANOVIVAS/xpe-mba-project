@@ -26,6 +26,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "SaveFilesInPresentationLayer"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_transform_rows_with_error_sink",
+						"type": "DatasetReference"
+					},
+					"name": "SinkRowsWithErrors"
 				}
 			],
 			"transformations": [
@@ -191,7 +198,14 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> SaveFilesInPresentationLayer"
+				"     partitionBy('hash', 1)) ~> SaveFilesInPresentationLayer",
+				"splitDataBasedOnAsserts@AssertFailCondition sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SinkRowsWithErrors"
 			]
 		}
 	}
