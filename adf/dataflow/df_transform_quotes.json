@@ -21,9 +21,9 @@
 			],
 			"sinks": [
 				{
-					"dataset": {
-						"referenceName": "ds_transform_funds_sink",
-						"type": "DatasetReference"
+					"linkedService": {
+						"referenceName": "ls_cvm_if_adls",
+						"type": "LinkedServiceReference"
 					},
 					"name": "SaveFilesInPresentationLayer",
 					"rejectedDataLinkedService": {
@@ -71,6 +71,9 @@
 				}
 			],
 			"scriptLines": [
+				"parameters{",
+				"     SinkFileName as string",
+				"}",
 				"source(output(",
 				"          TP_FUNDO as string,",
 				"          CNPJ_FUNDO as string,",
@@ -196,7 +199,14 @@
 				"     errors: true) ~> castColumnTypes",
 				"InsertTransformDateColumn sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     partitionFileNames:[($DataFlowFileName)],",
+				"     format: 'delimited',",
+				"     fileSystem: 'transform',",
+				"     folderPath: 'investiment-funds-quotes',",
+				"     columnDelimiter: ';',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true,",
+				"     partitionFileNames:[($SinkFileName)],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
