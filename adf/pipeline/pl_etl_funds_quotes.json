@@ -1,6 +1,9 @@
 {
 	"name": "pl_etl_funds_quotes",
 	"properties": {
+		"folder": {
+			"name": "Etl"
+		},
 		"annotations": []
 	}
 }
