@@ -41,7 +41,7 @@
 				}
 			},
 			{
-				"name": "Investment funds actual quotes for every month",
+				"name": "For each file in raw datalake container",
 				"type": "ForEach",
 				"dependsOn": [
 					{
