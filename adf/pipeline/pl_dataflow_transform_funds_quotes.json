@@ -17,7 +17,18 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "df_transform_quotes",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"SourceQuotesFromRawLayer": {
+								"sourceFileName": "filename"
+							},
+							"SaveFilesInPresentationLayer": {
+								"sinkFileName": "filename"
+							},
+							"SinkRowsWithErrors": {
+								"errorRowsFileName": "filename"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,
