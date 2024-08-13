@@ -1,0 +1,32 @@
+{
+	"name": "ds_transform_rows_with_error_sink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_cvm_if_adls",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"errorRowsFileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().errorRowsFileName",
+					"type": "Expression"
+				},
+				"folderPath": "investiment-funds-assert-fail",
+				"fileSystem": "transform"
+			},
+			"columnDelimiter": ";",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
