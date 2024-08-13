@@ -18,12 +18,12 @@
 					"dataflow": {
 						"referenceName": "df_transform_quotes",
 						"type": "DataFlowReference",
+						"parameters": {
+							"SinkFileName": "Filename"
+						},
 						"datasetParameters": {
 							"SourceQuotesFromRawLayer": {
 								"sourceFileName": "filename"
-							},
-							"SaveFilesInPresentationLayer": {
-								"sinkFileName": "filename"
 							},
 							"SinkRowsWithErrors": {
 								"errorRowsFileName": "filename"
