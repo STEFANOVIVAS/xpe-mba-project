@@ -7,7 +7,7 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "If Condition1",
+						"activity": "If transform pipeline already runs",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -208,7 +208,7 @@
 								"operand": "PipelineName",
 								"operator": "Equals",
 								"values": [
-									"pl_transform_funds_quotes"
+									"pl_transform_incremental_funds_quotes"
 								]
 							},
 							{
@@ -233,7 +233,7 @@
 				}
 			},
 			{
-				"name": "If Condition1",
+				"name": "If transform pipeline already runs",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
