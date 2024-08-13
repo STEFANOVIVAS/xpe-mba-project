@@ -19,7 +19,7 @@
 						"referenceName": "df_transform_quotes",
 						"type": "DataFlowReference",
 						"parameters": {
-							"SinkFileName": "Filename"
+							"SinkFileName": "'$Filename'"
 						},
 						"datasetParameters": {
 							"SourceQuotesFromRawLayer": {
