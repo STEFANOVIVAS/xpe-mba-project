@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Execute Pipeline1",
+				"name": "Execute ingestion Pipeline",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"policy": {
@@ -13,6 +13,29 @@
 				"typeProperties": {
 					"pipeline": {
 						"referenceName": "pl_ingestion_if_actual_quotes",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Execute incremental transform Pipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute ingestion Pipeline",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_transform_incremental_funds_quotes",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
