@@ -25,7 +25,11 @@
 						"referenceName": "ds_transform_funds_sink",
 						"type": "DatasetReference"
 					},
-					"name": "SaveFilesInPresentationLayer"
+					"name": "SaveFilesInPresentationLayer",
+					"rejectedDataLinkedService": {
+						"referenceName": "ls_cvm_if_adls",
+						"type": "LinkedServiceReference"
+					}
 				},
 				{
 					"dataset": {
@@ -198,6 +202,10 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
+				"     outputAssertFailedRows: true,",
+				"     assertFailure_fileSystem: 'transform',",
+				"     assertFailure_folderPath: 'investiment-funds-assert-fail',",
+				"     ignoreAssertFailedRows: true,",
 				"     partitionBy('hash', 1)) ~> SaveFilesInPresentationLayer",
 				"splitDataBasedOnAsserts@AssertFailCondition sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
