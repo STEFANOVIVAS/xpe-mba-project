@@ -160,7 +160,13 @@
 													},
 													"SaveFilesInPresentationLayer": {
 														"sinkFileName": {
-															"value": "@activity('Get last modified date from raw container').output.itemName",
+															"value": "@concat('transform_',activity('Get last modified date from raw container').output.itemName)",
+															"type": "Expression"
+														}
+													},
+													"SinkRowsWithErrors": {
+														"errorRowsFileName": {
+															"value": "@concat('errorRows_',activity('Get last modified date from raw container').output.itemName)",
 															"type": "Expression"
 														}
 													}
