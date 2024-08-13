@@ -11,6 +11,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_ingestion_if_actual_quotes",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			}
