@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'functionKey' of 'AzureFunction_ls'"
 		},
+		"ls_azure_databricks_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'ls_azure_databricks'"
+		},
 		"ls_azure_databricks_actual_quotes_http_accessToken": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'ls_azure_databricks_actual_quotes_http'"
@@ -448,7 +452,8 @@
 						"type": "String"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-07-31T23:09:33Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_cvm_if_register_http')]",
@@ -710,7 +715,8 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-08-04T20:08:16Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_cvm_if_historic_quotes_links')]",
@@ -754,8 +760,7 @@
 									"SinkRowsWithErrors": {
 										"errorRowsFileName": "filename"
 									}
-								},
-								"linkedServiceParameters": {}
+								}
 							},
 							"staging": {},
 							"compute": {
@@ -772,7 +777,8 @@
 				"folder": {
 					"name": "Transform"
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-08-13T23:35:43Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/df_transform_quotes')]"
@@ -832,7 +838,8 @@
 				"folder": {
 					"name": "Etl"
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-08-13T23:35:44Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/pl_ingestion_if_actual_quotes')]",
@@ -1165,7 +1172,8 @@
 				"folder": {
 					"name": "Ingestion"
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-08-04T20:08:15Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_cvm_actual_quotes_links')]",
@@ -1256,7 +1264,8 @@
 				"folder": {
 					"name": "Ingestion"
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-08-13T23:35:41Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_cvm_if_register_http')]",
@@ -1802,7 +1811,8 @@
 						"type": "Boolean"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-08-13T23:35:41Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_get_last_modified_raw')]",
@@ -1966,14 +1976,8 @@
 															},
 															"SourceRegisterRawLayer": {},
 															"SaveFilesInPresentationLayer": {},
-															"SinkRowsWithErrors": {
-																"errorRowsFileName": {
-																	"value": "@concat('errorRows_',activity('Get last modified date from raw container').output.itemName)",
-																	"type": "Expression"
-																}
-															}
-														},
-														"linkedServiceParameters": {}
+															"SinkRowsWithErrors": {}
+														}
 													},
 													"staging": {},
 													"compute": {
@@ -2110,7 +2114,8 @@
 				"folder": {
 					"name": "Transform"
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-08-13T23:35:43Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_cvm_actual_quotes_links')]",
@@ -3458,6 +3463,24 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ls_azure_databricks')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricksDeltaLake",
+				"typeProperties": {
+					"domain": "https://adb-4375646200372583.3.azuredatabricks.net",
+					"clusterId": "0124-001225-e64bhmd7",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('ls_azure_databricks_accessToken')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ls_azure_databricks_actual_quotes_http')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -3539,6 +3562,26 @@
 				"type": "AzureSqlDatabase",
 				"typeProperties": {
 					"connectionString": "[parameters('ls_sql_investiment_funds_db_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tr_daily_if_quotes')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Week",
+						"interval": 1,
+						"startTime": "2024-08-13T23:36:00",
+						"timeZone": "Bahia Standard Time"
+					}
 				}
 			},
 			"dependsOn": []
@@ -3784,9 +3827,9 @@
 							}
 						},
 						{
-							"dataset": {
-								"referenceName": "ds_transform_rows_with_error_sink",
-								"type": "DatasetReference"
+							"linkedService": {
+								"referenceName": "ls_cvm_if_adls",
+								"type": "LinkedServiceReference"
 							},
 							"name": "SinkRowsWithErrors"
 						}
@@ -3940,11 +3983,11 @@
 						"          TP_FUNDO as string,",
 						"          CNPJ_FUNDO as string,",
 						"          DT_COMPTC as date,",
-						"          VL_TOTAL as double,",
-						"          VL_QUOTA as double,",
-						"          VL_PATRIM_LIQ as double,",
-						"          CAPTC_DIA as double,",
-						"          RESG_DIA as double,",
+						"          VL_TOTAL as decimal(17,2),",
+						"          VL_QUOTA as decimal(27,12),",
+						"          VL_PATRIM_LIQ as decimal(17,2),",
+						"          CAPTC_DIA as decimal(17,2),",
+						"          RESG_DIA as decimal(17,2),",
 						"          NR_COTST as integer,",
 						"          ingestion_timestamp as date",
 						"     ),",
@@ -3971,38 +4014,37 @@
 						"     partitionBy('hash', 1)) ~> SaveFilesInPresentationLayer",
 						"splitDataBasedOnAsserts@AssertFailCondition sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     format: 'delimited',",
+						"     fileSystem: 'transform',",
+						"     folderPath: 'investiment-funds-assert-fail',",
+						"     columnDelimiter: ';',",
+						"     escapeChar: '\\\\',",
+						"     quoteChar: '\\\"',",
+						"     columnNamesAsHeader: false,",
+						"     partitionFileNames:[($SinkFileName)],",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> SinkRowsWithErrors"
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> SinkRowsWithErrors"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_transform_funds_source')]",
 				"[concat(variables('factoryId'), '/datasets/ds_cvm_funds_register_adls')]",
-				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_adls')]",
-				"[concat(variables('factoryId'), '/datasets/ds_transform_rows_with_error_sink')]"
+				"[concat(variables('factoryId'), '/linkedServices/ls_cvm_if_adls')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/tr_daily_if_quotes')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
+			"name": "[concat(parameters('factoryName'), '/adf-user-credential')]",
+			"type": "Microsoft.DataFactory/factories/credentials",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [],
-				"type": "ScheduleTrigger",
+				"type": "ManagedIdentity",
 				"typeProperties": {
-					"recurrence": {
-						"frequency": "Week",
-						"interval": 1,
-						"startTime": "2024-08-13T23:36:00",
-						"timeZone": "Bahia Standard Time",
-						"schedule": {}
-					}
+					"resourceId": "/subscriptions/4d2b06c4-43c3-4174-ae4f-7cd2d52bdae2/resourcegroups/investment-funds/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adf-investiment-funds-MI"
 				}
 			},
 			"dependsOn": []

@@ -13,6 +13,58 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_cvm_if_register_adls')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_cvm_if_adls",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "register_fi.csv",
+						"folderPath": "investment-funds-register",
+						"fileSystem": "raw"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_cvm_if_register_http')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_cvm_if_register_http",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "dados/FI/CAD/DADOS/cad_fi.csv"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_cvm_if_zip_adls')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1002,7 +1054,8 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-08-04T20:08:16Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_cvm_if_zip_adls')]"
@@ -1334,7 +1387,8 @@
 				"folder": {
 					"name": "Ingestion"
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-08-04T20:08:15Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_cvm_if_zip_adls')]"
@@ -1421,9 +1475,13 @@
 				"folder": {
 					"name": "Ingestion"
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-08-13T23:35:41Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_cvm_if_register_http')]",
+				"[concat(variables('factoryId'), '/datasets/ds_cvm_if_register_adls')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pl_transform_funds_quotes')]",
@@ -1964,7 +2022,8 @@
 						"type": "Boolean"
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2024-08-13T23:35:41Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_get_last_modified_raw')]",
@@ -2211,9 +2270,9 @@
 							}
 						},
 						{
-							"dataset": {
-								"referenceName": "ds_transform_rows_with_error_sink",
-								"type": "DatasetReference"
+							"linkedService": {
+								"referenceName": "ls_cvm_if_adls",
+								"type": "LinkedServiceReference"
 							},
 							"name": "SinkRowsWithErrors"
 						}
@@ -2367,11 +2426,11 @@
 						"          TP_FUNDO as string,",
 						"          CNPJ_FUNDO as string,",
 						"          DT_COMPTC as date,",
-						"          VL_TOTAL as double,",
-						"          VL_QUOTA as double,",
-						"          VL_PATRIM_LIQ as double,",
-						"          CAPTC_DIA as double,",
-						"          RESG_DIA as double,",
+						"          VL_TOTAL as decimal(17,2),",
+						"          VL_QUOTA as decimal(27,12),",
+						"          VL_PATRIM_LIQ as decimal(17,2),",
+						"          CAPTC_DIA as decimal(17,2),",
+						"          RESG_DIA as decimal(17,2),",
 						"          NR_COTST as integer,",
 						"          ingestion_timestamp as date",
 						"     ),",
@@ -2398,482 +2457,25 @@
 						"     partitionBy('hash', 1)) ~> SaveFilesInPresentationLayer",
 						"splitDataBasedOnAsserts@AssertFailCondition sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     format: 'delimited',",
+						"     fileSystem: 'transform',",
+						"     folderPath: 'investiment-funds-assert-fail',",
+						"     columnDelimiter: ';',",
+						"     escapeChar: '\\\\',",
+						"     quoteChar: '\\\"',",
+						"     columnNamesAsHeader: false,",
+						"     partitionFileNames:[($SinkFileName)],",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> SinkRowsWithErrors"
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> SinkRowsWithErrors"
 					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_transform_funds_source')]",
-				"[concat(variables('factoryId'), '/datasets/ds_transform_rows_with_error_sink')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_cvm_actual_investment_funds')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Ingest investment funds register",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Azure Function1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "HttpReadSettings",
-									"requestMethod": "GET"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_cvm_if_register_http",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_cvm_if_register_adls",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Transform cvm investiment funds register",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "Ingest investment funds register",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_transform_funds_register",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"FundsRegisterSource": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "Azure Function1",
-						"type": "AzureFunctionActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"functionName": "get_source_files_from_cvm",
-							"headers": {},
-							"method": "GET"
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureFunction_ls",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "Lookup for actual CVM file links",
-						"type": "Lookup",
-						"dependsOn": [
-							{
-								"activity": "Azure Function1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": false,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"dataset": {
-								"referenceName": "ds_cvm_actual_quotes_links",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "Ingest investment funds actual quotes",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Lookup for actual CVM file links",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Lookup for actual CVM file links').output.value",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "Parse files in datalake",
-									"type": "GetMetadata",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"dataset": {
-											"referenceName": "ds_cvm_if_csv_adls",
-											"type": "DatasetReference",
-											"parameters": {
-												"fileName": {
-													"value": "@concat(item().url,'.csv')",
-													"type": "Expression"
-												},
-												"raw_folder": "investment-funds-quotes"
-											}
-										},
-										"fieldList": [
-											"exists",
-											"lastModified"
-										],
-										"storeSettings": {
-											"type": "AzureBlobFSReadSettings",
-											"recursive": true,
-											"enablePartitionDiscovery": false
-										},
-										"formatSettings": {
-											"type": "DelimitedTextReadSettings"
-										}
-									}
-								},
-								{
-									"name": "If update is greater then timesatmp",
-									"type": "IfCondition",
-									"dependsOn": [
-										{
-											"activity": "Parse files in datalake",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"userProperties": [],
-									"typeProperties": {
-										"expression": {
-											"value": "@or(and(equals(activity('Parse files in datalake').output.exists,true),greater(formatDateTime(item().update,'yyyy-MM-ddTHH:mm:ss.fffffffK'),convertTimeZone(formatDateTime(activity('Parse files in datalake').output.lastModified,'yyyy-MM-ddTHH:mm:ss.fffffffK'),'UTC','E. South America Standard Time'))),equals(activity('Parse files in datalake').output.exists,false))",
-											"type": "Expression"
-										},
-										"ifTrueActivities": [
-											{
-												"name": "Copy from http binary actual quotes_copy1_copy1",
-												"type": "Copy",
-												"dependsOn": [],
-												"policy": {
-													"timeout": "0.12:00:00",
-													"retry": 1,
-													"retryIntervalInSeconds": 30,
-													"secureOutput": false,
-													"secureInput": false
-												},
-												"userProperties": [],
-												"typeProperties": {
-													"source": {
-														"type": "BinarySource",
-														"storeSettings": {
-															"type": "HttpReadSettings",
-															"requestMethod": "GET"
-														},
-														"formatSettings": {
-															"type": "BinaryReadSettings",
-															"compressionProperties": {
-																"type": "ZipDeflateReadSettings"
-															}
-														}
-													},
-													"sink": {
-														"type": "BinarySink",
-														"storeSettings": {
-															"type": "AzureBlobFSWriteSettings"
-														}
-													},
-													"enableStaging": false
-												},
-												"inputs": [
-													{
-														"referenceName": "ds_cvm_if_links_binary_http",
-														"type": "DatasetReference",
-														"parameters": {
-															"relativeURL": {
-																"value": "@concat(variables('file_name'),'.zip')",
-																"type": "Expression"
-															}
-														}
-													}
-												],
-												"outputs": [
-													{
-														"referenceName": "ds_cvm_if_links_binary_adls",
-														"type": "DatasetReference",
-														"parameters": {
-															"relativeURL": {
-																"value": "@concat(variables('file_name'),'.zip')",
-																"type": "Expression"
-															}
-														}
-													}
-												]
-											},
-											{
-												"name": "Copy data from zipped binary to csv_copy1_copy1",
-												"type": "Copy",
-												"dependsOn": [
-													{
-														"activity": "Copy from http binary actual quotes_copy1_copy1",
-														"dependencyConditions": [
-															"Succeeded"
-														]
-													}
-												],
-												"policy": {
-													"timeout": "0.12:00:00",
-													"retry": 0,
-													"retryIntervalInSeconds": 30,
-													"secureOutput": false,
-													"secureInput": false
-												},
-												"userProperties": [],
-												"typeProperties": {
-													"source": {
-														"type": "DelimitedTextSource",
-														"storeSettings": {
-															"type": "AzureBlobFSReadSettings",
-															"recursive": true,
-															"enablePartitionDiscovery": false
-														},
-														"formatSettings": {
-															"type": "DelimitedTextReadSettings",
-															"compressionProperties": {
-																"type": "ZipDeflateReadSettings"
-															}
-														}
-													},
-													"sink": {
-														"type": "DelimitedTextSink",
-														"storeSettings": {
-															"type": "AzureBlobFSWriteSettings"
-														},
-														"formatSettings": {
-															"type": "DelimitedTextWriteSettings",
-															"quoteAllText": true,
-															"fileExtension": ".txt"
-														}
-													},
-													"enableStaging": false,
-													"translator": {
-														"type": "TabularTranslator",
-														"typeConversion": true,
-														"typeConversionSettings": {
-															"allowDataTruncation": true,
-															"treatBooleanAsNumber": false
-														}
-													}
-												},
-												"inputs": [
-													{
-														"referenceName": "ds_cvm_if_zip_adls",
-														"type": "DatasetReference",
-														"parameters": {
-															"fileName": {
-																"value": "@concat(variables('file_name'),'.zip')",
-																"type": "Expression"
-															}
-														}
-													}
-												],
-												"outputs": [
-													{
-														"referenceName": "ds_cvm_if_csv_adls",
-														"type": "DatasetReference",
-														"parameters": {
-															"fileName": {
-																"value": "@concat(variables('file_name'),'.csv')",
-																"type": "Expression"
-															},
-															"raw_folder": "investment-funds-quotes"
-														}
-													}
-												]
-											}
-										]
-									}
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"variables": {
-					"exists": {
-						"type": "String"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/df_transform_funds_register')]",
-				"[concat(variables('factoryId'), '/datasets/ds_cvm_if_zip_adls')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_dataflow_transform_funds_quotes')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Transform incremental ingestion funds quotes",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_transform_quotes",
-								"type": "DataFlowReference",
-								"parameters": {
-									"SinkFileName": "'$Filename'"
-								},
-								"datasetParameters": {
-									"SourceQuotesFromRawLayer": {
-										"sourceFileName": "filename"
-									},
-									"SourceRegisterRawLayer": {},
-									"SaveFilesInPresentationLayer": {},
-									"SinkRowsWithErrors": {
-										"errorRowsFileName": "filename"
-									}
-								},
-								"linkedServiceParameters": {}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "Transform"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/df_transform_quotes')]"
+				"[concat(variables('factoryId'), '/datasets/ds_transform_funds_source')]"
 			]
 		}
 	]

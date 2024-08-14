@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'functionKey' of 'AzureFunction_ls'"
 		},
+		"ls_azure_databricks_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'ls_azure_databricks'"
+		},
 		"ls_azure_databricks_actual_quotes_http_accessToken": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'ls_azure_databricks_actual_quotes_http'"
@@ -72,6 +76,9 @@
 					},
 					"AzureFunction_ls_functionKey": {
 						"value": "[parameters('AzureFunction_ls_functionKey')]"
+					},
+					"ls_azure_databricks_accessToken": {
+						"value": "[parameters('ls_azure_databricks_accessToken')]"
 					},
 					"ls_azure_databricks_actual_quotes_http_accessToken": {
 						"value": "[parameters('ls_azure_databricks_actual_quotes_http_accessToken')]"

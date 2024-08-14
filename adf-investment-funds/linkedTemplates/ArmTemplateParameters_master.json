@@ -8,6 +8,9 @@
 		"AzureFunction_ls_functionKey": {
 			"value": ""
 		},
+		"ls_azure_databricks_accessToken": {
+			"value": ""
+		},
 		"ls_azure_databricks_actual_quotes_http_accessToken": {
 			"value": ""
 		},
