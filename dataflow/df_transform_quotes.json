@@ -32,9 +32,9 @@
 					}
 				},
 				{
-					"dataset": {
-						"referenceName": "ds_transform_rows_with_error_sink",
-						"type": "DatasetReference"
+					"linkedService": {
+						"referenceName": "ls_cvm_if_adls",
+						"type": "LinkedServiceReference"
 					},
 					"name": "SinkRowsWithErrors"
 				}
@@ -219,11 +219,20 @@
 				"     partitionBy('hash', 1)) ~> SaveFilesInPresentationLayer",
 				"splitDataBasedOnAsserts@AssertFailCondition sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     format: 'delimited',",
+				"     fileSystem: 'transform',",
+				"     folderPath: 'investiment-funds-assert-fail',",
+				"     columnDelimiter: ';',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: false,",
+				"     partitionFileNames:[($SinkFileName)],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> SinkRowsWithErrors"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> SinkRowsWithErrors"
 			]
 		}
 	}
