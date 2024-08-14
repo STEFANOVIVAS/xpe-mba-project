@@ -1,0 +1,64 @@
+{
+	"name": "ds_sql_investiment_funds_quotas",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sql_investiment_funds_db",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "tipo_fundo",
+				"type": "varchar"
+			},
+			{
+				"name": "cnpj_fundo",
+				"type": "varchar"
+			},
+			{
+				"name": "data_competencia",
+				"type": "date"
+			},
+			{
+				"name": "valor_total",
+				"type": "decimal",
+				"precision": 14,
+				"scale": 2
+			},
+			{
+				"name": "valor_cota",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "valor_patrimonial_liq",
+				"type": "decimal",
+				"precision": 14,
+				"scale": 2
+			},
+			{
+				"name": "capacity_dia",
+				"type": "decimal",
+				"precision": 14,
+				"scale": 2
+			},
+			{
+				"name": "resgates_dia",
+				"type": "decimal",
+				"precision": 14,
+				"scale": 2
+			},
+			{
+				"name": "numero_cotistas",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "investiment_funds",
+			"table": "diary_quota"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

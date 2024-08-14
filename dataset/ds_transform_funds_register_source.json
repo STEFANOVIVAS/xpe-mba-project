@@ -1,0 +1,194 @@
+{
+	"name": "ds_transform_funds_register_source",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_cvm_if_adls",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Transform"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "register_fi.csv",
+				"folderPath": "investment-funds-register",
+				"fileSystem": "raw"
+			},
+			"columnDelimiter": ";",
+			"encodingName": "ISO-8859-1",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "TP_FUNDO",
+				"type": "String"
+			},
+			{
+				"name": "CNPJ_FUNDO",
+				"type": "String"
+			},
+			{
+				"name": "DENOM_SOCIAL",
+				"type": "String"
+			},
+			{
+				"name": "DT_REG",
+				"type": "String"
+			},
+			{
+				"name": "DT_CONST",
+				"type": "String"
+			},
+			{
+				"name": "CD_CVM",
+				"type": "String"
+			},
+			{
+				"name": "DT_CANCEL",
+				"type": "String"
+			},
+			{
+				"name": "SIT",
+				"type": "String"
+			},
+			{
+				"name": "DT_INI_SIT",
+				"type": "String"
+			},
+			{
+				"name": "DT_INI_ATIV",
+				"type": "String"
+			},
+			{
+				"name": "DT_INI_EXERC",
+				"type": "String"
+			},
+			{
+				"name": "DT_FIM_EXERC",
+				"type": "String"
+			},
+			{
+				"name": "CLASSE",
+				"type": "String"
+			},
+			{
+				"name": "DT_INI_CLASSE",
+				"type": "String"
+			},
+			{
+				"name": "RENTAB_FUNDO",
+				"type": "String"
+			},
+			{
+				"name": "CONDOM",
+				"type": "String"
+			},
+			{
+				"name": "FUNDO_COTAS",
+				"type": "String"
+			},
+			{
+				"name": "FUNDO_EXCLUSIVO",
+				"type": "String"
+			},
+			{
+				"name": "TRIB_LPRAZO",
+				"type": "String"
+			},
+			{
+				"name": "PUBLICO_ALVO",
+				"type": "String"
+			},
+			{
+				"name": "ENTID_INVEST",
+				"type": "String"
+			},
+			{
+				"name": "TAXA_PERFM",
+				"type": "String"
+			},
+			{
+				"name": "INF_TAXA_PERFM",
+				"type": "String"
+			},
+			{
+				"name": "TAXA_ADM",
+				"type": "String"
+			},
+			{
+				"name": "INF_TAXA_ADM",
+				"type": "String"
+			},
+			{
+				"name": "VL_PATRIM_LIQ",
+				"type": "String"
+			},
+			{
+				"name": "DT_PATRIM_LIQ",
+				"type": "String"
+			},
+			{
+				"name": "DIRETOR",
+				"type": "String"
+			},
+			{
+				"name": "CNPJ_ADMIN",
+				"type": "String"
+			},
+			{
+				"name": "ADMIN",
+				"type": "String"
+			},
+			{
+				"name": "PF_PJ_GESTOR",
+				"type": "String"
+			},
+			{
+				"name": "CPF_CNPJ_GESTOR",
+				"type": "String"
+			},
+			{
+				"name": "GESTOR",
+				"type": "String"
+			},
+			{
+				"name": "CNPJ_AUDITOR",
+				"type": "String"
+			},
+			{
+				"name": "AUDITOR",
+				"type": "String"
+			},
+			{
+				"name": "CNPJ_CUSTODIANTE",
+				"type": "String"
+			},
+			{
+				"name": "CUSTODIANTE",
+				"type": "String"
+			},
+			{
+				"name": "CNPJ_CONTROLADOR",
+				"type": "String"
+			},
+			{
+				"name": "CONTROLADOR",
+				"type": "String"
+			},
+			{
+				"name": "INVEST_CEMPR_EXTER",
+				"type": "String"
+			},
+			{
+				"name": "CLASSE_ANBIMA",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

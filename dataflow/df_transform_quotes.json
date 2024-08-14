@@ -1,0 +1,230 @@
+{
+	"name": "df_transform_quotes",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_transform_funds_source",
+						"type": "DatasetReference"
+					},
+					"name": "SourceQuotesFromRawLayer"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_cvm_funds_register_adls",
+						"type": "DatasetReference"
+					},
+					"name": "SourceRegisterRawLayer"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "ls_cvm_if_adls",
+						"type": "LinkedServiceReference"
+					},
+					"name": "SaveFilesInPresentationLayer",
+					"rejectedDataLinkedService": {
+						"referenceName": "ls_cvm_if_adls",
+						"type": "LinkedServiceReference"
+					}
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_transform_rows_with_error_sink",
+						"type": "DatasetReference"
+					},
+					"name": "SinkRowsWithErrors"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DataQualityAsserts"
+				},
+				{
+					"name": "WindowFunctionsToFindDuplicates",
+					"description": "Aggregates data based on a window and joins with original data to find duplicate rows."
+				},
+				{
+					"name": "splitDataBasedOnAsserts"
+				},
+				{
+					"name": "LowerColumnNames",
+					"description": "Lowering Column Names"
+				},
+				{
+					"name": "SelectMainColumnsAfterdataQuality",
+					"description": "Select only desired columns."
+				},
+				{
+					"name": "SelectMainColumnsFundsRegister",
+					"description": "Select main coluns of investiment funds register"
+				},
+				{
+					"name": "InsertTransformDateColumn",
+					"description": "Inserting transform timestamp column"
+				},
+				{
+					"name": "castColumnTypes"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     SinkFileName as string",
+				"}",
+				"source(output(",
+				"          TP_FUNDO as string,",
+				"          CNPJ_FUNDO as string,",
+				"          DT_COMPTC as string,",
+				"          VL_TOTAL as string,",
+				"          VL_QUOTA as string,",
+				"          VL_PATRIM_LIQ as string,",
+				"          CAPTC_DIA as string,",
+				"          RESG_DIA as string,",
+				"          NR_COTST as string,",
+				"          ingestion_timestamp as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SourceQuotesFromRawLayer",
+				"source(output(",
+				"          TP_FUNDO as string,",
+				"          CNPJ_FUNDO as string,",
+				"          DENOM_SOCIAL as string,",
+				"          DT_REG as string,",
+				"          DT_CONST as string,",
+				"          CD_CVM as string,",
+				"          DT_CANCEL as string,",
+				"          SIT as string,",
+				"          DT_INI_SIT as string,",
+				"          DT_INI_ATIV as string,",
+				"          DT_INI_EXERC as string,",
+				"          DT_FIM_EXERC as string,",
+				"          CLASSE as string,",
+				"          DT_INI_CLASSE as string,",
+				"          RENTAB_FUNDO as string,",
+				"          CONDOM as string,",
+				"          FUNDO_COTAS as string,",
+				"          FUNDO_EXCLUSIVO as string,",
+				"          TRIB_LPRAZO as string,",
+				"          PUBLICO_ALVO as string,",
+				"          ENTID_INVEST as string,",
+				"          TAXA_PERFM as string,",
+				"          INF_TAXA_PERFM as string,",
+				"          TAXA_ADM as string,",
+				"          INF_TAXA_ADM as string,",
+				"          VL_PATRIM_LIQ as string,",
+				"          DT_PATRIM_LIQ as string,",
+				"          DIRETOR as string,",
+				"          CNPJ_ADMIN as string,",
+				"          ADMIN as string,",
+				"          PF_PJ_GESTOR as string,",
+				"          CPF_CNPJ_GESTOR as string,",
+				"          GESTOR as string,",
+				"          CNPJ_AUDITOR as string,",
+				"          AUDITOR as string,",
+				"          CNPJ_CUSTODIANTE as string,",
+				"          CUSTODIANTE as string,",
+				"          CNPJ_CONTROLADOR as string,",
+				"          CONTROLADOR as string,",
+				"          INVEST_CEMPR_EXTER as string,",
+				"          CLASSE_ANBIMA as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SourceRegisterRawLayer",
+				"WindowFunctionsToFindDuplicates, SelectMainColumnsFundsRegister assert(expectTrue(!isNull(LowerColumnNames@cnpj_fundo), false, 'assertCNPJNotNull'),",
+				"     expectTrue(!isNull(dt_comptc), false, 'assertDtComptcNotNull'),",
+				"     expectTrue(vl_quota>0, false, 'assertValorCotaMaiorZero'),",
+				"     expectTrue(row_number==1, false, 'assertNotDuplicates'),",
+				"     expectExists(LowerColumnNames@cnpj_fundo == SelectMainColumnsFundsRegister@CNPJ_FUNDO, false, 'assertFundsExists')) ~> DataQualityAsserts",
+				"LowerColumnNames window(over(cnpj_fundo,",
+				"          dt_comptc),",
+				"     asc(dt_comptc, true),",
+				"     row_number = rowNumber()) ~> WindowFunctionsToFindDuplicates",
+				"DataQualityAsserts split(!isError(),",
+				"     disjoint: false) ~> splitDataBasedOnAsserts@(AssertPassedCondition, AssertFailCondition)",
+				"castColumnTypes select(mapColumn(",
+				"          each(match(true()),",
+				"               lower($$) = $$)",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> LowerColumnNames",
+				"splitDataBasedOnAsserts@AssertPassedCondition select(mapColumn(",
+				"          tp_fundo,",
+				"          cnpj_fundo,",
+				"          dt_comptc,",
+				"          vl_total,",
+				"          vl_quota,",
+				"          vl_patrim_liq,",
+				"          captc_dia,",
+				"          resg_dia,",
+				"          nr_cotst,",
+				"          ingestion_timestamp",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectMainColumnsAfterdataQuality",
+				"SourceRegisterRawLayer select(mapColumn(",
+				"          TP_FUNDO,",
+				"          CNPJ_FUNDO,",
+				"          DENOM_SOCIAL,",
+				"          DT_REG,",
+				"          DT_CONST,",
+				"          CD_CVM,",
+				"          DT_CANCEL,",
+				"          SIT,",
+				"          DT_INI_SIT,",
+				"          DT_INI_ATIV,",
+				"          DT_INI_EXERC,",
+				"          DT_FIM_EXERC,",
+				"          CLASSE",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectMainColumnsFundsRegister",
+				"SelectMainColumnsAfterdataQuality derive(transform_timestamp = currentDate()) ~> InsertTransformDateColumn",
+				"SourceQuotesFromRawLayer cast(output(",
+				"          TP_FUNDO as string,",
+				"          CNPJ_FUNDO as string,",
+				"          DT_COMPTC as date,",
+				"          VL_TOTAL as double,",
+				"          VL_QUOTA as double,",
+				"          VL_PATRIM_LIQ as double,",
+				"          CAPTC_DIA as double,",
+				"          RESG_DIA as double,",
+				"          NR_COTST as integer,",
+				"          ingestion_timestamp as date",
+				"     ),",
+				"     errors: true) ~> castColumnTypes",
+				"InsertTransformDateColumn sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'delimited',",
+				"     fileSystem: 'transform',",
+				"     folderPath: 'investiment-funds-quotes',",
+				"     columnDelimiter: ';',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true,",
+				"     partitionFileNames:[($SinkFileName)],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     outputAssertFailedRows: true,",
+				"     assertFailure_fileSystem: 'transform',",
+				"     assertFailure_folderPath: 'investiment-funds-assert-fail',",
+				"     ignoreAssertFailedRows: true,",
+				"     partitionBy('hash', 1)) ~> SaveFilesInPresentationLayer",
+				"splitDataBasedOnAsserts@AssertFailCondition sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SinkRowsWithErrors"
+			]
+		}
+	}
+}

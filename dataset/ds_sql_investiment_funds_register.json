@@ -1,0 +1,126 @@
+{
+	"name": "ds_sql_investiment_funds_register",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sql_investiment_funds_db",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "tipo_fundo",
+				"type": "varchar"
+			},
+			{
+				"name": "cnpj_fundo",
+				"type": "varchar"
+			},
+			{
+				"name": "denom_social",
+				"type": "varchar"
+			},
+			{
+				"name": "data_registro",
+				"type": "date"
+			},
+			{
+				"name": "data_constituicao",
+				"type": "date"
+			},
+			{
+				"name": "cod_cvm",
+				"type": "varchar"
+			},
+			{
+				"name": "data_cancel",
+				"type": "date"
+			},
+			{
+				"name": "situacao",
+				"type": "varchar"
+			},
+			{
+				"name": "data_inicio_sit",
+				"type": "date"
+			},
+			{
+				"name": "data_inicio_ativ",
+				"type": "date"
+			},
+			{
+				"name": "data_inicio_exerc",
+				"type": "date"
+			},
+			{
+				"name": "data_fim_exerc",
+				"type": "date"
+			},
+			{
+				"name": "classe",
+				"type": "varchar"
+			},
+			{
+				"name": "data_inic_classe",
+				"type": "date"
+			},
+			{
+				"name": "rentab_fundo",
+				"type": "varchar"
+			},
+			{
+				"name": "tributacao_lp",
+				"type": "varchar"
+			},
+			{
+				"name": "publico_alvo",
+				"type": "varchar"
+			},
+			{
+				"name": "taxa_perform",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "taxa_adm",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "valor_patrim_liq",
+				"type": "decimal",
+				"precision": 14,
+				"scale": 2
+			},
+			{
+				"name": "data_patrim_liq",
+				"type": "date"
+			},
+			{
+				"name": "diretor",
+				"type": "varchar"
+			},
+			{
+				"name": "cnpj_admin",
+				"type": "varchar"
+			},
+			{
+				"name": "adm",
+				"type": "varchar"
+			},
+			{
+				"name": "gestor",
+				"type": "varchar"
+			},
+			{
+				"name": "classe_anbima",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "investiment_funds",
+			"table": "funds_registration"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

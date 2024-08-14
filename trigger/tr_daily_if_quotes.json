@@ -1,0 +1,17 @@
+{
+	"name": "tr_daily_if_quotes",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Week",
+				"interval": 1,
+				"startTime": "2024-08-13T23:36:00",
+				"timeZone": "Bahia Standard Time"
+			}
+		}
+	}
+}

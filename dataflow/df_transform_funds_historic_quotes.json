@@ -1,0 +1,71 @@
+{
+	"name": "df_transform_funds_historic_quotes",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_cvm_raw_if_adls",
+						"type": "DatasetReference"
+					},
+					"name": "investimentFundsQuotes"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_transform_funds_historic_sink",
+						"type": "DatasetReference"
+					},
+					"name": "FundsQuotesSink",
+					"rejectedDataLinkedService": {
+						"referenceName": "ls_cvm_if_adls",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "selectOnlyRequiredFields"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          TP_FUNDO as string,",
+				"          CNPJ_FUNDO as string,",
+				"          DT_COMPTC as date 'yyyy-MM-dd',",
+				"          VL_TOTAL as decimal(13,2),",
+				"          VL_QUOTA as float,",
+				"          VL_PATRIM_LIQ as decimal(13,2),",
+				"          CAPTC_DIA as decimal(13,2),",
+				"          RESG_DIA as decimal(13,2),",
+				"          NR_COTST as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> investimentFundsQuotes",
+				"investimentFundsQuotes select(mapColumn(",
+				"          tipo_fundo = TP_FUNDO,",
+				"          cnpj_fundo = CNPJ_FUNDO,",
+				"          dt_posicao = DT_COMPTC,",
+				"          valor_total = VL_TOTAL,",
+				"          valor_quota = VL_QUOTA,",
+				"          valor_patrim_liquido = VL_PATRIM_LIQ,",
+				"          capacity_dia = CAPTC_DIA,",
+				"          resgates_dia = RESG_DIA,",
+				"          numero_cotistas = NR_COTST",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectOnlyRequiredFields",
+				"selectOnlyRequiredFields sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> FundsQuotesSink"
+			]
+		}
+	}
+}

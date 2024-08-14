@@ -1,0 +1,26 @@
+{
+	"name": "ds_cvm_historic_source_binary_http",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_cvm_if_http",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"relativeURL": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": {
+					"value": "@concat('HIST/',dataset().relativeURL)",
+					"type": "Expression"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

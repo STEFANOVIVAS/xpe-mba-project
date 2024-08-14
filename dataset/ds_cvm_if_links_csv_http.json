@@ -1,0 +1,33 @@
+{
+	"name": "ds_cvm_if_links_csv_http",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_cvm_if_http",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"relativeUrl": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": {
+					"value": "@dataset().relativeUrl",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"compressionCodec": "ZipDeflate",
+			"compressionLevel": "Optimal",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

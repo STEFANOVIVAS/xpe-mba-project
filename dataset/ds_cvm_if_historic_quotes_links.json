@@ -1,0 +1,22 @@
+{
+	"name": "ds_cvm_if_historic_quotes_links",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_cvm_if_adls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

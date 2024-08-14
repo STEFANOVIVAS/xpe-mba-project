@@ -1,0 +1,290 @@
+{
+	"name": "pl_transform_incremental_funds_quotes",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup for actual CVM file links",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "If transform pipeline already runs",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": false,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "ds_cvm_actual_quotes_links",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "For each file in raw datalake container",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup for actual CVM file links",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup for actual CVM file links').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Get last modified date from raw container",
+							"type": "GetMetadata",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "ds_cvm_if_csv_adls",
+									"type": "DatasetReference",
+									"parameters": {
+										"fileName": {
+											"value": "@concat(item().url,'.csv')",
+											"type": "Expression"
+										},
+										"raw_folder": "investment-funds-quotes"
+									}
+								},
+								"fieldList": [
+									"exists",
+									"lastModified",
+									"itemName"
+								],
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							}
+						},
+						{
+							"name": "If Condition2",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "Get last modified date from raw container",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@greater(activity('Get last modified date from raw container').output.lastModified,formatDateTime(variables('transform_quotes_pipeline_last_run'),'yyyy-MM-ddTHH:mm:ss'))\n\n\n",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Transform incremental ingestion funds quotes",
+										"type": "ExecuteDataFlow",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"dataflow": {
+												"referenceName": "df_transform_quotes",
+												"type": "DataFlowReference",
+												"parameters": {
+													"SinkFileName": {
+														"value": "'@{concat('transform_',activity('Get last modified date from raw container').output.itemName)}'",
+														"type": "Expression"
+													}
+												},
+												"datasetParameters": {
+													"SourceQuotesFromRawLayer": {
+														"sourceFileName": {
+															"value": "@activity('Get last modified date from raw container').output.itemName",
+															"type": "Expression"
+														}
+													},
+													"SinkRowsWithErrors": {
+														"errorRowsFileName": {
+															"value": "@concat('errorRows_',activity('Get last modified date from raw container').output.itemName)",
+															"type": "Expression"
+														}
+													}
+												}
+											},
+											"compute": {
+												"coreCount": 8,
+												"computeType": "General"
+											},
+											"traceLevel": "Fine"
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Take transform quotes pipeline last run",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://management.azure.com/subscriptions/4d2b06c4-43c3-4174-ae4f-7cd2d52bdae2/resourceGroups/investment-funds/providers/Microsoft.DataFactory/factories/adf-investment-funds/queryPipelineRuns?api-version=2018-06-01",
+					"body": {
+						"lastUpdatedAfter": "2022-06-16T00:36:44.3345758Z",
+						"lastUpdatedBefore": "2024-08-16T00:49:48.3686473Z",
+						"filters": [
+							{
+								"operand": "PipelineName",
+								"operator": "Equals",
+								"values": [
+									"pl_transform_incremental_funds_quotes"
+								]
+							},
+							{
+								"operand": "Status",
+								"operator": "Equals",
+								"values": [
+									"Succeeded"
+								]
+							}
+						],
+						"orderBy": [
+							{
+								"order": "DESC",
+								"orderBy": "RunEnd"
+							}
+						]
+					},
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://management.azure.com"
+					}
+				}
+			},
+			{
+				"name": "If transform pipeline already runs",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Take transform quotes pipeline last run",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@bool(empty(activity('Take transform quotes pipeline last run').output.value))",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Set last pipeline run date to variable_copy1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "transform_quotes_pipeline_last_run",
+								"value": {
+									"value": "@activity('Take transform quotes pipeline last run').output.value[0].lastUpdated",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Set last pipeline run date to variable",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "transform_quotes_pipeline_last_run",
+								"value": {
+									"value": "1990-01-01 00:00:00",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"transform_quotes_pipeline_last_run": {
+				"type": "String",
+				"defaultValue": "'1990-01-01 00:00:00'"
+			},
+			"file_name": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Transform"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-08-13T23:35:43Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

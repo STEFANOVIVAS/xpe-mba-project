@@ -1,0 +1,325 @@
+{
+	"name": "pl_ingestion_if_actual_quotes",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup for actual CVM file links",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": false,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "ds_cvm_actual_quotes_links",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Copy investment funds actual quotes for every month",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup for actual CVM file links",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup for actual CVM file links').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Parse files in datalake",
+							"type": "GetMetadata",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "ds_cvm_if_csv_adls",
+									"type": "DatasetReference",
+									"parameters": {
+										"fileName": {
+											"value": "@concat(item().url,'.csv')",
+											"type": "Expression"
+										},
+										"raw_folder": "investment-funds-quotes"
+									}
+								},
+								"fieldList": [
+									"exists",
+									"lastModified"
+								],
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							}
+						},
+						{
+							"name": "If file exists or source date is greater then timestamp",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "Parse files in datalake",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@or(and(equals(activity('Parse files in datalake').output.exists,true),greater(formatDateTime(item().update,'yyyy-MM-ddTHH:mm:ss.fffffffK'),convertTimeZone(formatDateTime(activity('Parse files in datalake').output.lastModified,'yyyy-MM-ddTHH:mm:ss.fffffffK'),'UTC','E. South America Standard Time'))),equals(activity('Parse files in datalake').output.exists,false))",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Copy data from http binary actual quotes",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 1,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "BinarySource",
+												"storeSettings": {
+													"type": "HttpReadSettings",
+													"requestMethod": "GET"
+												},
+												"formatSettings": {
+													"type": "BinaryReadSettings",
+													"compressionProperties": {
+														"type": "ZipDeflateReadSettings"
+													}
+												}
+											},
+											"sink": {
+												"type": "BinarySink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												}
+											},
+											"enableStaging": false
+										},
+										"inputs": [
+											{
+												"referenceName": "ds_cvm_if_links_binary_http",
+												"type": "DatasetReference",
+												"parameters": {
+													"relativeURL": {
+														"value": "@concat(variables('file_name'),'.zip')",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "ds_cvm_if_links_binary_adls",
+												"type": "DatasetReference",
+												"parameters": {
+													"relativeURL": {
+														"value": "@concat(variables('file_name'),'.zip')",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									},
+									{
+										"name": "Copy data from zipped binary to csv",
+										"type": "Copy",
+										"dependsOn": [
+											{
+												"activity": "Copy data from http binary actual quotes",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "DelimitedTextSource",
+												"additionalColumns": [
+													{
+														"name": "ingestion_timestamp",
+														"value": {
+															"value": "@variables('timestamp')",
+															"type": "Expression"
+														}
+													}
+												],
+												"storeSettings": {
+													"type": "AzureBlobFSReadSettings",
+													"recursive": true,
+													"enablePartitionDiscovery": false
+												},
+												"formatSettings": {
+													"type": "DelimitedTextReadSettings",
+													"compressionProperties": {
+														"type": "ZipDeflateReadSettings"
+													}
+												}
+											},
+											"sink": {
+												"type": "DelimitedTextSink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												},
+												"formatSettings": {
+													"type": "DelimitedTextWriteSettings",
+													"quoteAllText": true,
+													"fileExtension": ".txt"
+												}
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "ds_cvm_if_zip_adls",
+												"type": "DatasetReference",
+												"parameters": {
+													"fileName": {
+														"value": "@concat(variables('file_name'),'.zip')",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "ds_cvm_if_csv_adls",
+												"type": "DatasetReference",
+												"parameters": {
+													"fileName": {
+														"value": "@concat(variables('file_name'),'.csv')",
+														"type": "Expression"
+													},
+													"raw_folder": "investment-funds-quotes"
+												}
+											}
+										]
+									}
+								]
+							}
+						},
+						{
+							"name": "File_name",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "file_name",
+								"value": {
+									"value": "@item().url",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set file timestamp",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "timestamp",
+								"value": {
+									"value": "@split(item().update,' ')[0]",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"file_exists": {
+				"type": "Boolean"
+			},
+			"exists": {
+				"type": "Boolean"
+			},
+			"last_modified": {
+				"type": "String"
+			},
+			"timestamp": {
+				"type": "String"
+			},
+			"file_name": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Ingestion"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-08-04T20:08:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

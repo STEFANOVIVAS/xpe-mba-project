@@ -1,0 +1,120 @@
+{
+	"name": "df_transform_funds_register",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_transform_funds_register_source",
+						"type": "DatasetReference"
+					},
+					"name": "FundsRegisterSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_transform_funds_register_sink",
+						"type": "DatasetReference"
+					},
+					"name": "sink1",
+					"rejectedDataLinkedService": {
+						"referenceName": "ls_cvm_if_adls",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenamingAndRemovingColumns"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          TP_FUNDO as string,",
+				"          CNPJ_FUNDO as string,",
+				"          DENOM_SOCIAL as string,",
+				"          DT_REG as date,",
+				"          DT_CONST as date,",
+				"          CD_CVM as integer,",
+				"          DT_CANCEL as date,",
+				"          SIT as string,",
+				"          DT_INI_SIT as date,",
+				"          DT_INI_ATIV as string,",
+				"          DT_INI_EXERC as date,",
+				"          DT_FIM_EXERC as date,",
+				"          CLASSE as string,",
+				"          DT_INI_CLASSE as string,",
+				"          RENTAB_FUNDO as string,",
+				"          CONDOM as string,",
+				"          FUNDO_COTAS as string,",
+				"          FUNDO_EXCLUSIVO as string,",
+				"          TRIB_LPRAZO as string,",
+				"          PUBLICO_ALVO as string,",
+				"          ENTID_INVEST as string,",
+				"          TAXA_PERFM as string,",
+				"          INF_TAXA_PERFM as string,",
+				"          TAXA_ADM as string,",
+				"          INF_TAXA_ADM as string,",
+				"          VL_PATRIM_LIQ as double,",
+				"          DT_PATRIM_LIQ as date,",
+				"          DIRETOR as string,",
+				"          CNPJ_ADMIN as string,",
+				"          ADMIN as string,",
+				"          PF_PJ_GESTOR as string,",
+				"          CPF_CNPJ_GESTOR as string,",
+				"          GESTOR as string,",
+				"          CNPJ_AUDITOR as string,",
+				"          AUDITOR as string,",
+				"          CNPJ_CUSTODIANTE as string,",
+				"          CUSTODIANTE as string,",
+				"          CNPJ_CONTROLADOR as string,",
+				"          CONTROLADOR as string,",
+				"          INVEST_CEMPR_EXTER as string,",
+				"          CLASSE_ANBIMA as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> FundsRegisterSource",
+				"FundsRegisterSource select(mapColumn(",
+				"          tipo_fundo = TP_FUNDO,",
+				"          cnpj_fundo = CNPJ_FUNDO,",
+				"          denom_social = DENOM_SOCIAL,",
+				"          data_registro = DT_REG,",
+				"          data_constituicao = DT_CONST,",
+				"          cod_cvm = CD_CVM,",
+				"          data_cancel = DT_CANCEL,",
+				"          situacao = SIT,",
+				"          data_inicio_sit = DT_INI_SIT,",
+				"          data_inicio_ativ = DT_INI_ATIV,",
+				"          data_inicio_exerc = DT_INI_EXERC,",
+				"          data_fim_exerc = DT_FIM_EXERC,",
+				"          classe = CLASSE,",
+				"          data_inic_classe = DT_INI_CLASSE,",
+				"          rentab_fundo = RENTAB_FUNDO,",
+				"          tributacao_lp = TRIB_LPRAZO,",
+				"          publico_alvo = PUBLICO_ALVO,",
+				"          taxa_perform = TAXA_PERFM,",
+				"          taxa_adm = TAXA_ADM,",
+				"          valor_patrim_liq = VL_PATRIM_LIQ,",
+				"          data_patrim_liq = DT_PATRIM_LIQ,",
+				"          diretor = DIRETOR,",
+				"          cnpj_admin = CNPJ_ADMIN,",
+				"          admin = ADMIN,",
+				"          gestor = GESTOR,",
+				"          classe_anbima = CLASSE_ANBIMA",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenamingAndRemovingColumns",
+				"RenamingAndRemovingColumns sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

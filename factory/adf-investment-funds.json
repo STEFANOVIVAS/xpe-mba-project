@@ -1,0 +1,20 @@
+{
+	"name": "adf-investment-funds",
+	"properties": {
+		"globalConfigurations": {
+			"PipelineBillingEnabled": "true"
+		}
+	},
+	"location": "brazilsouth",
+	"identity": {
+		"type": "SystemAssigned,UserAssigned",
+		"principalId": "e43627df-4c92-4fb8-a504-7c202dcd6914",
+		"tenantId": "4415efc0-fc02-4494-a228-5f6d13544717",
+		"userAssignedIdentities": {
+			"/subscriptions/4d2b06c4-43c3-4174-ae4f-7cd2d52bdae2/resourcegroups/investment-funds/providers/Microsoft.ManagedIdentity/userAssignedIdentities/user-assigned-data-factory": {
+				"clientId": "d1b8c076-52fb-4919-a27a-132d131d442b",
+				"principalId": "5e955590-abed-4394-93b8-af12e6d6f53c"
+			}
+		}
+	}
+}
