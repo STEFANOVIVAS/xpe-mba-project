@@ -48,7 +48,7 @@
 				"typeProperties": {
 					"variableName": "MaxIngestionDate",
 					"value": {
-						"value": "@activity('Lookup1').output.firstRow",
+						"value": "@activity('Lookup for max ingestion timestamp').output.firstRow",
 						"type": "Expression"
 					}
 				}
