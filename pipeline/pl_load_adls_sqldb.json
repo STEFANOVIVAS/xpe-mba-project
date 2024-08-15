@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT ISNULL(MAX([transform_timestamp]),'1990-01-01')\n  FROM [investiment_funds].[diary_quota]",
+						"sqlReaderQuery": "SELECT ISNULL(MAX([transform_timestamp]),'1990-01-01') AS MAX_TRANSFORM_TIMESTAMP\n  FROM [investiment_funds].[diary_quota]",
 						"queryTimeout": "02:00:00",
 						"isolationLevel": "ReadCommitted",
 						"partitionOption": "None"
@@ -48,7 +48,7 @@
 				"typeProperties": {
 					"variableName": "MaxIngestionDate",
 					"value": {
-						"value": "@activity('Lookup for max ingestion timestamp').output",
+						"value": "@activity('Lookup for max ingestion timestamp').output.MAX_TRANSFORM_TIMESTAMP",
 						"type": "Expression"
 					}
 				}
