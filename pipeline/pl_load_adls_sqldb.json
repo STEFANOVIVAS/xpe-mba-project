@@ -26,7 +26,7 @@
 						"referenceName": "ds_sql_investiment_funds_quotas",
 						"type": "DatasetReference"
 					},
-					"firstRowOnly": false
+					"firstRowOnly": true
 				}
 			},
 			{
@@ -48,7 +48,7 @@
 				"typeProperties": {
 					"variableName": "MaxIngestionDate",
 					"value": {
-						"value": "@activity('Lookup for max ingestion timestamp').output.MAX_TRANSFORM_TIMESTAMP",
+						"value": "@activity('Lookup for max ingestion timestamp').output.firstRow.MAX_TRANSFORM_TIMESTAMP",
 						"type": "Expression"
 					}
 				}
