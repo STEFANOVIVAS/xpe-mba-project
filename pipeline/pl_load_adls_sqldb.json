@@ -30,6 +30,11 @@
 				}
 			}
 		],
+		"variables": {
+			"MaxIngestionDate": {
+				"type": "String"
+			}
+		},
 		"folder": {
 			"name": "Load"
 		},
