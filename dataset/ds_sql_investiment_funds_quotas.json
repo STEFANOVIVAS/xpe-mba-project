@@ -23,36 +23,45 @@
 			{
 				"name": "valor_total",
 				"type": "decimal",
-				"precision": 14,
+				"precision": 17,
 				"scale": 2
 			},
 			{
 				"name": "valor_cota",
-				"type": "float",
-				"precision": 15
+				"type": "decimal",
+				"precision": 27,
+				"scale": 12
 			},
 			{
 				"name": "valor_patrimonial_liq",
 				"type": "decimal",
-				"precision": 14,
+				"precision": 17,
 				"scale": 2
 			},
 			{
 				"name": "capacity_dia",
 				"type": "decimal",
-				"precision": 14,
+				"precision": 17,
 				"scale": 2
 			},
 			{
 				"name": "resgates_dia",
 				"type": "decimal",
-				"precision": 14,
+				"precision": 17,
 				"scale": 2
 			},
 			{
 				"name": "numero_cotistas",
 				"type": "int",
 				"precision": 10
+			},
+			{
+				"name": "ingestion_timestamp",
+				"type": "date"
+			},
+			{
+				"name": "transform_timestamp",
+				"type": "date"
 			}
 		],
 		"typeProperties": {
