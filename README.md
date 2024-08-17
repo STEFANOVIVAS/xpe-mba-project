@@ -15,7 +15,11 @@ If you decide to include this, you should also talk a bit about why you chose th
 
 <p align="justify"> Once we don't know when and if monthly data will be updated, specially for the older data, I choosed to implement an incremental ingestion pattern, in order to reduce data movement costs. To do so, I created an If Condition activity from Azure Data Factory with a logical sentence that needs to satisfy one of two conditions to bring the data from the HTTP server: (1) The monthly file doesen't exists in the data lake, indicating that we are in the beginning of the month, or (2) the source update data is greater than the last modifyed data for the same file in the data lake.</p>
 
-### Data Quality
+### Data Transformation
+
+### Monitoring
+
+### CI/CD
 <p align="justify"> Traajknsa</p>
 
 ### Data Visualization
