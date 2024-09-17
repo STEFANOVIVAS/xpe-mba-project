@@ -94,8 +94,8 @@
 						"upsertSettings": {
 							"useTempDB": true,
 							"keys": [
-								"tipo_fundo",
-								""
+								"cnpj_fundo",
+								"data_competencia"
 							]
 						},
 						"sqlWriterUseTableLock": false,
