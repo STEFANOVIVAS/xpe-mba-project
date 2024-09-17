@@ -113,7 +113,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_cvm_funds_quotas_transform_sink",
+						"referenceName": "ds_cvm_funds_quotas_transform_source",
 						"type": "DatasetReference"
 					}
 				],
