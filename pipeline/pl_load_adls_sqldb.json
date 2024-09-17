@@ -106,6 +106,150 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "tp_fundo",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "tipo_fundo",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "cnpj_fundo",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "cnpj_fundo",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "dt_comptc",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "data_competencia",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "vl_total",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "valor_total",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 17
+								}
+							},
+							{
+								"source": {
+									"name": "vl_quota",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "valor_cota",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 12,
+									"precision": 27
+								}
+							},
+							{
+								"source": {
+									"name": "vl_patrim_liq",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "valor_patrimonial_liq",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 17
+								}
+							},
+							{
+								"source": {
+									"name": "captc_dia",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "capacity_dia",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 17
+								}
+							},
+							{
+								"source": {
+									"name": "resg_dia",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "resgates_dia",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 17
+								}
+							},
+							{
+								"source": {
+									"name": "nr_cotst",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "numero_cotistas",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "ingestion_timestamp",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ingestion_timestamp",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "transform_timestamp",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "transform_timestamp",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
