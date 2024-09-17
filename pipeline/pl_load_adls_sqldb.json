@@ -82,6 +82,8 @@
 								"value": "@variables('MaxIngestionDate')",
 								"type": "Expression"
 							},
+							"wildcardFolderPath": "investiment-funds-quotes",
+							"wildcardFileName": "*.csv",
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
