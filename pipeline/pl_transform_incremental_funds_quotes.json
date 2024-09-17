@@ -39,7 +39,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": {
-											"value": "@concat(item().url,'.csv')",
+											"value": "@item()",
 											"type": "Expression"
 										},
 										"raw_folder": "investment-funds-quotes"
