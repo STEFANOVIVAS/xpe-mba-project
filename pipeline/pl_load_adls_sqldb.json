@@ -90,7 +90,14 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"writeBehavior": "insert",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"tipo_fundo",
+								""
+							]
+						},
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
 					},
