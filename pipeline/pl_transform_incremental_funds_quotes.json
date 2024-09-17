@@ -39,7 +39,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": {
-											"value": "@item()",
+											"value": "@item().name",
 											"type": "Expression"
 										},
 										"raw_folder": "investment-funds-quotes"
