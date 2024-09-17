@@ -13,7 +13,7 @@
 				"folderPath": "investiment-funds-quotes",
 				"fileSystem": "transform"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": ";",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
