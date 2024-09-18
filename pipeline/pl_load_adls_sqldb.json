@@ -83,7 +83,7 @@
 								"type": "Expression"
 							},
 							"wildcardFolderPath": "investiment-funds-quotes",
-							"wildcardFileName": "*.csv",
+							"wildcardFileName": "transform_inf_diario_fi_202409.csv",
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
