@@ -16,32 +16,17 @@ If you decide to include this, you should also talk a bit about why you chose th
 <p align="justify"> Once we don't know when and if monthly data will be updated, specially for the older data, I choosed to implement an incremental ingestion pattern, in order to reduce data movement costs. To do so, I created an If Condition activity from Azure Data Factory with a logical sentence that needs to satisfy one of two conditions to bring the data from the HTTP server: (1) The monthly file doesen't exists in the data lake, indicating that we are in the beginning of the month, or (2) the source update data is greater than the last modifyed data for the same file in the data lake.</p>
 
 ### Data Transformation
+<p align="justify">The data transformation process was performed with the utilization of Data flow tool, which uses a spark cluster as the processing engine. The main transformations used were Cast, Window (To drop duplicates), Assert (For Data Quality checks) and derived column.</p>
 
-### Monitoring
 
-### CI/CD
-<p align="justify"> Traajknsa</p>
+![Example architecture image](Data%20transformation.png)
 
 ### Data Visualization
 
 ![Example dashboard image](investiment-funds-dashboard.png)
 
-## Prerequisites
-
-Directions or anything needed before running the project.
-
-- Prerequisite 1
-- Prerequisite 2
-- Prerequisite 3
-
-## How to Run This Project
-
-Replace the example step-by-step instructions with your own.
-
-1. Install x packages
-2. Run command: `python x`
-3. Make sure it's running properly by checking z
-4. To clean up at the end, run script: `python cleanup.py`
+### CI/CD
+<p align="justify">Under construction </p>
 
 ## Lessons Learned
 
