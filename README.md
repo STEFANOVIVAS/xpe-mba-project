@@ -13,6 +13,8 @@ If you decide to include this, you should also talk a bit about why you chose th
 
 <p align="justify">The initial solution implemented for that situation was a python script running inside a databricks notebook, which takes all the links tags and the respective update file information from the source page. The script writes this information in a csv file that is uploaded to the data lake, for later Azure Data Factory lookup activity, in order to parse all url data and delivery it to the HTTP copy activity. Despite It's a valid solution for the problem, but it seems to be unnecessarily costly, as the databricks notebook uses a cluster of distributed machines to process large datasets with spark, which is not the case in this stage of the project. After that, I implemented an Azure Function solution, which is a more lightweight and cheaper solution for this problem, once it runs serverless python scripts and has a monthly free grant of 250,000 executions per subscription in pay-as-you-go.</p>
 
+![Data Ingestion](Data_ingestion.png)
+
 <p align="justify"> Once we don't know when and if monthly data will be updated, specially for the older data, I choosed to implement an incremental ingestion pattern, in order to reduce data movement costs. To do so, I created an If Condition activity from Azure Data Factory with a logical sentence that needs to satisfy one of two conditions to bring the data from the HTTP server: (1) The monthly file doesen't exists in the data lake, indicating that we are in the beginning of the month, or (2) the source update data is greater than the last modifyed data for the same file in the data lake.</p>
 
 ### Data Transformation
