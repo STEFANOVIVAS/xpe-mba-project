@@ -25,7 +25,7 @@ If you decide to include this, you should also talk a bit about why you chose th
 
 ### Data Visualization
 
-![Example dashboard image](investiment-funds-dashboard.png)
+![Example dashboard image](Dashboard.png)
 
 ### CI/CD
 <p align="justify">Under construction </p>
