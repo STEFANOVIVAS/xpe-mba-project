@@ -35,6 +35,9 @@
 				},
 				{
 					"name": "WindowFunctionCumulativeReturn"
+				},
+				{
+					"name": "split1"
 				}
 			],
 			"scriptLines": [
@@ -54,7 +57,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: true) ~> TransformedSource",
-				"TransformedSource window(over(cnpj_fundo),",
+				"split1@investimentFundsYearReturn window(over(cnpj_fundo),",
 				"     asc(dt_comptc, true),",
 				"     row_number = rowNumber(),",
 				"          first_quota = first(vl_quota)) ~> windowFunctionRowNumber",
@@ -62,6 +65,9 @@
 				"derivedColumnDailyReturn window(over(cnpj_fundo),",
 				"     asc(dt_comptc, true),",
 				"     cumulative_return = sum(daily_return)) ~> WindowFunctionCumulativeReturn",
+				"TransformedSource split(dt_comptc> toDate(concat(toString(year(currentDate())),'-01-01')),",
+				"     dt_comptc> toDate(concat(toString(year(addDays(currentDate(),-2))),toString(month(addDays(currentDate(),-2))),'-01')),",
+				"     disjoint: false) ~> split1@(investimentFundsYearReturn, investimentFundsMonthReturn, )",
 				"WindowFunctionCumulativeReturn sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
