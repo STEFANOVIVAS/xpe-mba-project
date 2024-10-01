@@ -12,19 +12,29 @@
 						"referenceName": "ds_if_cvm_transformed_quotes",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "TransformedSource"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "ls_cvm_if_adls",
+						"type": "LinkedServiceReference"
+					},
+					"name": "presentationLayer"
+				}
+			],
 			"transformations": [
 				{
-					"name": "window1"
+					"name": "windowFunctionRowNumber",
+					"description": "Aggregates data based on CNPJ field and calculate row_number and first functions to obtain the first quota value for the series."
 				},
 				{
-					"name": "derivedColumn1"
+					"name": "derivedColumnDailyReturn",
+					"description": "Create a daily return column from quota value and first quota value for every CNPJ field. "
 				},
 				{
-					"name": "window2"
+					"name": "WindowFunctionCumulativeReturn"
 				}
 			],
 			"scriptLines": [
@@ -44,15 +54,23 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     limit: 100,",
-				"     ignoreNoFilesFound: true) ~> source1",
-				"source1 window(over(cnpj_fundo),",
+				"     ignoreNoFilesFound: true) ~> TransformedSource",
+				"TransformedSource window(over(cnpj_fundo),",
 				"     asc(dt_comptc, true),",
 				"     row_number = rowNumber(),",
-				"          first_quota = first(vl_quota)) ~> window1",
-				"window1 derive(daily_return = vl_quota/first_quota -1) ~> derivedColumn1",
-				"derivedColumn1 window(over(cnpj_fundo),",
+				"          first_quota = first(vl_quota)) ~> windowFunctionRowNumber",
+				"windowFunctionRowNumber derive(daily_return = vl_quota/first_quota -1) ~> derivedColumnDailyReturn",
+				"derivedColumnDailyReturn window(over(cnpj_fundo),",
 				"     asc(dt_comptc, true),",
-				"     cumulative_return = sum(daily_return)) ~> window2"
+				"     cumulative_return = sum(daily_return)) ~> WindowFunctionCumulativeReturn",
+				"WindowFunctionCumulativeReturn sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> presentationLayer"
 			]
 		}
 	}
