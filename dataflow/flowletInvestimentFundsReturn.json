@@ -1,0 +1,55 @@
+{
+	"name": "flowletInvestimentFundsReturn",
+	"properties": {
+		"type": "Flowlet",
+		"typeProperties": {
+			"sources": [],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "windowFunctionRowNumber",
+					"description": "Aggregates data based on CNPJ field and calculate row_number and first functions to obtain the first quota value for the series."
+				},
+				{
+					"name": "derivedColumnDailyReturn",
+					"description": "Create a daily return column from quota value and first quota value for every CNPJ field. "
+				},
+				{
+					"name": "WindowFunctionCumulativeReturn"
+				},
+				{
+					"name": "TransformedSource"
+				},
+				{
+					"name": "presentationLayer"
+				}
+			],
+			"scriptLines": [
+				"input(output(",
+				"          tp_fundo as string,",
+				"          cnpj_fundo as string,",
+				"          dt_comptc as date,",
+				"          vl_total as double,",
+				"          vl_quota as double,",
+				"          vl_patrim_liq as double,",
+				"          captc_dia as double,",
+				"          resg_dia as double,",
+				"          nr_cotst as integer,",
+				"          ingestion_timestamp as date,",
+				"          transform_timestamp as date",
+				"     ),",
+				"     order: 0,",
+				"     allowSchemaDrift: true) ~> TransformedSource",
+				"TransformedSource window(over(cnpj_fundo),",
+				"     asc(dt_comptc, true),",
+				"     row_number = rowNumber(),",
+				"          first_quota = first(vl_quota)) ~> windowFunctionRowNumber",
+				"windowFunctionRowNumber derive(daily_return = vl_quota/first_quota -1) ~> derivedColumnDailyReturn",
+				"derivedColumnDailyReturn window(over(cnpj_fundo),",
+				"     asc(dt_comptc, true),",
+				"     cumulative_return = sum(daily_return)) ~> WindowFunctionCumulativeReturn",
+				"WindowFunctionCumulativeReturn output() ~> presentationLayer"
+			]
+		}
+	}
+}
