@@ -46,7 +46,7 @@
 				"     asc(dt_comptc, true),",
 				"     row_number = rowNumber(),",
 				"          first_quota = first(vl_quota)) ~> window1",
-				"window1 derive(rentabilidade_diaria = vl_quota/first_quota) ~> derivedColumn1"
+				"window1 derive(rentabilidade_diaria = vl_quota/first_quota -1) ~> derivedColumn1"
 			]
 		}
 	}
