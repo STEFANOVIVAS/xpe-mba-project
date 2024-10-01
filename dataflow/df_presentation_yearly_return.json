@@ -80,7 +80,7 @@
 				"     asc(dt_comptc, true),",
 				"     cumulative_return = sum(daily_return)) ~> WindowFunctionCumulativeReturn",
 				"TransformedSource split(dt_comptc> toDate(concat(toString(year(currentDate())),'-01-01')),",
-				"     dt_comptc> toDate(concat(toString(year(addDays(currentDate(),-2))),toString(month(addDays(currentDate(),-2))),'-01')),",
+				"     dt_comptc> toDate(concat(toString(year(addDays(currentUTC(),-2))),toString(month(addDays(currentUTC(),-2))),'-01')),",
 				"     disjoint: false) ~> split1@(investimentFundsYearReturn, investimentFundsMonthReturn, investimentFundReturn)",
 				"split1@investimentFundsMonthReturn compose(mapColumn(",
 				"          tp_fundo,",
