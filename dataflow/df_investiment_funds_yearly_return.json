@@ -2,7 +2,7 @@
 	"name": "df_investiment_funds_yearly_return",
 	"properties": {
 		"folder": {
-			"name": "Serving"
+			"name": "Presentation"
 		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
