@@ -19,6 +19,9 @@
 			"transformations": [
 				{
 					"name": "window1"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -42,7 +45,8 @@
 				"source1 window(over(cnpj_fundo),",
 				"     asc(dt_comptc, true),",
 				"     row_number = rowNumber(),",
-				"          first_quota = first(vl_quota)) ~> window1"
+				"          first_quota = first(vl_quota)) ~> window1",
+				"window1 derive() ~> derivedColumn1"
 			]
 		}
 	}
