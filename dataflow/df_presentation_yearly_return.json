@@ -21,7 +21,14 @@
 						"referenceName": "ls_cvm_if_adls",
 						"type": "LinkedServiceReference"
 					},
-					"name": "presentationLayer"
+					"name": "presentationLayerYearReturn"
+				},
+				{
+					"linkedService": {
+						"referenceName": "ls_cvm_if_adls",
+						"type": "LinkedServiceReference"
+					},
+					"name": "presentationLayerMonthReturn"
 				}
 			],
 			"transformations": [
@@ -38,6 +45,13 @@
 				},
 				{
 					"name": "split1"
+				},
+				{
+					"name": "flowletInvestimentFundsReturn",
+					"flowlet": {
+						"referenceName": "flowletInvestimentFundsReturn",
+						"type": "DataFlowReference"
+					}
 				}
 			],
 			"scriptLines": [
@@ -68,16 +82,41 @@
 				"TransformedSource split(dt_comptc> toDate(concat(toString(year(currentDate())),'-01-01')),",
 				"     dt_comptc> toDate(concat(toString(year(addDays(currentDate(),-2))),toString(month(addDays(currentDate(),-2))),'-01')),",
 				"     disjoint: false) ~> split1@(investimentFundsYearReturn, investimentFundsMonthReturn, )",
+				"split1@investimentFundsMonthReturn compose(mapColumn(",
+				"          tp_fundo,",
+				"          cnpj_fundo,",
+				"          dt_comptc,",
+				"          vl_total,",
+				"          vl_quota,",
+				"          vl_patrim_liq,",
+				"          captc_dia,",
+				"          resg_dia,",
+				"          nr_cotst,",
+				"          ingestion_timestamp,",
+				"          transform_timestamp",
+				"     ),",
+				"     composition: 'flowletInvestimentFundsReturn') ~> flowletInvestimentFundsReturn@(presentationLayer)",
 				"WindowFunctionCumulativeReturn sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
 				"     fileSystem: 'presentation',",
+				"     folderPath: 'YearReturn',",
 				"     filePattern:'presentation_total_return',",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> presentationLayer"
+				"     skipDuplicateMapOutputs: true) ~> presentationLayerYearReturn",
+				"flowletInvestimentFundsReturn@presentationLayer sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     fileSystem: 'presentation',",
+				"     folderPath: 'MonthReturn',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> presentationLayerMonthReturn"
 			]
 		}
 	}
