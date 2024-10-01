@@ -16,26 +16,33 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "window1"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          tp_fundo as string,",
 				"          cnpj_fundo as string,",
-				"          dt_comptc as string,",
-				"          vl_total as string,",
-				"          vl_quota as string,",
-				"          vl_patrim_liq as string,",
-				"          captc_dia as string,",
-				"          resg_dia as string,",
-				"          nr_cotst as string,",
-				"          ingestion_timestamp as string,",
-				"          transform_timestamp as string",
+				"          dt_comptc as date,",
+				"          vl_total as double,",
+				"          vl_quota as double,",
+				"          vl_patrim_liq as double,",
+				"          captc_dia as double,",
+				"          resg_dia as double,",
+				"          nr_cotst as integer,",
+				"          ingestion_timestamp as date,",
+				"          transform_timestamp as date",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     limit: 100,",
-				"     ignoreNoFilesFound: true,",
-				"     wildcardPaths:['concat(\\'transform_inf_diario_fi_\\',toString(year(currentDate())),\\'08\\',\\'.csv\\')']) ~> source1"
+				"     ignoreNoFilesFound: true) ~> source1",
+				"source1 window(over(cnpj_fundo),",
+				"     asc(dt_comptc, true),",
+				"     row_number = rowNumber(),",
+				"          first_quota = first(vl_quota)) ~> window1"
 			]
 		}
 	}
