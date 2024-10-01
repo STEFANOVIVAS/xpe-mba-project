@@ -8,9 +8,9 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"linkedService": {
-						"referenceName": "ls_cvm_if_adls",
-						"type": "LinkedServiceReference"
+					"dataset": {
+						"referenceName": "ds_if_cvm_transformed_quotes",
+						"type": "DatasetReference"
 					},
 					"name": "source1"
 				}
@@ -18,18 +18,14 @@
 			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
-				"source(useSchema: false,",
+				"source(output(",
+				"          {tp_fundo;cnpj_fundo;dt_comptc;vl_total;vl_quota;vl_patrim_liq;captc_dia;resg_dia;nr_cotst;ingestion_timestamp;transform_timestamp} as string",
+				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     limit: 100,",
 				"     ignoreNoFilesFound: true,",
-				"     format: 'delimited',",
-				"     fileSystem: 'transform',",
-				"     columnDelimiter: ';',",
-				"     escapeChar: '\\\\',",
-				"     quoteChar: '\\\"',",
-				"     columnNamesAsHeader: true,",
-				"     wildcardPaths:[(concat('transform_inf_diario_fi_',toString(year(currentDate())),'08','.csv')\r",
-				")]) ~> source1"
+				"     wildcardPaths:['*.csv']) ~> source1"
 			]
 		}
 	}
