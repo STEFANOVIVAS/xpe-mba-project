@@ -20,7 +20,47 @@
 		},
 		"schema": [
 			{
-				"name": "tp_fundo;cnpj_fundo;dt_comptc;vl_total;vl_quota;vl_patrim_liq;captc_dia;resg_dia;nr_cotst;ingestion_timestamp;transform_timestamp",
+				"name": "tp_fundo",
+				"type": "String"
+			},
+			{
+				"name": "cnpj_fundo",
+				"type": "String"
+			},
+			{
+				"name": "dt_comptc",
+				"type": "String"
+			},
+			{
+				"name": "vl_total",
+				"type": "String"
+			},
+			{
+				"name": "vl_quota",
+				"type": "String"
+			},
+			{
+				"name": "vl_patrim_liq",
+				"type": "String"
+			},
+			{
+				"name": "captc_dia",
+				"type": "String"
+			},
+			{
+				"name": "resg_dia",
+				"type": "String"
+			},
+			{
+				"name": "nr_cotst",
+				"type": "String"
+			},
+			{
+				"name": "ingestion_timestamp",
+				"type": "String"
+			},
+			{
+				"name": "transform_timestamp",
 				"type": "String"
 			}
 		]
