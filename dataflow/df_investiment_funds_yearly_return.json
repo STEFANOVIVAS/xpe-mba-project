@@ -35,7 +35,7 @@
 				"     validateSchema: false,",
 				"     limit: 100,",
 				"     ignoreNoFilesFound: true,",
-				"     wildcardPaths:['*.csv']) ~> source1"
+				"     wildcardPaths:['concat(\\'transform_inf_diario_fi_\\',toString(year(currentDate())),\\'08\\',\\'.csv\\')']) ~> source1"
 			]
 		}
 	}
