@@ -66,6 +66,8 @@
 				"WindowFunctionCumulativeReturn sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
+				"     fileSystem: 'presentation',",
+				"     filePattern:'presentation_total_return',",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
