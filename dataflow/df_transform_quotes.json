@@ -1,6 +1,9 @@
 {
 	"name": "df_transform_quotes",
 	"properties": {
+		"folder": {
+			"name": "Transform"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
