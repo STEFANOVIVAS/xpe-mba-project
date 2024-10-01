@@ -53,7 +53,6 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     limit: 100,",
 				"     ignoreNoFilesFound: true) ~> TransformedSource",
 				"TransformedSource window(over(cnpj_fundo),",
 				"     asc(dt_comptc, true),",
