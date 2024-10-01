@@ -1,6 +1,9 @@
 {
 	"name": "df_transform_funds_historic_quotes",
 	"properties": {
+		"folder": {
+			"name": "Transform"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
