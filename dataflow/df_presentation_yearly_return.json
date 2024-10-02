@@ -95,7 +95,7 @@
 				"     cumulative_return = sum(daily_return)) ~> WindowFunctionCumulativeReturn",
 				"TransformedSource split(dt_comptc> toDate(concat(toString(year(currentDate())),'-01-01')),",
 				"     dt_comptc> toDate(concat(toString(year(addDays(currentUTC(),-2))),'-',toString(month(addDays(currentUTC(),-2))),'-01')),",
-				"     disjoint: false) ~> split1@(investimentFundsYearReturn, investimentFundsMonthReturn, investimentFundReturn)",
+				"     disjoint: true) ~> split1@(investimentFundsYearReturn, investimentFundsMonthReturn, investimentFundReturn)",
 				"WindowFunctionCumulativeReturn sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
