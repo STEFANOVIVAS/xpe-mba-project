@@ -33,6 +33,13 @@
 			],
 			"transformations": [
 				{
+					"name": "flowletInvestimentFundsReturn",
+					"flowlet": {
+						"referenceName": "flowletInvestimentFundsReturn",
+						"type": "DataFlowReference"
+					}
+				},
+				{
 					"name": "windowFunctionRowNumber",
 					"description": "Aggregates data based on CNPJ field and calculate row_number and first functions to obtain the first quota value for the series."
 				},
@@ -45,13 +52,6 @@
 				},
 				{
 					"name": "split1"
-				},
-				{
-					"name": "flowletInvestimentFundsReturn",
-					"flowlet": {
-						"referenceName": "flowletInvestimentFundsReturn",
-						"type": "DataFlowReference"
-					}
 				}
 			],
 			"scriptLines": [
@@ -71,17 +71,6 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: true) ~> TransformedSource",
-				"split1@investimentFundsYearReturn window(over(cnpj_fundo),",
-				"     asc(dt_comptc, true),",
-				"     row_number = rowNumber(),",
-				"          first_quota = first(vl_quota)) ~> windowFunctionRowNumber",
-				"windowFunctionRowNumber derive(daily_return = vl_quota/first_quota -1) ~> derivedColumnDailyReturn",
-				"derivedColumnDailyReturn window(over(cnpj_fundo),",
-				"     asc(dt_comptc, true),",
-				"     cumulative_return = sum(daily_return)) ~> WindowFunctionCumulativeReturn",
-				"TransformedSource split(dt_comptc> toDate(concat(toString(year(currentDate())),'-01-01')),",
-				"     dt_comptc> toDate(concat(toString(year(addDays(currentUTC(),-2))),toString(month(addDays(currentUTC(),-2))),'-01')),",
-				"     disjoint: false) ~> split1@(investimentFundsYearReturn, investimentFundsMonthReturn, investimentFundReturn)",
 				"split1@investimentFundsMonthReturn compose(mapColumn(",
 				"          tp_fundo,",
 				"          cnpj_fundo,",
@@ -96,6 +85,17 @@
 				"          transform_timestamp",
 				"     ),",
 				"     composition: 'flowletInvestimentFundsReturn') ~> flowletInvestimentFundsReturn@(presentationLayer)",
+				"split1@investimentFundsYearReturn window(over(cnpj_fundo),",
+				"     asc(dt_comptc, true),",
+				"     row_number = rowNumber(),",
+				"          first_quota = first(vl_quota)) ~> windowFunctionRowNumber",
+				"windowFunctionRowNumber derive(daily_return = vl_quota/first_quota -1) ~> derivedColumnDailyReturn",
+				"derivedColumnDailyReturn window(over(cnpj_fundo),",
+				"     asc(dt_comptc, true),",
+				"     cumulative_return = sum(daily_return)) ~> WindowFunctionCumulativeReturn",
+				"TransformedSource split(dt_comptc> toDate(concat(toString(year(currentDate())),'-01-01')),",
+				"     dt_comptc> toDate(concat(toString(year(addDays(currentUTC(),-2))),'-',toString(month(addDays(currentUTC(),-2))),'-01')),",
+				"     disjoint: false) ~> split1@(investimentFundsYearReturn, investimentFundsMonthReturn, investimentFundReturn)",
 				"WindowFunctionCumulativeReturn sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
