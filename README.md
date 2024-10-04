@@ -4,7 +4,7 @@
 
 ### Data Architecture
 
-![Example architecture image](dataArchitectureCVM.png)
+![Example architecture image](dataArchitecture.png)
 
 
 
