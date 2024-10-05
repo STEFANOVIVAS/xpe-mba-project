@@ -21,7 +21,7 @@
 <p align="justify"> Once we don't know when and if monthly data will be updated, specially for the older data, I choosed to implement an incremental ingestion pattern, in order to reduce data movement costs. To do so, I created an If Condition activity from Azure Data Factory with a logical sentence that needs to satisfy one of two conditions to bring the data from the HTTP server: (1) The monthly file doesen't exists in the data lake, indicating that we are in the beginning of the month, or (2) the source update data is greater than the last modifyed data for the same file in the data lake.</p>
 
 ### Data Pipeline
-<p align="justify">In this project i chose to implement a multi-hop architecture with three layers: Raw, Transformed and Presentation.</p>
+<p align="justify">In this project i chose to implement a multi-hop architecture with three layers: Raw, Transformed, and Presentation.</p>
 
 #### Raw 
 
@@ -29,7 +29,7 @@
 
 #### Transformed
 
-<p align="justify">The data transformation process was performed with the utilization of Data flow tool, which uses a spark cluster as the processing engine. Here, we implement an incremental process, so that we do not need to process data from the raw layer that has not changed. The main transformations used was to cast data types, lower column names, and create a derived column to save the transform process timestamp. 
+<p align="justify">The data transformation process was performed with the utilization of Data flow tool, which uses a spark cluster as the processing engine. Here, we implement an incremental process, so that we do not need to process data from the raw layer that has not changed. The main transformations used were to cast data types, lower column names, and create a derived column to save the transform process timestamp.</p> 
 
 #### Data Quality
 
@@ -38,14 +38,12 @@
   -  CNPJ_FUNDO and DT_COMPTC not Null (Table Constraint checks);
   -  Uniqueness rows (Table Constraint checks);
   -  VL_QUOTA > 0 (Business rules checks);
-  -  Funds in daily quota dataset must be in the funds register dataset too (Reconciliation checks).    
+  -  Funds in daily quota dataset must be in the funds register dataset too (Reconciliation checks).</p>    
   
 
 #### Presentation
 
-
-
-
+<p align="justify">In the presentation layer we create two files to represent distinct fact tables. The file named "Presentation_year_return" represents the aggregate return from investment funds in the current year, while the file named "Presenation_month_return" represents the monthly return. </p> 
 
 
 ### Data Visualization
